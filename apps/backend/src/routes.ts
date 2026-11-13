@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
+import { spendingRouter } from "./modules/spending/spending.routes.js";
 import type { ChatResponse, Persona, SummaryResponse } from "@sbank/shared";
 
 export const router = Router();
@@ -14,6 +15,8 @@ const chatSchema = z.object({
   message: z.string().min(1),
   history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string() })).optional(),
 });
+
+router.use("/spending", spendingRouter);
 
 router.get("/health", (_req, res) => {
   res.json({ ok: true });
