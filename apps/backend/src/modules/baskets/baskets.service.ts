@@ -1,13 +1,13 @@
 import type { Basket, SummaryResponse } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
-import { lastNMonths, monthStart, nextPayday } from "../../lib/dates.js";
+import { lastNMonths, monthStart, nextPayday, TODAY } from "../../lib/dates.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { basketsRepository } from "./baskets.repository.js";
 
 const BASKET_NAMES: Record<1 | 2 | 3, string> = {
-  1: "Essentials",
-  2: "Important",
-  3: "Discretionary",
+  1: "Regular essentials",
+  2: "Unexpected necessities",
+  3: "Everyday spending",
 };
 const BASKET_IDS = [1, 2, 3] as const;
 const TOP_CATEGORIES = 3;
@@ -41,6 +41,7 @@ export const basketsService = {
 
     return {
       month: thisMonth.slice(0, 7),
+      asOf: TODAY,
       balance: customer.balance ?? 0,
       nextPayday: {
         date: nextPayday(customer.paydayDom ?? 1),

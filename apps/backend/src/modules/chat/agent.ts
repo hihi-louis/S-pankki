@@ -1,6 +1,7 @@
 import OpenAI from "openai";
-import type { Chart, ChatResponse, SourceTx } from "@sbank/shared";
+import type { Card, Chart, ChatResponse, SourceTx } from "@sbank/shared";
 import { config } from "../../config.js";
+import { periodLabel } from "../../lib/dates.js";
 import { HttpError } from "../../lib/errors.js";
 import { SYSTEM_PROMPT } from "./prompt.js";
 import { runTool, toolDefinitions } from "./tools.js";
@@ -12,7 +13,7 @@ const MAX_CARDS = 3;
 const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Show my spending by basket"];
 const SUGGESTIONS: Record<string, string[]> = {
   query_spending: ["How does my spending compare to my 6-month average?", "What can I safely spend until payday?"],
-  get_baskets: ["What if I cut discretionary spending by 20%?", "What can I safely spend until payday?"],
+  get_baskets: ["What if I cut everyday spending by 20%?", "What can I safely spend until payday?"],
   safe_to_spend: ["Show my spending by basket", "What if I cut restaurants by 25%?"],
   simulate_whatif: ["What can I safely spend until payday?", "What is my spender profile?"],
   spender_profile: ["Show my spending by basket", "What can I safely spend until payday?"],
@@ -25,9 +26,12 @@ function getClient() {
   return client;
 }
 
-/** Gom thẻ số, biểu đồ và nguồn từ kết quả tool vào response; LLM chỉ viết câu trả lời. */
+const BASKET_LABELS: Record<number, string> = { 1: "Regular essentials", 2: "Unexpected necessities", 3: "Everyday spending" };
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** Gom thẻ, biểu đồ và nguồn từ kết quả tool vào response (đúng hợp đồng docs/api-contract.md); LLM chỉ viết câu trả lời. */
 class Collector {
-  cards: ChatResponse["cards"] = [];
+  cards: Card[] = [];
   chart: Chart | null = null;
   sources: SourceTx[] = [];
   sourcesTotal = 0;
@@ -36,23 +40,30 @@ class Collector {
   add(name: string, r: any) {
     if (!r || r.error) return;
     this.lastTool = name;
-    const card = (label: string, value: number) => {
-      if (this.cards.length < MAX_CARDS) this.cards.push({ type: "amount", label, value, currency: "EUR" });
+    const push = (c: Card) => {
+      if (this.cards.length < MAX_CARDS) this.cards.push(c);
     };
     if (name === "query_spending") {
-      card(`Spent ${r.period.from} to ${r.period.to}`, r.total);
+      push({ type: "amount", label: `Spent ${periodLabel(r.period.from, r.period.to)}`, value: r.total, currency: "EUR" });
       this.sources = r.sources;
       this.sourcesTotal = r.sourcesTotal;
     } else if (name === "get_baskets") {
       this.chart = {
-        type: "bar",
-        title: `Spending by basket, ${r.month} (€)`,
+        type: "donut",
+        title: `${MONTH_NAMES[Number(r.month.slice(5, 7)) - 1]} by basket`,
         data: r.baskets.map((b: { name: string; spent: number }) => ({ label: b.name, value: b.spent })),
       };
     } else if (name === "safe_to_spend") {
-      card("Safe to spend until payday", r.safeToSpend);
+      push({ type: "safe_to_spend", perDay: r.perDay, total: r.safeToSpend, until: r.nextPayday.date, currency: "EUR" });
     } else if (name === "simulate_whatif") {
-      card("Saving per year", r.yearlySaving);
+      const pct = r.baselineMonthly > 0 ? Math.round(((r.monthlySaving / r.baselineMonthly) * 100) / 5) * 5 : 20;
+      push({
+        type: "what_if",
+        category: r.target.category ?? BASKET_LABELS[r.target.basket],
+        monthlySpend: r.baselineMonthly,
+        defaultCutPct: Math.min(100, Math.max(5, pct)),
+        currency: "EUR",
+      });
     }
   }
 }

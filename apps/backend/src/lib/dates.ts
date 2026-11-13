@@ -31,6 +31,19 @@ export function nextPayday(dom: number): string {
   throw new Error("unreachable");
 }
 
+/** "1 Aug" từ YYYY-MM-DD. */
+export function shortDate(isoDate: string): string {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  return `${d.getUTCDate()} ${d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" })}`;
+}
+
+/** Nhãn khoảng [from, to) cho người đọc: "1 Aug – 31 Aug" (to là cuối tháng, không phải ngày loại trừ). */
+export function periodLabel(from: string, to: string): string {
+  const last = new Date(`${to}T00:00:00Z`);
+  last.setUTCDate(last.getUTCDate() - 1);
+  return `${shortDate(from)} – ${shortDate(last.toISOString().slice(0, 10))}`;
+}
+
 /** Số ngày từ `a` đến `b` (cả hai dạng YYYY-MM-DD). */
 export function daysBetween(a: string, b: string): number {
   return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);

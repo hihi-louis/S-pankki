@@ -30,7 +30,7 @@ const defs: ToolDef[] = [
     name: "query_spending",
     description:
       "Total spending and source transactions for a date range [from, to) (to is exclusive). " +
-      "Filter by category, basket (1 essentials, 2 important, 3 discretionary) or MCC: " +
+      "Filter by category, basket (1 regular essentials, 2 unexpected necessities, 3 everyday spending) or MCC: " +
       "4121 taxi, 4111 public transport, 5814 cafes/fast food, 5813 bars, 5812 restaurants, 5541/5542 fuel. " +
       CATEGORIES_HINT,
     schema: spendingInput,
@@ -39,7 +39,7 @@ const defs: ToolDef[] = [
   {
     name: "get_baskets",
     description:
-      "This month's spending in the 3 baskets (essentials, important, discretionary) compared with the 6-month average, " +
+      "This month's spending in the 3 baskets (regular essentials, unexpected necessities, everyday spending) compared with the 6-month average, " +
       "top categories per basket, current balance and next payday.",
     schema: noInput,
     run: (_input, customerId) => basketsService.getSummary(customerId),
@@ -64,8 +64,8 @@ const defs: ToolDef[] = [
   {
     name: "spender_profile",
     description:
-      "The customer's spender profile: label, how their discretionary share compares with other customers, " +
-      "and this month's discretionary spending versus their own average.",
+      "The customer's spender profile: label, how their everyday-spending share compares with other customers, " +
+      "and this month's everyday spending versus their own average.",
     schema: noInput,
     run: (_input, customerId) => coachService.spenderProfile(customerId),
   },

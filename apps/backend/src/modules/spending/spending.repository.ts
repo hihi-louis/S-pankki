@@ -28,7 +28,7 @@ export const spendingRepository = {
 
   async sources(f: SpendingQuery, limit = 20) {
     return filtered(f)
-      .select(["tx_date as date", "amount", "category", "merchant_id as merchantId"])
+      .select(["tx_date as date", "amount", "category", "merchant_id as merchantId", sql<string | null>`mcc_code::text`.as("mcc")])
       .orderBy("tx_date", "desc")
       .limit(limit)
       .execute();
