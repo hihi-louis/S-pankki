@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { basketsRouter } from "./modules/baskets/baskets.routes.js";
+import { coachRouter } from "./modules/coach/coach.routes.js";
 import { customersRouter, personasRouter } from "./modules/customers/customers.routes.js";
 import { spendingRouter } from "./modules/spending/spending.routes.js";
 import type { ChatResponse } from "@sbank/shared";
@@ -17,6 +18,7 @@ router.use("/spending", spendingRouter);
 router.use("/personas", personasRouter);
 router.use("/customers", customersRouter);
 router.use("/summary", basketsRouter);
+router.use("/coach", coachRouter);
 
 router.get("/health", (_req, res) => {
   res.json({ ok: true });

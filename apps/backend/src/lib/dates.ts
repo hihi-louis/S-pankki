@@ -30,3 +30,8 @@ export function nextPayday(dom: number): string {
   }
   throw new Error("unreachable");
 }
+
+/** Số ngày từ `a` đến `b` (cả hai dạng YYYY-MM-DD). */
+export function daysBetween(a: string, b: string): number {
+  return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
+}
