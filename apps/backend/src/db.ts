@@ -9,7 +9,7 @@ pg.types.setTypeParser(1082, (v) => v); // date
 const url = process.env.DATABASE_URL;
 if (!url) {
   console.warn(
-    "[db] WARNING: DATABASE_URL is not set (see apps/api/.env.example). Queries will fail until it is set and `npm run db:build` has been run.",
+    "[db] WARNING: DATABASE_URL is not set (see apps/backend/.env.example). Queries will fail until it is set and `npm run db:build` has been run.",
   );
 }
 

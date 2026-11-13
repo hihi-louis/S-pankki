@@ -1,5 +1,5 @@
 node_modules/
 dist/
 .env
-apps/api/data/
+apps/backend/data/
 .DS_Store

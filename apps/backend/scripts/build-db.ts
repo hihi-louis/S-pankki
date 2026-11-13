@@ -15,11 +15,11 @@ const missing = [txCsv, custCsv].filter((f) => !existsSync(f));
 if (missing.length) {
   console.error(`Missing CSV file(s):\n${missing.map((m) => "  - " + m).join("\n")}\n
 Download them from https://github.com/hackjunction/Junction-2026-S-pankki
-(the transactions file is in Git LFS) into apps/api/data/.`);
+(the transactions file is in Git LFS) into apps/backend/data/.`);
   process.exit(1);
 }
 if (!process.env.DATABASE_URL) {
-  console.error("DATABASE_URL is not set. Copy apps/api/.env.example to apps/api/.env and edit it.");
+  console.error("DATABASE_URL is not set. Copy apps/backend/.env.example to apps/backend/.env and edit it.");
   process.exit(1);
 }
 
