@@ -1,0 +1,13 @@
+{
+  "month": "2026-11",
+  "balance": 2310.55,
+  "nextPayday": { "date": "2026-11-28", "expected": 3120.0 },
+  "baskets": [
+    { "id": 1, "name": "Essentials", "spent": 1480.2, "avg6m": 1522.4,
+      "top": [{ "category": "Housing", "spent": 920 }, { "category": "Groceries", "spent": 412.3 }, { "category": "Utilities", "spent": 147.9 }] },
+    { "id": 2, "name": "Important", "spent": 210.0, "avg6m": 185.5,
+      "top": [{ "category": "Health", "spent": 130 }, { "category": "Home & Tech", "spent": 80 }] },
+    { "id": 3, "name": "Discretionary", "spent": 365.4, "avg6m": 410.0,
+      "top": [{ "category": "Dining", "spent": 140.2 }, { "category": "Entertainment", "spent": 95.0 }, { "category": "Shopping", "spent": 80.2 }] }
+  ]
+}

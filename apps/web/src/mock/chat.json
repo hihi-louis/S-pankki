@@ -1,0 +1,20 @@
+{
+  "answer": "You spent €412.30 on groceries this month, about 8% less than your 6-month average. Nice work!",
+  "cards": [{ "type": "amount", "label": "Groceries this month", "value": 412.3, "currency": "EUR" }],
+  "chart": {
+    "type": "bar",
+    "title": "Groceries, last 4 months",
+    "data": [
+      { "label": "Aug", "value": 455.1 },
+      { "label": "Sep", "value": 470.8 },
+      { "label": "Oct", "value": 441.0 },
+      { "label": "Nov", "value": 412.3 }
+    ]
+  },
+  "sources": [
+    { "date": "2026-11-09", "amount": -54.2, "category": "Groceries", "merchantId": "m_1042" },
+    { "date": "2026-11-04", "amount": -78.9, "category": "Groceries", "merchantId": "m_2210" }
+  ],
+  "sourcesTotal": 14,
+  "suggestions": ["What can I safely spend this week?", "Show my recurring payments", "What if I cut dining out by 20%?"]
+}
