@@ -1,20 +1,259 @@
 {
-  "answer": "You spent €412.30 on groceries this month, about 8% less than your 6-month average. Nice work!",
-  "cards": [{ "type": "amount", "label": "Groceries this month", "value": 412.3, "currency": "EUR" }],
-  "chart": {
-    "type": "bar",
-    "title": "Groceries, last 4 months",
-    "data": [
-      { "label": "Aug", "value": 455.1 },
-      { "label": "Sep", "value": 470.8 },
-      { "label": "Oct", "value": 441.0 },
-      { "label": "Nov", "value": 412.3 }
+  "where": {
+    "answer": "In September you spent €3,089.22. €1,874.38 went to regular essentials, €349.35 to unexpected necessities and €865.49 to everyday spending.",
+    "cards": [
+      {
+        "type": "amount",
+        "label": "Spent in September",
+        "value": 3089.22,
+        "currency": "EUR"
+      }
+    ],
+    "chart": {
+      "type": "donut",
+      "title": "September by basket",
+      "data": [
+        {
+          "label": "Regular essentials",
+          "value": 1874.38
+        },
+        {
+          "label": "Unexpected necessities",
+          "value": 349.35
+        },
+        {
+          "label": "Everyday spending",
+          "value": 865.49
+        }
+      ]
+    },
+    "sources": [
+      {
+        "date": "2026-09-29",
+        "amount": -7.56,
+        "category": "Groceries",
+        "merchantId": "MRC-GRO-0001",
+        "mcc": "5411"
+      },
+      {
+        "date": "2026-09-29",
+        "amount": -13.31,
+        "category": "Health",
+        "merchantId": "MRC-HEA-0013",
+        "mcc": "5912"
+      },
+      {
+        "date": "2026-09-29",
+        "amount": -41.88,
+        "category": "Travel",
+        "merchantId": "MRC-TRV-0009",
+        "mcc": "4511"
+      },
+      {
+        "date": "2026-09-28",
+        "amount": -69.98,
+        "category": "Lifestyle",
+        "merchantId": "MRC-LIF-0012",
+        "mcc": "5651"
+      },
+      {
+        "date": "2026-09-28",
+        "amount": -9.45,
+        "category": "Travel",
+        "merchantId": "MRC-TRV-0016",
+        "mcc": "4722"
+      },
+      {
+        "date": "2026-09-28",
+        "amount": -6.9,
+        "category": "Health",
+        "merchantId": null,
+        "mcc": null
+      },
+      {
+        "date": "2026-09-26",
+        "amount": -19.05,
+        "category": "Groceries",
+        "merchantId": "MRC-GRO-0032",
+        "mcc": "5411"
+      },
+      {
+        "date": "2026-09-26",
+        "amount": -2.97,
+        "category": "Health",
+        "merchantId": "MRC-HEA-0016",
+        "mcc": "8099"
+      }
+    ],
+    "sourcesTotal": 53,
+    "suggestions": [
+      "What kind of spender am I?",
+      "What can I safely spend this week?",
+      "How could I save more?"
     ]
   },
-  "sources": [
-    { "date": "2026-11-09", "amount": -54.2, "category": "Groceries", "merchantId": "m_1042" },
-    { "date": "2026-11-04", "amount": -78.9, "category": "Groceries", "merchantId": "m_2210" }
-  ],
-  "sourcesTotal": 14,
-  "suggestions": ["What can I safely spend this week?", "Show my recurring payments", "What if I cut dining out by 20%?"]
+  "spender": {
+    "answer": "You're an experiences spender. 28% of your September money went to everyday spending, led by entertainment (€341.95) and eating out (€191.19), and it swings a lot from month to month.",
+    "cards": [
+      {
+        "type": "amount",
+        "label": "Everyday spending in September",
+        "value": 865.49,
+        "currency": "EUR"
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Everyday spending by month",
+      "data": [
+        {
+          "label": "Apr",
+          "value": 250.39
+        },
+        {
+          "label": "May",
+          "value": 31.61
+        },
+        {
+          "label": "Jun",
+          "value": 353.17
+        },
+        {
+          "label": "Jul",
+          "value": 2939.95
+        },
+        {
+          "label": "Aug",
+          "value": 1012.09
+        },
+        {
+          "label": "Sep",
+          "value": 865.49
+        }
+      ]
+    },
+    "sources": [
+      {
+        "date": "2026-09-29",
+        "amount": -41.88,
+        "category": "Travel",
+        "merchantId": "MRC-TRV-0009",
+        "mcc": "4511"
+      },
+      {
+        "date": "2026-09-28",
+        "amount": -69.98,
+        "category": "Lifestyle",
+        "merchantId": "MRC-LIF-0012",
+        "mcc": "5651"
+      },
+      {
+        "date": "2026-09-28",
+        "amount": -9.45,
+        "category": "Travel",
+        "merchantId": "MRC-TRV-0016",
+        "mcc": "4722"
+      },
+      {
+        "date": "2026-09-24",
+        "amount": -52.14,
+        "category": "Lifestyle",
+        "merchantId": "MRC-LIF-0032",
+        "mcc": "5999"
+      },
+      {
+        "date": "2026-09-23",
+        "amount": -37.78,
+        "category": "Lifestyle",
+        "merchantId": "MRC-LIF-0027",
+        "mcc": "5941"
+      },
+      {
+        "date": "2026-09-21",
+        "amount": -139.35,
+        "category": "Entertainment",
+        "merchantId": "MRC-ENT-0054",
+        "mcc": "7922"
+      },
+      {
+        "date": "2026-09-20",
+        "amount": -119.79,
+        "category": "Restaurants",
+        "merchantId": "MRC-RES-0022",
+        "mcc": "5812"
+      },
+      {
+        "date": "2026-09-18",
+        "amount": -16.55,
+        "category": "Entertainment",
+        "merchantId": "MRC-ENT-0016",
+        "mcc": "7832"
+      }
+    ],
+    "sourcesTotal": 21,
+    "suggestions": [
+      "How could I save more?",
+      "Where did my money go?"
+    ]
+  },
+  "safe": {
+    "answer": "You have €3,757.43. After rent and bills (about €1,403.48) there's €2,353.95 left until your next salary around 20 October. That's about €117.70 a day.",
+    "cards": [
+      {
+        "type": "safe_to_spend",
+        "perDay": 117.7,
+        "total": 2353.95,
+        "until": "2026-10-20",
+        "currency": "EUR"
+      }
+    ],
+    "chart": null,
+    "sources": [],
+    "sourcesTotal": 0,
+    "suggestions": [
+      "What if I cut eating out by 20%?",
+      "Where did my money go?"
+    ]
+  },
+  "save": {
+    "answer": "Eating out costs you about €228.90 a month on average. Cutting that by 20% would save around €45.78 a month, or €549 a year.",
+    "cards": [
+      {
+        "type": "what_if",
+        "category": "Restaurants",
+        "monthlySpend": 228.9,
+        "defaultCutPct": 20,
+        "currency": "EUR"
+      }
+    ],
+    "chart": null,
+    "sources": [
+      {
+        "date": "2026-09-20",
+        "amount": -119.79,
+        "category": "Restaurants",
+        "merchantId": "MRC-RES-0022",
+        "mcc": "5812"
+      },
+      {
+        "date": "2026-09-13",
+        "amount": -44.35,
+        "category": "Restaurants",
+        "merchantId": "MRC-RES-0076",
+        "mcc": "5814"
+      },
+      {
+        "date": "2026-09-06",
+        "amount": -27.05,
+        "category": "Restaurants",
+        "merchantId": "MRC-RES-0089",
+        "mcc": "5812"
+      }
+    ],
+    "sourcesTotal": 3,
+    "suggestions": [
+      "What kind of spender am I?",
+      "What can I safely spend this week?"
+    ]
+  }
 }
