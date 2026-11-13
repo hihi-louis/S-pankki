@@ -19,3 +19,14 @@ export function monthRange(offset: number) {
 export function lastNMonths(n: number): string[] {
   return Array.from({ length: n }, (_, i) => monthStart(i - n));
 }
+
+/** Ngày nhận lương kế tiếp (sau TODAY) khi lương về vào ngày `dom` của tháng; ngày bị kẹp theo độ dài tháng. */
+export function nextPayday(dom: number): string {
+  for (const offset of [0, 1]) {
+    const start = new Date(`${monthStart(offset)}T00:00:00Z`);
+    const daysInMonth = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 0)).getUTCDate();
+    const candidate = iso(new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), Math.min(dom, daysInMonth))));
+    if (candidate > TODAY) return candidate;
+  }
+  throw new Error("unreachable");
+}

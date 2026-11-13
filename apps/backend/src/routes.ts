@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { z } from "zod";
+import { basketsRouter } from "./modules/baskets/baskets.routes.js";
 import { customersRouter, personasRouter } from "./modules/customers/customers.routes.js";
 import { spendingRouter } from "./modules/spending/spending.routes.js";
-import type { ChatResponse, SummaryResponse } from "@sbank/shared";
+import type { ChatResponse } from "@sbank/shared";
 
 export const router = Router();
 
@@ -15,6 +16,7 @@ const chatSchema = z.object({
 router.use("/spending", spendingRouter);
 router.use("/personas", personasRouter);
 router.use("/customers", customersRouter);
+router.use("/summary", basketsRouter);
 
 router.get("/health", (_req, res) => {
   res.json({ ok: true });
@@ -34,27 +36,6 @@ router.post("/chat", (req, res) => {
     sources: [],
     sourcesTotal: 0,
     suggestions: ["What can I safely spend this week?", "Show my recurring payments"],
-  };
-  res.json(body);
-});
-
-const summaryQuery = z.object({ customerId: z.string().min(1) });
-
-router.get("/summary", (req, res) => {
-  const parsed = summaryQuery.safeParse(req.query);
-  if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten() });
-    return;
-  }
-  const body: SummaryResponse = {
-    month: "2026-11",
-    balance: 2310.55,
-    nextPayday: { date: "2026-11-28", expected: 3120 },
-    baskets: [
-      { id: 1, name: "Essentials", spent: 1480.2, avg6m: 1522.4, top: [{ category: "Housing", spent: 920 }] },
-      { id: 2, name: "Important", spent: 210, avg6m: 185.5, top: [{ category: "Health", spent: 130 }] },
-      { id: 3, name: "Discretionary", spent: 365.4, avg6m: 410, top: [{ category: "Dining", spent: 140.2 }] },
-    ],
   };
   res.json(body);
 });
