@@ -45,7 +45,10 @@ https://github.com/hackjunction/Junction-2026-S-pankki (transactions file is in 
 into `apps/backend/data/`, then:
 
 ```bash
-npm run db:build   # (re)creates tables tx, customers, tx_b, monthly
+cd apps/backend
+npm run migrate     # create tables + indexes (Knex)
+npm run db:import   # COPY CSVs, assign baskets, build aggregates (~1 min)
+npm run db:codegen  # generate src/db/types.ts (Kysely)
 ```
 
-The backend starts without a database and logs a warning. Use `$1, $2` placeholders in `query()`.
+Queries go through Kysely (`src/db/kysely.ts`); Knex is only used for migrations.
