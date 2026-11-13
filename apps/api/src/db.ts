@@ -1,29 +1,23 @@
-import { existsSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { DuckDBConnection, DuckDBInstance } from "@duckdb/node-api";
+import "dotenv/config";
+import pg from "pg";
 
-const here = dirname(fileURLToPath(import.meta.url));
-export const DB_PATH = resolve(here, "../data/sbank.duckdb");
+// Return numeric/int8 as numbers and date as 'YYYY-MM-DD' strings instead of pg's defaults.
+pg.types.setTypeParser(1700, (v) => parseFloat(v)); // numeric
+pg.types.setTypeParser(20, (v) => parseInt(v, 10)); // int8 (count(*))
+pg.types.setTypeParser(1082, (v) => v); // date
 
-let connPromise: Promise<DuckDBConnection | null> | null = null;
-
-async function connect(): Promise<DuckDBConnection | null> {
-  if (!existsSync(DB_PATH)) {
-    console.warn(`[db] WARNING: ${DB_PATH} not found. Run "npm run db:build" first. Queries will fail until then.`);
-    return null;
-  }
-  const instance = await DuckDBInstance.create(DB_PATH, { access_mode: "READ_ONLY" });
-  return instance.connect();
+const url = process.env.DATABASE_URL;
+if (!url) {
+  console.warn(
+    "[db] WARNING: DATABASE_URL is not set (see apps/api/.env.example). Queries will fail until it is set and `npm run db:build` has been run.",
+  );
 }
 
+let pool: pg.Pool | null = null;
+
 export async function query<T>(sql: string, params: unknown[] = []): Promise<T[]> {
-  connPromise ??= connect();
-  const conn = await connPromise;
-  if (!conn) {
-    connPromise = null; // retry next time (db may have been built meanwhile)
-    throw new Error("Database not available. Run `npm run db:build`.");
-  }
-  const reader = await conn.runAndReadAll(sql, params as never);
-  return reader.getRowObjectsJson() as T[];
+  if (!url) throw new Error("DATABASE_URL is not set.");
+  pool ??= new pg.Pool({ connectionString: url });
+  const res = await pool.query(sql, params);
+  return res.rows as T[];
 }
