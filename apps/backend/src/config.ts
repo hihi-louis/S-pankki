@@ -6,6 +6,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3001),
   CORS_ORIGIN: z.string().default("http://localhost:5173"),
   LLM_API_KEY: z.string().optional(), // chỉ cần khi dùng module chat
+  LLM_BASE_URL: z.string().default("https://inference.verda.com/v1"), // endpoint kiểu OpenAI
+  LLM_MODEL: z.string().default("kimi-k3-1-pro"),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -20,4 +22,6 @@ export const config = {
   port: parsed.data.PORT,
   corsOrigins: parsed.data.CORS_ORIGIN.split(",").map((s) => s.trim()).filter(Boolean),
   llmApiKey: parsed.data.LLM_API_KEY,
+  llmBaseUrl: parsed.data.LLM_BASE_URL,
+  llmModel: parsed.data.LLM_MODEL,
 };

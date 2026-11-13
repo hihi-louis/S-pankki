@@ -16,7 +16,7 @@ export const coachRepository = {
       .where("month", ">=", from)
       .where("month", "<", to);
     if (target.basket) q = q.where("basket", "=", target.basket);
-    if (target.category) q = q.where("category", "=", target.category);
+    if (target.category) q = q.where(sql`lower(category)`, "=", target.category.toLowerCase());
     return (await q.executeTakeFirstOrThrow()).spent;
   },
 

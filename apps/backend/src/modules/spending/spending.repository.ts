@@ -10,7 +10,7 @@ function filtered(f: SpendingQuery) {
     .where("tx_date", ">=", f.from)
     .where("tx_date", "<", f.to)
     .where("basket", ">", 0);
-  if (f.category) q = q.where("category", "=", f.category);
+  if (f.category) q = q.where(sql`lower(category)`, "=", f.category.toLowerCase());
   if (f.basket) q = q.where("basket", "=", f.basket);
   if (f.mcc) q = q.where("mcc_code", "=", f.mcc);
   return q;

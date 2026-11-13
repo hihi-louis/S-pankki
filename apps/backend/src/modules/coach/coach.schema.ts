@@ -6,14 +6,14 @@ export const coachQuerySchema = z.object({ customerId });
 export type CoachQuery = z.infer<typeof coachQuerySchema>;
 
 /** What-if: cắt một giỏ HOẶC một danh mục, theo % HOẶC theo số tiền €/tháng. Dùng chung cho route và LLM tool. */
-export const whatIfQuerySchema = z
-  .object({
-    customerId,
-    basket: z.coerce.number().int().min(1).max(3).optional() as z.ZodType<1 | 2 | 3 | undefined>,
-    category: z.string().min(1).optional(),
-    percent: z.coerce.number().gt(0).max(100).optional(),
-    amountEur: z.coerce.number().gt(0).optional(),
-  })
+export const whatIfBaseSchema = z.object({
+  customerId,
+  basket: z.coerce.number().int().min(1).max(3).optional() as z.ZodType<1 | 2 | 3 | undefined>,
+  category: z.string().min(1).optional(),
+  percent: z.coerce.number().gt(0).max(100).optional(),
+  amountEur: z.coerce.number().gt(0).optional(),
+});
+export const whatIfQuerySchema = whatIfBaseSchema
   .refine((v) => (v.basket !== undefined) !== (v.category !== undefined), {
     message: "Provide exactly one of: basket, category",
   })
