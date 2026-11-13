@@ -1,17 +1,14 @@
-import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { config } from "./config.js";
+import { errorHandler } from "./lib/errors.js";
 import { router } from "./routes.js";
 
 const app = express();
-const origins = (process.env.CORS_ORIGIN ?? "http://localhost:5173")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
 
-app.use(cors({ origin: origins }));
+app.use(cors({ origin: config.corsOrigins }));
 app.use(express.json());
 app.use(router);
+app.use(errorHandler);
 
-const port = Number(process.env.PORT ?? 3001);
-app.listen(port, () => console.log(`api listening on http://localhost:${port}`));
+app.listen(config.port, () => console.log(`api listening on http://localhost:${config.port}`));

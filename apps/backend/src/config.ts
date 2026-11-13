@@ -1,0 +1,23 @@
+import "dotenv/config";
+import { z } from "zod";
+
+const envSchema = z.object({
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  PORT: z.coerce.number().int().positive().default(3001),
+  CORS_ORIGIN: z.string().default("http://localhost:5173"),
+  LLM_API_KEY: z.string().optional(), // chỉ cần khi dùng module chat
+});
+
+const parsed = envSchema.safeParse(process.env);
+if (!parsed.success) {
+  console.error("Invalid environment (see apps/backend/.env.example):");
+  for (const i of parsed.error.issues) console.error(`  - ${i.path.join(".")}: ${i.message}`);
+  process.exit(1);
+}
+
+export const config = {
+  databaseUrl: parsed.data.DATABASE_URL,
+  port: parsed.data.PORT,
+  corsOrigins: parsed.data.CORS_ORIGIN.split(",").map((s) => s.trim()).filter(Boolean),
+  llmApiKey: parsed.data.LLM_API_KEY,
+};
