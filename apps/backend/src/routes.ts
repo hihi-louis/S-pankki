@@ -1,14 +1,10 @@
 import { Router } from "express";
 import { z } from "zod";
+import { customersRouter, personasRouter } from "./modules/customers/customers.routes.js";
 import { spendingRouter } from "./modules/spending/spending.routes.js";
-import type { ChatResponse, Persona, SummaryResponse } from "@sbank/shared";
+import type { ChatResponse, SummaryResponse } from "@sbank/shared";
 
 export const router = Router();
-
-const personas: Persona[] = [
-  { customerId: "demo-1", name: "Aino", age: 29, description: "Young professional, renting in Helsinki." },
-  { customerId: "demo-2", name: "Mikko", age: 41, description: "Family of four with a mortgage." },
-];
 
 const chatSchema = z.object({
   customerId: z.string().min(1),
@@ -17,14 +13,11 @@ const chatSchema = z.object({
 });
 
 router.use("/spending", spendingRouter);
+router.use("/personas", personasRouter);
+router.use("/customers", customersRouter);
 
 router.get("/health", (_req, res) => {
   res.json({ ok: true });
-});
-
-router.get("/personas", (_req, res) => {
-  const body: Persona[] = personas;
-  res.json(body);
 });
 
 router.post("/chat", (req, res) => {
