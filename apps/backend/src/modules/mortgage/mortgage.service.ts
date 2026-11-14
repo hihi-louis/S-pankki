@@ -240,7 +240,7 @@ export const mortgageService = {
         tone: app.rejection_reason === "insufficient_income" ? "warn" : undefined,
       },
     ];
-    if (timeline.days != null) rows.push({ label: "Time to decision", value: `${timeline.days} days, ${timeline.contacts} contacts, ${timeline.docs} documents` });
+    if (timeline.days != null) rows.push({ label: "Time to decision", value: `${timeline.days} days, ${timeline.contacts} contact${timeline.contacts === 1 ? "" : "s"}, ${timeline.docs} document${timeline.docs === 1 ? "" : "s"}` });
     if (similar.n > 0) rows.push({ label: "Similar applications", value: `${similar.approved} of ${similar.n} were approved` });
 
     const card: FactsCard = {

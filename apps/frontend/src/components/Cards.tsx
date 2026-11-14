@@ -79,7 +79,7 @@ function Facts({ card, customerId, onAsk }: { card: FactsCard; customerId: strin
       <div className="card-label">{card.title}</div>
       {card.headline && (
         <>
-          <div className="card-big">{card.headline.value}</div>
+          <div className={`card-big${/^[€\d+\-−]/.test(card.headline.value) ? "" : " wrap"}`}>{card.headline.value}</div>
           <div className="card-sub">{card.headline.label}</div>
         </>
       )}
