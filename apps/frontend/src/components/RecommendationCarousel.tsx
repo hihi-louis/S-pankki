@@ -22,13 +22,23 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     const el = track.current;
     if (!el) return;
     let frame = 0;
+    let settle = 0;
     const onScroll = () => {
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        if (el.scrollLeft >= items.length * step(el) - 2) {
+          el.style.scrollSnapType = "none";
+          el.scrollLeft = 0;
+          requestAnimationFrame(() => { el.style.scrollSnapType = ""; });
+        }
+      }, 120);
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setIndex(Math.max(0, Math.min(items.length - 1, Math.round(el.scrollLeft / step(el))))));
+      frame = requestAnimationFrame(() => setIndex(Math.round(el.scrollLeft / step(el)) % items.length));
     };
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       el.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle);
       cancelAnimationFrame(frame);
     };
   }, [items.length]);
@@ -46,7 +56,6 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     if (!el) return;
     const DWELL = 5000;
     const SLIDE = 650;
-    let dir = 1;
     let frame = 0;
     let timer = 0;
 
@@ -68,10 +77,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     const next = () => {
       timer = window.setTimeout(next, DWELL);
       if (paused.current || document.hidden || Date.now() < resumeAt.current) return;
-      let n = idx.current + dir;
-      if (n >= items.length - 1) dir = -1;
-      if (n <= 0) dir = 1;
-      n = Math.max(0, Math.min(items.length - 1, n));
+      const n = idx.current + 1; // from the last card this is the copy of card 1, so it keeps moving forward
       slideTo(n * step(el));
     };
     timer = window.setTimeout(next, DWELL);
@@ -117,6 +123,14 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
             </button>
           </article>
         ))}
+        {items.length > 1 && (
+          <article className={`rec rec-${items[0].tone}${index === 0 ? " is-active" : ""}`} aria-hidden="true" inert>
+            <div className="rec-eyebrow"><IconBars />{items[0].eyebrow}</div>
+            <h3 className="rec-headline">{items[0].headline}</h3>
+            <p className="rec-body">{items[0].body}</p>
+            <span className="rec-cta">{items[0].cta} <IconArrowRight /></span>
+          </article>
+        )}
       </div>
       <div className="carousel-controls">
         <div className="dots" role="tablist" aria-label="Choose a recommendation">
