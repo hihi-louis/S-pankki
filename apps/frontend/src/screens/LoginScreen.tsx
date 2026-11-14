@@ -83,7 +83,7 @@ export function LoginScreen({ onLogin, initialError }: Props) {
           <div className="chips">
             {personas.map((p) => (
               <button key={p.customerId} className="chip" disabled={busy} onClick={() => void enter(p.customerId)}>
-                {p.name} · {p.age}
+                {p.customerId} · age {p.age}
               </button>
             ))}
           </div>

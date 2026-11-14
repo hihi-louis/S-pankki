@@ -103,8 +103,8 @@ Up to 4, most important first. Tapping one sends `ask` to `/chat`.
 ## `GET /customers/:id`
 
 The "login": the app checks that the customer ID exists and greets the customer. No password (demo only).
-`name` is set for demo personas and `null` for everyone else (the dataset has no names); `404` if the ID is unknown.
+The dataset has no customer names, so the app greets the customer by ID. `404` if the ID is unknown.
 
 ```json
-{ "customerId": "CUST05020", "name": "Aino", "age": 21, "postalCode": "00510" }
+{ "customerId": "CUST05020", "age": 21, "postalCode": "00708" }
 ```

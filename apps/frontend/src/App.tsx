@@ -71,7 +71,6 @@ export default function App() {
 
 function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: () => void }) {
   const customerId = customer.customerId;
-  const displayName = customer.name ?? customer.customerId;
   const [tab, setTab] = useState<Tab>(START_TAB);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [busy, setBusy] = useState(false);
@@ -121,8 +120,7 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
       </header>
       <div className="who">
         <span>
-          Signed in as <strong>{displayName}</strong>
-          {customer.name && <span className="who-id"> · {customerId}</span>}
+          Signed in as <strong>{customerId}</strong>
         </span>
         <button className="link" onClick={onLogout}>
           Switch
@@ -132,7 +130,7 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
         <HomeScreen customerId={customerId} onAsk={ask} />
       ) : (
         <ChatScreen
-          greeting={`Hello, welcome ${displayName} to Personal Economic Trainer`}
+          greeting={`Hello, welcome ${customerId} to Personal Economic Trainer`}
           messages={messages}
           busy={busy}
           onAsk={ask}
