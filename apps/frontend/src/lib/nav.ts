@@ -4,6 +4,7 @@ export type Screen =
   | { name: "insight"; id: string }
   | { name: "category"; category: string }
   | { name: "basket"; basket: 1 | 2 | 3 }
+  | { name: "plans" }
   | { name: "forecast" };
 
 export interface Nav {

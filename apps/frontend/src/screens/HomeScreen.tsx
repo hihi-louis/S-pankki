@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import type { LoanStatusResponse, PlanProgressResponse, Recommendation, SummaryResponse } from "@sbank/shared";
-import { getLoanStatus, getPlanProgress, getRecommendations, getSummary } from "../api";
+import type { LoanStatusResponse, PlansOverview, Recommendation, SummaryResponse } from "@sbank/shared";
+import { getLoanStatus, getPlans, getRecommendations, getSummary } from "../api";
 import { BasketPie } from "../components/BasketPie";
 import { PlanStrip } from "../components/PlanStrip";
 import { LoanStrip } from "../components/LoanStrip";
@@ -31,12 +31,12 @@ export function HomeScreen({ customerId, nav }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
   const [loan, setLoan] = useState<LoanStatusResponse | null>(null);
-  const [plan, setPlan] = useState<PlanProgressResponse | null>(null);
+  const [plan, setPlan] = useState<PlansOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSummary(customerId).then(setData).catch((e: Error) => setError(e.message));
-    getPlanProgress(customerId).then(setPlan).catch(() => setPlan(null));
+    getPlans(customerId).then(setPlan).catch(() => setPlan(null));
     getLoanStatus(customerId).then(setLoan).catch(() => setLoan(null));
     getRecommendations(customerId).then((r) => setRecs(r.items)).catch(() => setRecs([]));
   }, [customerId]);
@@ -69,12 +69,6 @@ export function HomeScreen({ customerId, nav }: Props) {
         </section>
       )}
 
-      {plan?.plan && (
-        <section className="block rise" style={rise(1)}>
-          <PlanStrip progress={plan} onOpen={() => nav.ask("How am I doing against my plan?")} />
-        </section>
-      )}
-
       <section className="block rise money-block" style={rise(1)}>
         <div className="eyebrow">Insights</div>
         <h2 className="h-display">Know your money</h2>
@@ -96,6 +90,14 @@ export function HomeScreen({ customerId, nav }: Props) {
           </div>
         )}
       </section>
+
+      {plan && (plan.goals.length > 0 || plan.weeklyLimit) && (
+        <section className="block rise" style={rise(3)}>
+          <div className="eyebrow">Plans</div>
+          <h2 className="h-display">Your plan</h2>
+          <PlanStrip overview={plan} onOpen={() => nav.open({ name: "plans" })} />
+        </section>
+      )}
     </main>
   );
 }

@@ -123,7 +123,7 @@ The Overview tells the month as: snapshot, what stands out, what is coming, your
 | `GET /category?customerId=&category=` | `CategoryDive`: 7-month trend, where it went (shops), largest purchases, peers when comparable |
 | `GET /insights/:id?customerId=` | `InsightStory`: `happened`, `why`, `means`, `next.actions[]` (what happened, why, what it means, what to do) |
 | `GET /coach/forecast?customerId=` | `ForecastResponse`: estimated balance per day until payday (usual pace, saved plan, safe pace) and the regular bills in between |
-| `POST /plan/apply` `{customerId, basket, reduceBy}` | Lowers a basket cap in the saved plan (creates a starting plan first if none) and raises the monthly saving by the same amount |
+| `POST /plan/apply` `{customerId, basket, reduceBy}` | See "Plans: goals and a weekly limit" below |
 
 `why` lists the biggest items (shops, purchases): they show what the money went to, not the customer's reason.
 `StoryAction.apply` is only ever run by the customer's tap on "Apply to my plan"; `link` opens another screen.
@@ -175,3 +175,20 @@ Safe-to-spend (recommendation card, chat tool `safe_to_spend`, fast path) then a
 and the amount shown is the one after the reserve. The reserve is an estimate from public averages, not the bank's rule.
 
 Demo switch: any request with the header `x-demo-loan-open: 1` shows the customer's loan as if it were still open (the middle day of the application). The app sets it from the account menu.
+
+## Plans: goals and a weekly limit
+
+A customer has **several goals** and **one weekly limit** for everyday spending (restaurants, fun, shopping, taxis). The coach only proposes; changes are made by the customer's taps.
+
+| endpoint | does |
+|---|---|
+| `GET /plan?customerId=` | `PlansOverview`: `goals[]` (with `monthsAtThisPace`), `weeklyLimit` (spent in the last 7 days, remaining, pct), `suggestedWeeklyLimit`, `setAside` (this month vs the sum of monthly goal amounts), `status`, `message` |
+| `PUT /plan` `{customerId, plan}` | "Add to my plans" on a coach plan: adds a goal (or updates the goal with the same name) and sets the weekly limit. Returns `PlanChangeResult` `{message, overview}`; the message says what changed (nothing is overwritten silently) |
+| `POST /plan/apply` `{customerId, basket, reduceBy}` | "Apply to my plans" on a suggestion: everyday spending lowers the weekly limit, any suggestion adds the freed monthly amount to the first goal (or starts one). Returns `PlanChangeResult` |
+| `POST /plan/goals` | add a goal `{customerId, name, kind?, targetAmount?, months?, monthlyAmount}` (max 8) |
+| `PATCH /plan/goals/:id` | change any of those fields |
+| `DELETE /plan/goals/:id?customerId=` | delete a goal |
+| `PUT /plan/weekly-limit` `{customerId, amount}` / `DELETE /plan/weekly-limit?customerId=` | set or remove the limit |
+
+All of them return the new `PlansOverview` (except `PUT /plan` and `POST /plan/apply`, which wrap it). Plans are stored in the tables `goals` and `weekly_limits`
+(migration 9 copies the old one-row `plans` table over). The app only reads the customer's transactions to measure progress; it never moves money.

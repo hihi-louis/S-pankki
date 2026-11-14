@@ -37,8 +37,7 @@ function Action({ action, customerId, nav }: { action: StoryAction; customerId: 
     setState("saving");
     try {
       const r = await applyPlanCap(customerId, action.apply.basket, action.apply.reduceBy);
-      const cap = action.apply.basket === 1 ? r.plan.capEssentials : action.apply.basket === 2 ? r.plan.capUnexpected : r.plan.capEveryday;
-      setResult(`${r.createdNewPlan ? "Plan created. " : ""}${r.basketName} limit is now ${eur0(cap)} a month; saving ${eur0(r.plan.monthlySaving)} a month.`);
+      setResult(r.message);
       setState("done");
     } catch {
       setState("error");
@@ -54,13 +53,13 @@ function Action({ action, customerId, nav }: { action: StoryAction; customerId: 
       <p className="card-sub">{action.detail}</p>
       {action.apply && (
         <button className="cta" disabled={state === "saving" || state === "done"} onClick={() => void apply()}>
-          {state === "done" ? "Added to your plan" : state === "saving" ? "Saving…" : "Apply to my plan"}
+          {state === "done" ? "Added to your plans" : state === "saving" ? "Saving…" : "Apply to my plans"}
         </button>
       )}
       {action.link === "forecast" && <button className="cta" onClick={() => nav.open({ name: "forecast" })}>See the forecast</button>}
       {action.link === "plan" && <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with the coach</button>}
-      {state === "done" && <div className="card-sub facts-note">{result} See it on the Overview.</div>}
-      {state === "error" && <div className="card-sub facts-error" role="alert">Could not update the plan. Try again.</div>}
+      {state === "done" && <div className="card-sub facts-note">{result}{" "}<button className="link-btn" onClick={() => nav.open({ name: "plans" })}>Open My plans</button></div>}
+      {state === "error" && <div className="card-sub facts-error" role="alert">Could not update your plans. Try again.</div>}
     </div>
   );
 }

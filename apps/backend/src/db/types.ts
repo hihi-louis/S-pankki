@@ -91,6 +91,23 @@ export interface MortgageEvents {
   ts: Timestamp;
 }
 
+export interface Goals {
+  created_at: Generated<Timestamp>;
+  customer_id: string;
+  id: Generated<number>;
+  kind: string;
+  monthly_amount: Numeric;
+  months: number | null;
+  name: string;
+  target_amount: Numeric | null;
+}
+
+export interface WeeklyLimits {
+  amount: Numeric;
+  customer_id: string;
+  updated_at: Generated<Timestamp>;
+}
+
 export interface Plans {
   cap_essentials: Numeric;
   cap_everyday: Numeric;
@@ -126,6 +143,8 @@ export interface DB {
   monthly_spend: MonthlySpend;
   mortgage_applications: MortgageApplications;
   mortgage_events: MortgageEvents;
+  goals: Goals;
   plans: Plans;
+  weekly_limits: WeeklyLimits;
   transactions: Transactions;
 }

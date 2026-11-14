@@ -111,11 +111,10 @@ const defs: ToolDef[] = [
   },
   {
     name: "plan_progress",
-    description: "How this month is going against the customer's saved spending plan (spending per basket vs caps, saved vs target). Says so if there is no saved plan.",
+    description: "How the customer is doing against their plans: goals (monthly amounts), the weekly limit for everyday spending (last 7 days) and what was set aside this month. Says so if there are no plans.",
     schema: noInput,
     run: async (_input, customerId) => {
-      const r = await planService.progress(customerId);
-      return r.plan ? r : { hasPlan: false, message: r.message };
+      return planService.progress(customerId);
     },
   },
   {

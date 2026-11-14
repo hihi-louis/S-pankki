@@ -62,11 +62,13 @@ function SafeToSave({ card }: { card: SafeToSaveCard }) {
 
 function Facts({ card, customerId, onAsk }: { card: FactsCard; customerId: string; onAsk?: (text: string) => void }) {
   const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [saved, setSaved] = useState("");
   async function save() {
     if (card.action?.kind !== "save_plan") return;
     setState("saving");
     try {
-      await savePlan(customerId, card.action.draft);
+      const r = await savePlan(customerId, card.action.draft);
+      setSaved(r.message);
       setState("saved");
     } catch {
       setState("error");
@@ -96,10 +98,10 @@ function Facts({ card, customerId, onAsk }: { card: FactsCard; customerId: strin
       {card.action?.kind === "save_plan" && (
         <>
           <button className="cta" disabled={state === "saving" || state === "saved"} onClick={() => void save()}>
-            {state === "saved" ? "Plan saved" : state === "saving" ? "Saving…" : "Save plan"}
+            {state === "saved" ? "Added to your plans" : state === "saving" ? "Saving…" : "Add to my plans"}
           </button>
-          {state === "saved" && <div className="card-sub facts-note">Ask me how you are doing against your plan any time.</div>}
-          {state === "error" && <div className="card-sub facts-error" role="alert">Could not save the plan. Try again.</div>}
+          {state === "saved" && <div className="card-sub facts-note">{saved} You can change or delete it in My plans, on the Overview.</div>}
+          {state === "error" && <div className="card-sub facts-error" role="alert">Could not add the plan. Try again.</div>}
         </>
       )}
     </div>

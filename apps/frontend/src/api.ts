@@ -1,4 +1,4 @@
-import type { LoanStatusResponse, BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
+import type { LoanStatusResponse, BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanChangeResult, PlanDraft, PlansOverview, Snapshot, SummaryResponse } from "@sbank/shared";
 
 import { demoLoanOpen } from "./lib/demo";
 
@@ -120,12 +120,29 @@ export async function chatStream(req: ChatRequest, handlers: ChatStreamHandlers 
 export const getCustomer = (customerId: string) =>
   request<CustomerProfile>(`/customers/${encodeURIComponent(customerId)}`);
 
-export const getPlanProgress = (customerId: string) =>
-  request<PlanProgressResponse>(`/plan/progress?customerId=${encodeURIComponent(customerId)}`);
+const json = (method: string, body: unknown): RequestInit => ({ method, body: JSON.stringify(body) });
 
-/** Saves the plan on a card. Only the customer's button press calls this: the assistant never saves anything. */
-export const savePlan = (customerId: string, plan: PlanDraft) =>
-  request<SavedPlan>("/plan", { method: "PUT", body: JSON.stringify({ customerId, plan }) });
+/** The customer's plans: goals, the weekly limit and how it is going. */
+export const getPlans = (customerId: string) => request<PlansOverview>(`/plan?customerId=${encodeURIComponent(customerId)}`);
+
+/** Adds a coach plan to the customer's plans. Only the customer's button press calls this: the assistant never saves anything. */
+export const savePlan = (customerId: string, plan: PlanDraft) => request<PlanChangeResult>("/plan", json("PUT", { customerId, plan }));
+
+export interface GoalInput {
+  name: string;
+  kind?: "home" | "savings";
+  targetAmount: number | null;
+  months: number | null;
+  monthlyAmount: number;
+}
+export const addGoal = (customerId: string, goal: GoalInput) => request<PlansOverview>("/plan/goals", json("POST", { customerId, ...goal }));
+export const updateGoal = (customerId: string, id: number, fields: Partial<GoalInput>) =>
+  request<PlansOverview>(`/plan/goals/${id}`, json("PATCH", { customerId, ...fields }));
+export const deleteGoal = (customerId: string, id: number) =>
+  request<PlansOverview>(`/plan/goals/${id}?customerId=${encodeURIComponent(customerId)}`, { method: "DELETE" });
+export const setWeeklyLimit = (customerId: string, amount: number) => request<PlansOverview>("/plan/weekly-limit", json("PUT", { customerId, amount }));
+export const deleteWeeklyLimit = (customerId: string) =>
+  request<PlansOverview>(`/plan/weekly-limit?customerId=${encodeURIComponent(customerId)}`, { method: "DELETE" });
 
 const q = encodeURIComponent;
 
@@ -139,16 +156,8 @@ export const getInsightStory = (customerId: string, id: string) =>
 
 export const getForecast = (customerId: string) => request<ForecastResponse>(`/coach/forecast?customerId=${q(customerId)}`);
 
-export interface ApplyCapResult {
-  plan: SavedPlan;
-  appliedReduceBy: number;
-  createdNewPlan: boolean;
-  basketName: string;
-}
-
-/** The customer tapped "Apply to my plan" on a suggestion: lower a basket limit and raise the monthly saving. */
 export const applyPlanCap = (customerId: string, basket: 1 | 2 | 3, reduceBy: number) =>
-  request<ApplyCapResult>("/plan/apply", { method: "POST", body: JSON.stringify({ customerId, basket, reduceBy }) });
+  request<PlanChangeResult>("/plan/apply", { method: "POST", body: JSON.stringify({ customerId, basket, reduceBy }) });
 
 export const getRecommendations = (customerId: string) =>
   request<RecommendationsResponse>(`/recommendations?customerId=${encodeURIComponent(customerId)}`);

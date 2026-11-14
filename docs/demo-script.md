@@ -27,10 +27,11 @@ Cash flow can look fine while the customer is in the middle of a loan decision, 
 - Point at the line **Numbers checked against your data** and open **How I calculated this** (formula, data used, source).
 - Say: the model never produces a number; it only writes sentences around tool results, and every amount and percentage is re-checked before it is shown.
 
-## 3. Spending plan and a home goal (CUST05020)
-- Ask: "Make me a plan to buy a 250000 euro home in 5 years".
-- The coach works out the cash needed (down payment plus typical costs from real S-Pankki cases), then proposes a monthly plan.
-- Press **Save plan**. The assistant never saves anything itself; the plan shows on the Overview as a strip with a bar per basket; tap it to ask 'How am I doing against my plan?'.
+## 3. Plans: goals and a weekly limit (CUST05020)
+- Ask: "Make me a plan to buy a 250000 euro home in 5 years". The coach works out the cash needed (down payment plus typical costs from real S-Pankki cases) and proposes a monthly amount and a weekly limit.
+- Press **Add to my plans**: the message says what was added or changed. Nothing is overwritten silently, and the assistant never saves anything itself.
+- On the Overview, **Your plan** shows the goals and this week's everyday spending against the limit. Tap it to open **My plans**: change the weekly limit with the + and - buttons, edit or delete a goal (with Undo), add a goal, or ask the coach for a plan.
+- Say: the app only reads transactions to see how you are doing; it never moves money.
 - Ask "What if I cut everyday spending by 30%?" and "How much could I borrow for a home?" (income-based estimate, 3.17% rate and 6% stress test with sources).
 
 ## 4. Mortgage questions, honestly (CUST00382, then CUST00922)

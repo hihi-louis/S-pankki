@@ -1,30 +1,37 @@
-import type { PlanProgressResponse } from "@sbank/shared";
+import type { PlansOverview } from "@sbank/shared";
 import { eur0 } from "../lib/format";
 
-const STATUS = { on_track: "On track", watch: "Close to the limit", over: "Over the limit" } as const;
+const STATUS = { on_track: "On track", watch: "Close to the limit", over: "Over the limit", none: "" } as const;
 
-/** The saved plan at a glance: the monthly saving and how each basket is doing against its cap. Shown only when a plan is saved. */
-export function PlanStrip({ progress, onOpen }: { progress: PlanProgressResponse; onOpen: () => void }) {
-  const plan = progress.plan;
-  if (!plan) return null;
-  const goal = plan.goalAmount ? `${plan.goalLabel} (${eur0(plan.goalAmount)})` : plan.goalLabel;
+/** Your plans at a glance (goals and the weekly limit). Tap it to open My plans, where they can be changed or deleted. */
+export function PlanStrip({ overview, onOpen }: { overview: PlansOverview; onOpen: () => void }) {
+  const { goals, weeklyLimit } = overview;
+  const shown = goals.slice(0, 2);
   return (
-    <button className={`plan-strip ${progress.status}`} onClick={onOpen} aria-label="Your plan. Tap to ask how you are doing.">
+    <button className={`plan-strip ${overview.status}`} onClick={onOpen} aria-label="Your plans. Tap to see and change them.">
       <span className="plan-head">
-        <span className="plan-title">Your plan</span>
-        <span className={`plan-chip ${progress.status}`}>{STATUS[progress.status]}</span>
+        <span className="plan-title">Goals and weekly limit</span>
+        {weeklyLimit && <span className={`plan-chip ${overview.status}`}>{STATUS[overview.status]}</span>}
       </span>
-      <span className="plan-goal">Save {eur0(plan.monthlySaving)} a month · {goal}</span>
-      {progress.baskets.map((b) => (
-        <span key={b.id} className="plan-row">
-          <span className="plan-row-label">{b.name}</span>
-          <span className="plan-row-amt">{eur0(b.spent)} of {eur0(b.cap)}</span>
-          <span className="plan-bar" role="img" aria-label={`${b.name}: ${b.pct}% of the limit`}>
-            <span className={`plan-fill c${b.id - 1}${b.pct > 100 ? " over" : ""}`} style={{ width: `${Math.min(100, b.pct)}%` }} />
-          </span>
+      {shown.map((g) => (
+        <span key={g.id} className="plan-row">
+          <span className="plan-row-label">{g.name}</span>
+          <span className="plan-row-amt">{eur0(g.monthlyAmount)} a month</span>
         </span>
       ))}
-      <span className="plan-msg">{progress.message}</span>
+      {goals.length > shown.length && <span className="plan-more">+ {goals.length - shown.length} more goal{goals.length - shown.length === 1 ? "" : "s"}</span>}
+      {weeklyLimit && (
+        <>
+          <span className="plan-row">
+            <span className="plan-row-label">Everyday spending this week</span>
+            <span className="plan-row-amt">{eur0(weeklyLimit.spent)} of {eur0(weeklyLimit.amount)}</span>
+          </span>
+          <span className="plan-bar" role="img" aria-label={`${weeklyLimit.pct}% of this week's limit`}>
+            <span className={`plan-fill c2${weeklyLimit.pct > 100 ? " over" : ""}`} style={{ width: `${Math.min(100, weeklyLimit.pct)}%` }} />
+          </span>
+        </>
+      )}
+      <span className="plan-msg">{overview.message} <b>Tap to change.</b></span>
     </button>
   );
 }

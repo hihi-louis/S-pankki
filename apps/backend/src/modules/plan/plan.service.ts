@@ -1,4 +1,4 @@
-import type { FactsCard, PlanDraft, PlanProgressResponse, SavedPlan } from "@sbank/shared";
+import type { FactsCard, Goal, PlanChangeResult, PlanDraft, PlansOverview } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
 import { monthStart, TODAY } from "../../lib/dates.js";
 import { eur0 } from "../../lib/finance.js";
@@ -7,7 +7,8 @@ import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { exploreRepository } from "../explore/explore.repository.js";
 import { exploreService } from "../explore/explore.service.js";
-import { planRepository } from "./plan.repository.js";
+import { spendingRepository } from "../spending/spending.repository.js";
+import { MAX_GOALS, planRepository, type GoalRow } from "./plan.repository.js";
 import type { ProposeQuery } from "./plan.schema.js";
 
 const MIN_START_SAVING_RATE = 0.05; // kế hoạch khởi điểm: giữ chi tiêu như cũ và để dành phần còn lại (tối thiểu 5% thu nhập)
@@ -16,6 +17,15 @@ const WEEKS_PER_MONTH = 4.33;
 const round = (n: number) => Math.round(n);
 
 const NAMES: Record<1 | 2 | 3, string> = { 1: "Regular essentials", 2: "Unexpected necessities", 3: "Everyday spending" };
+const addDays = (iso: string, n: number) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+const asGoal = (g: GoalRow): Goal => ({
+  ...g,
+  monthsAtThisPace: g.targetAmount !== null && g.monthlyAmount > 0 ? Math.ceil(g.targetAmount / g.monthlyAmount) : null,
+});
 
 export const planService = {
   /** Dựng kế hoạch từ 6 tháng gần nhất. Chỉ đề xuất; người dùng bấm Save plan thì mới ghi (LLM không ghi vào database). */
@@ -89,7 +99,7 @@ export const planService = {
 
     const lean = variable ? ` Your income varies from ${eur0(income.minMonthlyIncome)} to ${eur0(income.maxMonthlyIncome)} a month, so keep a little aside in the good months.` : "";
     const note = feasible
-      ? `${goalAmount === null ? "A starting plan: keep spending the way you do now and save what is left. Tell me a goal and a time for a stronger plan. " : "A plan from your last six months, not a promise. "}Press Save plan to keep it and follow it on the Overview.${lean}`
+      ? `${goalAmount === null ? "A starting plan: keep spending the way you do now and save what is left. Tell me a goal and a time for a stronger plan. " : "A plan from your last six months, not a promise. "}Press Add to my plans to keep it; you can change or delete it later.${lean}`
       : free - saving < 0
         ? "Your usual bills, surprises and this saving add up to more than your pay, so a spending limit cannot be set."
         : `The everyday limit would be ${round(cutNeeded * 100)}% below what you usually spend, which is a big change. Try a longer time or a smaller goal.`;
@@ -117,79 +127,127 @@ export const planService = {
     };
   },
 
-  async save(customerId: string, draft: PlanDraft): Promise<SavedPlan> {
-    const customer = await customersRepository.findWithStats(customerId);
-    if (!customer) throw new HttpError(404, `Customer ${customerId} not found`);
-    return planRepository.upsert(customerId, draft);
+  /** Goals, the weekly limit and how this month is going: one place for the Overview, the plans screen and the chat. */
+  async overview(customerId: string): Promise<PlansOverview> {
+    await ensureCustomer(customerId);
+    const from = addDays(TODAY, -6);
+    const [goals, limit, summary, incomeRows, week] = await Promise.all([
+      planRepository.goals(customerId),
+      planRepository.weeklyLimit(customerId),
+      basketsService.getSummary(customerId),
+      exploreRepository.monthlyIncome(customerId, monthStart(0), monthStart(1)),
+      spendingRepository.total({ customerId, from, to: addDays(TODAY, 1), basket: 3, category: undefined, mcc: undefined }),
+    ]);
+    const everydayAvg = summary.baskets.find((b) => b.id === 3)?.avg6m ?? 0;
+    const spent = round(week.total);
+    const weeklyLimit = limit === null ? null : { amount: round(limit), spent, remaining: round(Math.max(0, limit - spent)), pct: limit > 0 ? round((spent / limit) * 100) : 0, from, to: TODAY };
+    const target = round(goals.reduce((s, g) => s + g.monthlyAmount, 0));
+    const setAside = { thisMonth: round(Math.max(0, incomeRows[0]?.invested ?? 0)), target };
+    const status: PlansOverview["status"] = !weeklyLimit && goals.length === 0 ? "none" : !weeklyLimit ? "on_track" : weeklyLimit.pct > 100 ? "over" : weeklyLimit.pct >= 85 ? "watch" : "on_track";
+    const message =
+      status === "none"
+        ? "No plans yet. Add a goal, or ask the coach for a plan."
+        : !weeklyLimit
+          ? "You have no weekly limit yet."
+          : status === "over"
+            ? `Over this week's limit: ${eur0(weeklyLimit.spent)} of ${eur0(weeklyLimit.amount)} spent in the last 7 days.`
+            : status === "watch"
+              ? `Close to this week's limit: ${eur0(weeklyLimit.remaining)} left.`
+              : `On track: ${eur0(weeklyLimit.remaining)} left of this week's ${eur0(weeklyLimit.amount)}.`;
+    return { asOf: TODAY, goals: goals.map(asGoal), weeklyLimit, suggestedWeeklyLimit: round(everydayAvg / WEEKS_PER_MONTH), setAside, status, message };
+  },
+
+  async addGoal(customerId: string, g: Omit<GoalRow, "id" | "createdAt">) {
+    await ensureCustomer(customerId);
+    if ((await planRepository.goals(customerId)).length >= MAX_GOALS) throw new HttpError(400, `You can have up to ${MAX_GOALS} goals. Delete one first.`);
+    return asGoal(await planRepository.addGoal(customerId, g));
+  },
+
+  async updateGoal(customerId: string, id: number, g: Partial<Omit<GoalRow, "id" | "createdAt">>) {
+    const r = await planRepository.updateGoal(customerId, id, g);
+    if (!r) throw new HttpError(404, "Goal not found");
+    return asGoal(r);
+  },
+
+  async removeGoal(customerId: string, id: number) {
+    if (!(await planRepository.removeGoal(customerId, id))) throw new HttpError(404, "Goal not found");
+  },
+
+  async setWeeklyLimit(customerId: string, amount: number) {
+    await ensureCustomer(customerId);
+    await planRepository.setWeeklyLimit(customerId, round(amount));
+  },
+
+  async removeWeeklyLimit(customerId: string) {
+    await planRepository.removeWeeklyLimit(customerId);
   },
 
   /**
-   * Hạ trần của một giỏ trong kế hoạch đã lưu (chưa có thì dùng kế hoạch khởi điểm) và cộng phần bớt đó vào khoản để dành mỗi tháng.
-   * Chỉ chạy khi khách bấm nút trên một thẻ gợi ý.
+   * "Add to my plans" on a coach plan: a goal (added, or updated when a goal with the same name exists) and the weekly limit.
+   * Always says what changed, so nothing is overwritten silently.
    */
-  async applyCap(customerId: string, basket: 1 | 2 | 3, reduceBy: number) {
-    const existing = await planRepository.get(customerId);
-    const base: PlanDraft = existing ?? (await this.propose({ customerId, goalType: "savings" })).draft;
-    const key = basket === 1 ? "capEssentials" : basket === 2 ? "capUnexpected" : "capEveryday";
-    const newCap = Math.max(0, base[key] - reduceBy);
-    const delta = base[key] - newCap;
-    const saved = await planRepository.upsert(customerId, { ...base, [key]: newCap, monthlySaving: base.monthlySaving + delta });
-    return { plan: saved, appliedReduceBy: delta, createdNewPlan: !existing, basketName: NAMES[basket] };
-  },
-
-  async get(customerId: string) {
-    return planRepository.get(customerId);
-  },
-
-  /** Tháng này so với kế hoạch đã lưu. */
-  async progress(customerId: string): Promise<PlanProgressResponse & { card?: FactsCard }> {
-    const [plan, summary, incomeRows] = await Promise.all([
-      planRepository.get(customerId),
-      basketsService.getSummary(customerId),
-      exploreRepository.monthlyIncome(customerId, monthStart(0), monthStart(1)),
-    ]);
-    const month = summary.month;
-    if (!plan) {
-      return {
-        asOf: TODAY,
-        month,
-        plan: null,
-        baskets: [],
-        saving: { target: 0, actual: 0, pct: 0 },
-        weeklyEverydayAllowance: 0,
-        status: "on_track",
-        message: "No saved plan yet. Ask for a spending plan and press Save plan.",
-      };
+  async saveDraft(customerId: string, draft: PlanDraft): Promise<PlanChangeResult> {
+    await ensureCustomer(customerId);
+    const existing = (await planRepository.goals(customerId)).find((g) => g.name.toLowerCase() === draft.goalLabel.toLowerCase());
+    const fields = { name: draft.goalLabel, kind: draft.goalType, targetAmount: draft.goalAmount, months: draft.months, monthlyAmount: round(draft.monthlySaving) };
+    const parts: string[] = [];
+    if (existing) {
+      await planRepository.updateGoal(customerId, existing.id, fields);
+      parts.push(`Updated your goal "${draft.goalLabel}" to ${eur0(fields.monthlyAmount)} a month (it was ${eur0(existing.monthlyAmount)}).`);
+    } else {
+      await this.addGoal(customerId, fields);
+      parts.push(`Added the goal "${draft.goalLabel}": ${eur0(fields.monthlyAmount)} a month.`);
     }
-    const caps: Record<1 | 2 | 3, number> = { 1: plan.capEssentials, 2: plan.capUnexpected, 3: plan.capEveryday };
-    const baskets = summary.baskets.map((b) => ({
-      id: b.id,
-      name: NAMES[b.id],
-      cap: caps[b.id],
-      spent: round(b.spent),
-      pct: caps[b.id] > 0 ? round((b.spent / caps[b.id]) * 100) : b.spent > 0 ? 999 : 0,
-    }));
-    const invested = Math.max(0, incomeRows[0]?.invested ?? 0);
-    const saving = { target: plan.monthlySaving, actual: round(invested), pct: plan.monthlySaving > 0 ? round((invested / plan.monthlySaving) * 100) : 0 };
-    const everyday = baskets.find((b) => b.id === 3)!;
-    const worst = Math.max(...baskets.map((b) => b.pct));
-    const status = everyday.pct > 100 || baskets[0].pct > 105 ? "over" : worst >= 85 ? "watch" : "on_track";
-    const message =
-      status === "over"
-        ? `Everyday spending is at ${everyday.pct}% of your cap (${eur0(everyday.spent)} of ${eur0(everyday.cap)}).`
-        : status === "watch"
-          ? `Close to the limit: everyday spending is at ${everyday.pct}% of your cap.`
-          : `On track: everyday spending is at ${everyday.pct}% of your cap.`;
-    const card: FactsCard = {
-      type: "facts",
-      title: "How you are doing against your plan",
-      headline: { label: message, value: `${everyday.pct}%` },
-      rows: [
-        ...baskets.map((b) => ({ label: b.name, value: `${eur0(b.spent)} of ${eur0(b.cap)} (${b.pct}%)`, tone: b.pct > 100 ? ("warn" as const) : undefined })),
-        { label: "Saved this month", value: `${eur0(saving.actual)} of ${eur0(saving.target)}`, tone: saving.pct >= 100 ? ("good" as const) : undefined },
-        { label: "Everyday allowance per week", value: eur0(plan.capEveryday / WEEKS_PER_MONTH) },
-      ],
-    };
-    return { asOf: TODAY, month, plan, baskets, saving, weeklyEverydayAllowance: round(plan.capEveryday / WEEKS_PER_MONTH), status, message, card };
+    const weekly = round(draft.capEveryday / WEEKS_PER_MONTH);
+    const before = await planRepository.weeklyLimit(customerId);
+    if (weekly > 0 && before !== weekly) {
+      await planRepository.setWeeklyLimit(customerId, weekly);
+      parts.push(before === null ? `Set your weekly limit to ${eur0(weekly)}.` : `Changed your weekly limit from ${eur0(before)} to ${eur0(weekly)}.`);
+    }
+    return { message: parts.join(" "), overview: await this.overview(customerId) };
+  },
+
+  /**
+   * "Apply to my plan" on a suggestion (spend X less per month in a basket). Everyday spending lowers the weekly limit;
+   * for bills and surprises the amount goes into a goal. Only runs when the customer taps the button.
+   */
+  async applyCap(customerId: string, basket: 1 | 2 | 3, reduceBy: number): Promise<PlanChangeResult> {
+    const ov = await this.overview(customerId);
+    const parts: string[] = [];
+    if (basket === 3) {
+      const current = ov.weeklyLimit?.amount ?? ov.suggestedWeeklyLimit;
+      const next = Math.max(20, current - round(reduceBy / WEEKS_PER_MONTH));
+      await planRepository.setWeeklyLimit(customerId, next);
+      parts.push(`Your weekly limit for everyday spending is now ${eur0(next)} (it was ${eur0(current)}).`);
+    }
+    const first = ov.goals[0];
+    if (first) {
+      await planRepository.updateGoal(customerId, first.id, { monthlyAmount: first.monthlyAmount + round(reduceBy) });
+      parts.push(`The ${eur0(reduceBy)} a month you free up goes to "${first.name}": now ${eur0(first.monthlyAmount + round(reduceBy))} a month.`);
+    } else {
+      await this.addGoal(customerId, { name: "Savings goal", kind: "savings", targetAmount: null, months: null, monthlyAmount: round(reduceBy) });
+      parts.push(`Started a goal "Savings goal" with ${eur0(reduceBy)} a month.`);
+    }
+    return { message: parts.join(" "), overview: await this.overview(customerId) };
+  },
+
+  /** For the chat: how the customer is doing against their plans, as a card. */
+  async progress(customerId: string) {
+    const ov = await this.overview(customerId);
+    if (ov.goals.length === 0 && !ov.weeklyLimit) return { hasPlan: false as const, message: ov.message };
+    const rows: FactsCard["rows"] = [
+      ...ov.goals.map((g) => ({ label: `Goal: ${g.name}`, value: `${eur0(g.monthlyAmount)} a month${g.targetAmount ? ` toward ${eur0(g.targetAmount)}` : ""}` })),
+      ...(ov.weeklyLimit
+        ? [{ label: "Everyday spending, last 7 days", value: `${eur0(ov.weeklyLimit.spent)} of ${eur0(ov.weeklyLimit.amount)}`, tone: ov.weeklyLimit.pct > 100 ? ("warn" as const) : undefined }]
+        : []),
+      ...(ov.setAside.target > 0 ? [{ label: "Set aside this month", value: `${eur0(ov.setAside.thisMonth)} of ${eur0(ov.setAside.target)}`, tone: ov.setAside.thisMonth >= ov.setAside.target ? ("good" as const) : undefined }] : []),
+    ];
+    const card: FactsCard = { type: "facts", title: "How you are doing against your plans", headline: { label: ov.message, value: ov.weeklyLimit ? `${ov.weeklyLimit.pct}%` : `${ov.goals.length}` }, rows };
+    return { hasPlan: true as const, overview: ov, message: ov.message, card };
   },
 };
+
+async function ensureCustomer(customerId: string) {
+  const c = await customersRepository.findWithStats(customerId);
+  if (!c) throw new HttpError(404, `Customer ${customerId} not found`);
+}

@@ -7,6 +7,7 @@ import { IconArrowLeft, IconChat } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { BasketScreen } from "./screens/BasketScreen";
+import { PlansScreen } from "./screens/PlansScreen";
 import { CategoryScreen } from "./screens/CategoryScreen";
 import { ForecastScreen } from "./screens/ForecastScreen";
 import { HomeScreen } from "./screens/HomeScreen";
@@ -137,6 +138,8 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
           <CategoryScreen customerId={customerId} category={screen.category} nav={nav} />
         ) : screen.name === "basket" ? (
           <BasketScreen customerId={customerId} basket={screen.basket} nav={nav} />
+        ) : screen.name === "plans" ? (
+          <PlansScreen customerId={customerId} nav={nav} />
         ) : screen.name === "forecast" ? (
           <ForecastScreen customerId={customerId} nav={nav} />
         ) : (

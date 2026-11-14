@@ -1,51 +1,74 @@
-import type { SavedPlan } from "@sbank/shared";
 import { db } from "../../db/kysely.js";
 
-type Draft = Omit<SavedPlan, "createdAt">;
+export interface GoalRow {
+  id: number;
+  name: string;
+  kind: "home" | "savings";
+  targetAmount: number | null;
+  months: number | null;
+  monthlyAmount: number;
+  createdAt: string;
+}
 
-const toSaved = (r: {
-  goal_type: string; goal_label: string; goal_amount: number | null; months: number | null; monthly_saving: number;
-  cap_essentials: number; cap_unexpected: number; cap_everyday: number; created_at: Date | string;
-}): SavedPlan => ({
-  goalType: r.goal_type === "home" ? "home" : "savings",
-  goalLabel: r.goal_label,
-  goalAmount: r.goal_amount,
+const toGoal = (r: { id: number; name: string; kind: string; target_amount: number | null; months: number | null; monthly_amount: number; created_at: Date | string }): GoalRow => ({
+  id: r.id,
+  name: r.name,
+  kind: r.kind === "home" ? "home" : "savings",
+  targetAmount: r.target_amount,
   months: r.months,
-  monthlySaving: r.monthly_saving,
-  capEssentials: r.cap_essentials,
-  capUnexpected: r.cap_unexpected,
-  capEveryday: r.cap_everyday,
+  monthlyAmount: r.monthly_amount,
   createdAt: new Date(r.created_at).toISOString(),
 });
 
+export const MAX_GOALS = 8;
+
 export const planRepository = {
-  async get(customerId: string): Promise<SavedPlan | null> {
-    const r = await db.selectFrom("plans").selectAll().where("customer_id", "=", customerId).executeTakeFirst();
-    return r ? toSaved(r) : null;
+  async goals(customerId: string): Promise<GoalRow[]> {
+    const rows = await db.selectFrom("goals").selectAll().where("customer_id", "=", customerId).orderBy("id").execute();
+    return rows.map(toGoal);
   },
 
-  /** Mỗi khách một kế hoạch: lưu mới thì thay kế hoạch cũ. */
-  async upsert(customerId: string, p: Draft): Promise<SavedPlan> {
-    const values = {
-      goal_type: p.goalType,
-      goal_label: p.goalLabel,
-      goal_amount: p.goalAmount,
-      months: p.months,
-      monthly_saving: p.monthlySaving,
-      cap_essentials: p.capEssentials,
-      cap_unexpected: p.capUnexpected,
-      cap_everyday: p.capEveryday,
-    };
+  async addGoal(customerId: string, g: Omit<GoalRow, "id" | "createdAt">): Promise<GoalRow> {
     const r = await db
-      .insertInto("plans")
-      .values({ customer_id: customerId, ...values })
-      .onConflict((oc) => oc.column("customer_id").doUpdateSet({ ...values, created_at: new Date() }))
+      .insertInto("goals")
+      .values({ customer_id: customerId, name: g.name, kind: g.kind, target_amount: g.targetAmount, months: g.months, monthly_amount: g.monthlyAmount })
       .returningAll()
       .executeTakeFirstOrThrow();
-    return toSaved(r);
+    return toGoal(r);
   },
 
-  async remove(customerId: string) {
-    await db.deleteFrom("plans").where("customer_id", "=", customerId).execute();
+  /** Only the fields given are changed. Returns null when the goal is not this customer's. */
+  async updateGoal(customerId: string, id: number, g: Partial<Omit<GoalRow, "id" | "createdAt">>): Promise<GoalRow | null> {
+    const set: Record<string, unknown> = {};
+    if (g.name !== undefined) set.name = g.name;
+    if (g.kind !== undefined) set.kind = g.kind;
+    if (g.targetAmount !== undefined) set.target_amount = g.targetAmount;
+    if (g.months !== undefined) set.months = g.months;
+    if (g.monthlyAmount !== undefined) set.monthly_amount = g.monthlyAmount;
+    if (Object.keys(set).length === 0) return (await this.goals(customerId)).find((x) => x.id === id) ?? null;
+    const r = await db.updateTable("goals").set(set).where("customer_id", "=", customerId).where("id", "=", id).returningAll().executeTakeFirst();
+    return r ? toGoal(r) : null;
+  },
+
+  async removeGoal(customerId: string, id: number): Promise<boolean> {
+    const r = await db.deleteFrom("goals").where("customer_id", "=", customerId).where("id", "=", id).executeTakeFirst();
+    return Number(r.numDeletedRows) > 0;
+  },
+
+  async weeklyLimit(customerId: string): Promise<number | null> {
+    const r = await db.selectFrom("weekly_limits").select("amount").where("customer_id", "=", customerId).executeTakeFirst();
+    return r ? r.amount : null;
+  },
+
+  async setWeeklyLimit(customerId: string, amount: number) {
+    await db
+      .insertInto("weekly_limits")
+      .values({ customer_id: customerId, amount })
+      .onConflict((oc) => oc.column("customer_id").doUpdateSet({ amount, updated_at: new Date() }))
+      .execute();
+  },
+
+  async removeWeeklyLimit(customerId: string) {
+    await db.deleteFrom("weekly_limits").where("customer_id", "=", customerId).execute();
   },
 };

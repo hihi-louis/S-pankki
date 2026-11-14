@@ -100,11 +100,11 @@ export const coachService = {
    * Hóa đơn thường lệ (tiền nhà, tiền điện...) rơi vào đúng ngày hay trả; phần còn lại rải đều. Đây là ước lượng từ trung bình, không phải giao dịch tương lai thật.
    */
   async forecast(customerId: string): Promise<ForecastResponse> {
-    const [s, rec, safe, plan] = await Promise.all([
+    const [s, rec, safe, weeklyLimit] = await Promise.all([
       basketsService.getSummary(customerId),
       exploreService.recurring(customerId),
       this.safeToSpend(customerId),
-      planRepository.get(customerId),
+      planRepository.weeklyLimit(customerId),
     ]);
     const avg = (id: 1 | 2 | 3) => s.baskets.find((b) => b.id === id)!.avg6m;
     const days = Math.max(1, safe.daysLeft);
@@ -115,9 +115,9 @@ export const coachService = {
     };
     // Hóa đơn thiết yếu thường lệ đến hạn trong khoảng (hôm nay, kỳ lương]; phần thiết yếu còn lại chia đều (cùng cách tính với safe-to-spend)
     const { due: bills, smoothPerDay: smoothEssentials } = essentialsUntilPayday(avg(1), rec, days, safe.nextPayday.date);
-    const billsMonthly = rec.items.filter((i) => ESSENTIAL_CATEGORIES.has(i.category)).reduce((a, i) => a + i.avgMonthly, 0);
     const usualPerDay = smoothEssentials + (avg(2) + avg(3)) / 30;
-    const planPerDay = plan ? Math.max(0, plan.capEssentials - billsMonthly) / 30 + (plan.capUnexpected + plan.capEveryday) / 30 : null;
+    // With a weekly limit: essentials as usual, surprises as usual, everyday spending at the limit
+    const planPerDay = weeklyLimit !== null ? smoothEssentials + avg(2) / 30 + weeklyLimit / 7 : null;
     const safeSmooth = smoothEssentials + safe.perDay; // chi thiết yếu rải đều cộng mức an toàn mỗi ngày
     const billsUpTo = (date: string) => bills.filter((b) => b.date <= date).reduce((a, b) => a + b.amount, 0);
     const r2 = (n: number) => Math.round(n * 100) / 100;
@@ -144,7 +144,7 @@ export const coachService = {
       safePerDay: safe.perDay,
       shortfall: safe.shortfall,
       usualPerDay: r2(avg(2) / 30 + avg(3) / 30),
-      planPerDay: plan ? r2(plan.capEveryday / 30) : null,
+      planPerDay: weeklyLimit !== null ? r2(weeklyLimit / 7) : null,
       endUsual: last.usual,
       endPlan: last.plan,
       runsOutOn: runsOut,

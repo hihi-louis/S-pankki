@@ -66,21 +66,48 @@ export interface PlanDraft {
   capEveryday: number;
 }
 
-export interface SavedPlan extends PlanDraft {
+/** One thing the customer is saving for. A customer can have several. */
+export interface Goal {
+  id: number;
+  name: string;
+  kind: "home" | "savings";
+  targetAmount: number | null;
+  /** Months the customer gave to reach it, or null. */
+  months: number | null;
+  monthlyAmount: number;
+  /** Months to reach the target at the monthly amount, counted from today; null without a target. */
+  monthsAtThisPace: number | null;
   createdAt: string;
 }
 
-/** How this month is going against the saved plan. `plan` is null when the customer has none. */
-export interface PlanProgressResponse {
+/** What the customer may spend each week on everyday things (restaurants, fun, shopping, taxis). One per customer. */
+export interface WeeklyLimit {
+  amount: number;
+  /** Spent in the last 7 days. */
+  spent: number;
+  remaining: number;
+  pct: number;
+  from: string;
+  to: string;
+}
+
+/** The customer's plans: goals, one weekly limit, and how this month is going. */
+export interface PlansOverview {
   asOf: string;
-  month: string;
-  plan: SavedPlan | null;
-  baskets: { id: 1 | 2 | 3; name: string; cap: number; spent: number; pct: number }[];
-  saving: { target: number; actual: number; pct: number };
-  /** Everyday-spending cap divided into weeks. */
-  weeklyEverydayAllowance: number;
-  status: "on_track" | "watch" | "over";
+  goals: Goal[];
+  weeklyLimit: WeeklyLimit | null;
+  /** A weekly limit that matches what the customer usually spends (shown when none is set). */
+  suggestedWeeklyLimit: number;
+  /** Set aside this month (from "invest deposit" transactions) against the sum of the monthly goal amounts. */
+  setAside: { thisMonth: number; target: number };
+  status: "none" | "on_track" | "watch" | "over";
   message: string;
+}
+
+/** What happened when a coach plan was saved or applied: said in plain words, never silent. */
+export interface PlanChangeResult {
+  message: string;
+  overview: PlansOverview;
 }
 
 /**

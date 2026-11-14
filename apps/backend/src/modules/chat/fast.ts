@@ -133,14 +133,14 @@ const RULES: { re: RegExp; run: Run }[] = [
       const r = await planService.propose({ customerId: id, goalType: "savings" });
       c.add("propose_plan", r);
       if (!r.feasible) return `${r.note} Tell me a goal and a time and I will look for something that works.`;
-      return `Here is a starting plan: save ${m2(r.draft.monthlySaving)} a month and keep everyday spending near ${m2(r.draft.capEveryday)}. Press Save plan on the card to keep it. Give me a goal and a time for a stronger plan.`;
+      return `Here is a starting plan: save ${m2(r.draft.monthlySaving)} a month and keep everyday spending near ${m2(r.draft.capEveryday)}. Press Add to my plans on the card to keep it. Give me a goal and a time for a stronger plan.`;
     },
   },
   {
     re: /^how am i doing against my plan$/,
     run: async (id, c) => {
       const r = await planService.progress(id);
-      if (!r.plan) return "You do not have a saved plan yet. Ask me for a spending plan and press Save plan to keep it.";
+      if (!r.hasPlan) return "You do not have a plan yet. Ask me for a spending plan and press Add to my plans to keep it.";
       c.add("plan_progress", r);
       return r.message;
     },
