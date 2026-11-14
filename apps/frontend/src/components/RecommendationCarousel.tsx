@@ -42,7 +42,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     if (items.length < 2 || reduced()) return;
     const el = track.current;
     if (!el) return;
-    const SPEED = 28; // pixels per second
+    const SPEED = 180; // pixels per second: about 2 seconds per card
     let dir = 1;
     let pos = el.scrollLeft;
     let last = performance.now();
