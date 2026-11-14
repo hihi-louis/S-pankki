@@ -76,3 +76,38 @@ export const exploreRepository = {
       .execute();
   },
 };
+
+export const exploreExtras = {
+  /** Các giao dịch chi lớn nhất của một danh mục trong khoảng [from, to). */
+  async biggest(customerId: string, from: string, to: string, category: string, limit = 5) {
+    return db
+      .selectFrom("transactions")
+      .select(["tx_date as date", "amount", "merchant_id as merchantId", sql<number | null>`mcc_code`.as("mcc")])
+      .where("customer_id", "=", customerId)
+      .where("tx_date", ">=", from)
+      .where("tx_date", "<", to)
+      .where("basket", ">", 0)
+      .where(sql`lower(category)`, "=", category.toLowerCase())
+      .orderBy("amount")
+      .limit(limit)
+      .execute();
+  },
+
+  /** Mỗi danh mục thuộc giỏ nào (giỏ chiếm nhiều chi tiêu nhất của khách trong khoảng thời gian). */
+  async basketByCategory(customerId: string, from: string, to: string) {
+    const rows = await db
+      .selectFrom("monthly_spend")
+      .select(["category", "basket", sql<number>`SUM(spent)`.as("spent")])
+      .where("customer_id", "=", customerId)
+      .where("month", ">=", from)
+      .where("month", "<", to)
+      .groupBy(["category", "basket"])
+      .execute();
+    const best = new Map<string, { basket: number; spent: number }>();
+    for (const r of rows) {
+      const cur = best.get(r.category);
+      if (!cur || r.spent > cur.spent) best.set(r.category, { basket: r.basket, spent: r.spent });
+    }
+    return new Map([...best].map(([c, v]) => [c, v.basket as 1 | 2 | 3]));
+  },
+};

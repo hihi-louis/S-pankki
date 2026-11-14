@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { planCustomerSchema, proposeQuerySchema, savePlanBodySchema } from "./plan.schema.js";
+import { applyCapBodySchema, planCustomerSchema, proposeQuerySchema, savePlanBodySchema } from "./plan.schema.js";
 import { planService } from "./plan.service.js";
 
 /** Gắn tại /plan */
@@ -19,6 +19,16 @@ planRouter.put("/", async (req, res, next) => {
   try {
     const { customerId, plan } = savePlanBodySchema.parse(req.body);
     res.json(await planService.save(customerId, plan));
+  } catch (e) {
+    next(e);
+  }
+});
+
+/** Khách bấm "Apply to my plan" trên một gợi ý: hạ trần của giỏ và tăng khoản để dành tương ứng. */
+planRouter.post("/apply", async (req, res, next) => {
+  try {
+    const { customerId, basket, reduceBy } = applyCapBodySchema.parse(req.body);
+    res.json(await planService.applyCap(customerId, basket, reduceBy));
   } catch (e) {
     next(e);
   }

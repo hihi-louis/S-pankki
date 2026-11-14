@@ -112,3 +112,19 @@ The dataset has no customer names, so the app greets the customer by ID. `404` i
 ```json
 { "customerId": "CUST05020", "age": 21, "postalCode": "00708" }
 ```
+
+## The story flow (Overview, insight story, category, forecast)
+
+The Overview tells the month as: snapshot, what stands out, what is coming, your plan. All of these are computed from the data (no LLM).
+
+| endpoint | returns |
+|---|---|
+| `GET /snapshot?customerId=` | `Snapshot`: spent vs usual, income, net, and every category with `now`, `usual`, `diffPct` |
+| `GET /category?customerId=&category=` | `CategoryDive`: 7-month trend, where it went (shops), largest purchases, peers when comparable |
+| `GET /insights/:id?customerId=` | `InsightStory`: `happened`, `why`, `means`, `next.actions[]` (what happened, why, what it means, what to do) |
+| `GET /coach/forecast?customerId=` | `ForecastResponse`: estimated balance per day until payday (usual pace, saved plan, safe pace) and the regular bills in between |
+| `POST /plan/apply` `{customerId, basket, reduceBy}` | Lowers a basket cap in the saved plan (creates a starting plan first if none) and raises the monthly saving by the same amount |
+
+`why` lists the biggest items (shops, purchases): they show what the money went to, not the customer's reason.
+`StoryAction.apply` is only ever run by the customer's tap on "Apply to my plan"; `link` opens another screen.
+Insight ids are `spike-<Category>`, `drop-<Category>`, `runway-ok|runway-short`, `income-variable`, `saving-habit`, `peer-<key>`, `fixed-costs`.

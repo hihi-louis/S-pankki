@@ -123,6 +123,20 @@ export const planService = {
     return planRepository.upsert(customerId, draft);
   },
 
+  /**
+   * Hạ trần của một giỏ trong kế hoạch đã lưu (chưa có thì dùng kế hoạch khởi điểm) và cộng phần bớt đó vào khoản để dành mỗi tháng.
+   * Chỉ chạy khi khách bấm nút trên một thẻ gợi ý.
+   */
+  async applyCap(customerId: string, basket: 1 | 2 | 3, reduceBy: number) {
+    const existing = await planRepository.get(customerId);
+    const base: PlanDraft = existing ?? (await this.propose({ customerId, goalType: "savings" })).draft;
+    const key = basket === 1 ? "capEssentials" : basket === 2 ? "capUnexpected" : "capEveryday";
+    const newCap = Math.max(0, base[key] - reduceBy);
+    const delta = base[key] - newCap;
+    const saved = await planRepository.upsert(customerId, { ...base, [key]: newCap, monthlySaving: base.monthlySaving + delta });
+    return { plan: saved, appliedReduceBy: delta, createdNewPlan: !existing, basketName: NAMES[basket] };
+  },
+
   async get(customerId: string) {
     return planRepository.get(customerId);
   },

@@ -1,4 +1,4 @@
-import type { ChatRequest, ChatResponse, CustomerProfile, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, SummaryResponse } from "@sbank/shared";
+import type { CategoryDive, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
 
 // "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
 // localhost, on a teammate's device and through a tunnel with a single port.
@@ -121,3 +121,26 @@ export const getPlanProgress = (customerId: string) =>
 /** Saves the plan on a card. Only the customer's button press calls this: the assistant never saves anything. */
 export const savePlan = (customerId: string, plan: PlanDraft) =>
   request<SavedPlan>("/plan", { method: "PUT", body: JSON.stringify({ customerId, plan }) });
+
+const q = encodeURIComponent;
+
+export const getSnapshot = (customerId: string) => request<Snapshot>(`/snapshot?customerId=${q(customerId)}`);
+
+export const getCategory = (customerId: string, category: string) =>
+  request<CategoryDive>(`/category?customerId=${q(customerId)}&category=${q(category)}`);
+
+export const getInsightStory = (customerId: string, id: string) =>
+  request<InsightStory>(`/insights/${q(id)}?customerId=${q(customerId)}`);
+
+export const getForecast = (customerId: string) => request<ForecastResponse>(`/coach/forecast?customerId=${q(customerId)}`);
+
+export interface ApplyCapResult {
+  plan: SavedPlan;
+  appliedReduceBy: number;
+  createdNewPlan: boolean;
+  basketName: string;
+}
+
+/** The customer tapped "Apply to my plan" on a suggestion: lower a basket limit and raise the monthly saving. */
+export const applyPlanCap = (customerId: string, basket: 1 | 2 | 3, reduceBy: number) =>
+  request<ApplyCapResult>("/plan/apply", { method: "POST", body: JSON.stringify({ customerId, basket, reduceBy }) });

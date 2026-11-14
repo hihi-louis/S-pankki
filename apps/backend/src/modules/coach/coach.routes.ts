@@ -23,6 +23,15 @@ coachRouter.get("/safe-to-save", async (req, res, next) => {
   }
 });
 
+coachRouter.get("/forecast", async (req, res, next) => {
+  try {
+    const { customerId } = coachQuerySchema.parse(req.query);
+    res.json(await coachService.forecast(customerId));
+  } catch (e) {
+    next(e);
+  }
+});
+
 coachRouter.get("/what-if", async (req, res, next) => {
   try {
     res.json(await coachService.whatIf(whatIfQuerySchema.parse(req.query)));

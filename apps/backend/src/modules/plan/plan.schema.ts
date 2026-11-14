@@ -24,4 +24,11 @@ export const planDraftSchema = z.object({
 });
 export const savePlanBodySchema = z.object({ customerId: customerIdSchema, plan: planDraftSchema });
 
+/** Hạ trần một giỏ khi khách bấm "Apply to my plan". */
+export const applyCapBodySchema = z.object({
+  customerId: customerIdSchema,
+  basket: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  reduceBy: z.number().positive().max(100_000),
+});
+
 export const planCustomerSchema = z.object({ customerId: customerIdSchema });

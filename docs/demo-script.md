@@ -2,11 +2,14 @@
 
 Open http://localhost:5173/ (or the tunnel URL). Log in with a customer ID; the chips under "Or try a demo customer" are the demo customers.
 
-## 1. The overview is proactive (CUST04488)
-- Overview: **For you** cards appear before anything is asked: groceries 1,961 € and restaurants 738 € above usual, safe to spend per day, saving habit.
-- Tap the restaurants card: the chat opens with the question already asked. This answer is a **suggested question**, so it costs no AI tokens.
+## 1. The month as a story (CUST04488)
+The Overview follows one narrative: **what happened, why, what it means, what to do next**.
+- **September at a glance:** spent 4,819 € against a usual 3,151 €; the category list shows groceries x6 and restaurants x61 vs usual.
+- Tap **Restaurants**: category deep dive with the 7-month trend, where the money went, the largest purchases and how peers compare.
+- Back, tap the **For you** card "Groceries is 1,961 € above usual": the four-step story. Step 2 lists the main drivers (shops and largest purchases), step 3 puts it in context (share of income, peers), step 4 offers limits with **Apply to my plan**. Press it: the plan is created and the saving goes up.
+- **Looking ahead:** the safe spending forecast draws the balance day by day until payday, with the rent landing on its usual day. Say that the safe line and the safe-to-spend number come from the same calculation.
 
-## 2. Free-form chat that explains itself (CUST05020, Aino)
+## 2. Free-form chat that explains itself (CUST05020)
 - Ask: "Which shops do I spend the most at?" and "Am I spending more this month than last month?".
 - Point at the line **Numbers checked against your data** and open **How I calculated this** (formula, data used, source).
 - Say: the model never produces a number; it only writes sentences around tool results, and every amount and percentage is re-checked before it is shown.

@@ -9,6 +9,7 @@ import { exploreRouter } from "./modules/explore/explore.routes.js";
 import { insightsRouter } from "./modules/insights/insights.routes.js";
 import { mortgageRouter } from "./modules/mortgage/mortgage.routes.js";
 import { planRouter } from "./modules/plan/plan.routes.js";
+import { storyRouter } from "./modules/story/story.routes.js";
 import { spendingRouter } from "./modules/spending/spending.routes.js";
 
 export const router = Router();
@@ -25,6 +26,7 @@ router.use("/coach", coachRouter);
 router.use("/explore", exploreRouter);
 router.use("/benchmark", benchmarkRouter);
 router.use("/insights", insightsRouter);
+router.use("/", storyRouter);
 router.use("/mortgage", mortgageRouter);
 router.use("/plan", planRouter);
 router.use("/chat", chatRouter);

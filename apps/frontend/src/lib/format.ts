@@ -29,6 +29,13 @@ export function txLabel(tx: { category: string; mcc?: string | null; merchantId?
   return tx.category;
 }
 
+/** "+12%", "-30%", or "x7" for very large rises (a 6,000% jump reads better as a multiple). */
+export function diffLabel(diffPct: number | null): string {
+  if (diffPct === null) return "new";
+  if (diffPct >= 500) return `x${Math.round(1 + diffPct / 100)}`;
+  return `${diffPct >= 0 ? "+" : "-"}${Math.abs(diffPct)}%`;
+}
+
 export const BASKET_EMOJI: Record<number, string> = { 1: "🏠", 2: "🔧", 3: "☕" };
 export const BASKET_HINT: Record<number, string> = {
   1: "Rent, bills and food. Money that has to go out every month.",

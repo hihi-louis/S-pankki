@@ -4,8 +4,12 @@ import { chatStream, getCustomer } from "./api";
 import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
+import { CategoryScreen } from "./screens/CategoryScreen";
+import { ForecastScreen } from "./screens/ForecastScreen";
 import { HomeScreen } from "./screens/HomeScreen";
+import { InsightStoryScreen } from "./screens/InsightStoryScreen";
 import { LoginScreen } from "./screens/LoginScreen";
+import type { Nav, Screen } from "./lib/nav";
 
 type Tab = "home" | "chat";
 
@@ -72,6 +76,7 @@ export default function App() {
 function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: () => void }) {
   const customerId = customer.customerId;
   const [tab, setTab] = useState<Tab>(START_TAB);
+  const [screen, setScreen] = useState<Screen>({ name: "home" });
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [busy, setBusy] = useState(false);
 
@@ -105,12 +110,21 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
     }
   }
 
+  const nav: Nav = { open: setScreen, back: () => setScreen({ name: "home" }), ask: (text) => void ask(text) };
+
   return (
     <div className="app">
       <header className="header">
         <span className="brand">S-Pankki</span>
         <nav className="tabs" role="tablist">
-          <button role="tab" aria-selected={tab === "home"} onClick={() => setTab("home")}>
+          <button
+            role="tab"
+            aria-selected={tab === "home"}
+            onClick={() => {
+              setTab("home");
+              setScreen({ name: "home" });
+            }}
+          >
             Overview
           </button>
           <button role="tab" aria-selected={tab === "chat"} onClick={() => setTab("chat")}>
@@ -127,7 +141,15 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
         </button>
       </div>
       {tab === "home" ? (
-        <HomeScreen customerId={customerId} onAsk={ask} />
+        screen.name === "insight" ? (
+          <InsightStoryScreen customerId={customerId} id={screen.id} nav={nav} />
+        ) : screen.name === "category" ? (
+          <CategoryScreen customerId={customerId} category={screen.category} nav={nav} />
+        ) : screen.name === "forecast" ? (
+          <ForecastScreen customerId={customerId} nav={nav} />
+        ) : (
+          <HomeScreen customerId={customerId} nav={nav} />
+        )
       ) : (
         <ChatScreen
           customerId={customerId}

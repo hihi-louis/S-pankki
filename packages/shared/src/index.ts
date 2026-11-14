@@ -175,6 +175,105 @@ export interface Insight {
   ask: string;
 }
 
+/** One step of an insight story: a sentence, optional rows and an optional chart. */
+export interface StoryStep {
+  title: string;
+  text: string;
+  rows?: { label: string; value: string; tone?: "good" | "warn" }[];
+  chart?: Chart;
+}
+
+/** Something the customer can do next. `apply` lowers a basket cap in the saved plan (the customer taps the button). */
+export interface StoryAction {
+  id: string;
+  label: string;
+  detail: string;
+  savingPerMonth?: number;
+  apply?: { basket: 1 | 2 | 3; reduceBy: number };
+  /** Opens another screen instead of changing the plan. */
+  link?: "forecast" | "plan";
+}
+
+/** What happened, why, what it means, what to do: the story behind one insight card. */
+export interface InsightStory {
+  id: string;
+  tone: Insight["tone"];
+  title: string;
+  happened: StoryStep;
+  why: StoryStep;
+  means: StoryStep;
+  next: { text: string; actions: StoryAction[] };
+  /** Question for the chat ("Ask AI about this"). */
+  askAI: string;
+}
+
+export interface CategoryRow {
+  category: string;
+  basket: 1 | 2 | 3;
+  now: number;
+  usual: number;
+  /** Percent above (+) or below (-) the 6-month average; null when there is no usual spending. */
+  diffPct: number | null;
+}
+
+/** The month at a glance. */
+export interface Snapshot {
+  month: string;
+  asOf: string;
+  income: number;
+  spent: number;
+  /** income - spent (income can arrive late in the month). */
+  net: number;
+  usualSpent: number;
+  vsUsualPct: number | null;
+  message: string;
+  categories: CategoryRow[];
+}
+
+/** One category in depth: trend, where the money went, the biggest purchases, and peers when comparable. */
+export interface CategoryDive {
+  category: string;
+  basket: 1 | 2 | 3;
+  basketName: string;
+  now: number;
+  usual: number;
+  diffPct: number | null;
+  trend: { label: string; value: number }[];
+  merchants: { label: string; spent: number; sharePct: number; count: number }[];
+  biggest: { date: string; amount: number; label: string }[];
+  peers: { you: number; peers: number; peerGroup: string; source: string } | null;
+}
+
+export interface ForecastPoint {
+  date: string;
+  /** Balance if the customer keeps spending as usual. */
+  usual: number;
+  /** Balance if the saved plan's caps are followed (null without a saved plan). */
+  plan: number | null;
+  /** Balance if the customer spends exactly the safe amount per day. */
+  safe: number;
+}
+
+/** Estimated balance until the next payday (from averages and regular bills, not from future transactions). */
+export interface ForecastResponse {
+  asOf: string;
+  balance: number;
+  nextPayday: { date: string; expected: number; estimated: boolean };
+  daysLeft: number;
+  points: ForecastPoint[];
+  bills: { date: string; label: string; amount: number }[];
+  safePerDay: number;
+  /** > 0 when, even with no everyday spending, the balance may fall short before payday. */
+  shortfall: number;
+  usualPerDay: number;
+  planPerDay: number | null;
+  endUsual: number;
+  endPlan: number | null;
+  /** First day the balance would go below zero at the usual pace, if any. */
+  runsOutOn: string | null;
+  note: string;
+}
+
 export interface InsightsResponse {
   asOf: string;
   insights: Insight[];
