@@ -53,8 +53,10 @@ async function trendOf(customerId: string, category: string) {
   return months.map((m) => ({ label: MONTH_NAMES[Number(m.slice(5, 7)) - 1].slice(0, 3), value: by.get(m.slice(0, 7)) ?? 0 }));
 }
 
+/** "MRC-RES-0049" becomes "Fast food & café #49": the real merchant names are not in the data. */
+const shopNo = (merchantId: string) => `#${Number(merchantId.split("-").pop()) || merchantId}`;
 const shopLabel = (mcc: number | null, merchantId: string | null, category: string) =>
-  merchantId ? `${mccLabel(mcc) ?? category} (${merchantId})` : `${category} (rent, bills or other)`;
+  merchantId ? `${mccLabel(mcc) ?? category} ${shopNo(merchantId)}` : `${category} (rent, bills or other)`;
 
 export const storyService = {
   /** Tháng ở một cái nhìn: tổng chi so với thường lệ, thu nhập, và các danh mục. */
@@ -73,7 +75,7 @@ export const storyService = {
     const message =
       vs === null
         ? `You spent ${eur0(spent)} in ${month}.`
-        : `You spent ${eur0(spent)} in ${month}. That is ${Math.abs(vs)}% ${vs >= 0 ? "more" : "less"} than a normal month (about ${eur0(usual)}).`;
+        : `You spent ${eur0(spent)} in ${month}, ${Math.abs(vs)}% ${vs >= 0 ? "more" : "less"} than a normal month.`;
     return { month: summary.month, asOf: TODAY, income: Math.round(income), spent: Math.round(spent), net: Math.round(income - spent), usualSpent: Math.round(usual), vsUsualPct: vs, message, categories };
   },
 

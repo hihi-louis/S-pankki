@@ -43,14 +43,14 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
           <div className="card">
             <ForecastChart points={data.points} />
             <ul className="fc-legend">
-              <li><span className="swatch fc-usual" />Usual pace: about {eur0(data.usualPerDay)} a day on everyday and unexpected things, ends at {eur0(data.endUsual)}</li>
+              <li><span className="swatch fc-usual" />Usual pace, about {eur0(data.usualPerDay)} a day: ends at {eur0(data.endUsual)}</li>
               {data.shortfall > 0 ? (
-                <li><span className="swatch fc-safe" />No safe pace: even with no everyday spending you may be {eur0(data.shortfall)} short before payday</li>
+                <li><span className="swatch fc-safe" />No safe pace: you may be {eur0(data.shortfall)} short even with no extras</li>
               ) : (
-                <li><span className="swatch fc-safe" />Safe pace: {eur0(data.safePerDay)} a day, ends close to 0 €</li>
+                <li><span className="swatch fc-safe" />Safe pace, {eur0(data.safePerDay)} a day: ends near €0</li>
               )}
               {data.planPerDay !== null && data.endPlan !== null && (
-                <li><span className="swatch fc-plan" />Your plan: {eur0(data.planPerDay)} a day on everyday spending, ends at {eur0(data.endPlan)}</li>
+                <li><span className="swatch fc-plan" />Your plan, {eur0(data.planPerDay)} a day: ends at {eur0(data.endPlan)}</li>
               )}
             </ul>
           </div>

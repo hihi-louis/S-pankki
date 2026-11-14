@@ -385,3 +385,66 @@ path.fc-plan { stroke: var(--green-700); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- Type scale: smaller and tighter, and no line breaks where there is room ---------- */
+body { font-size: 14px; line-height: 1.4; }
+.brand { font-size: 17px; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; }
+.h-display { font-size: 21px; margin: 4px 0 12px; text-wrap: balance; }
+.header { min-height: 56px; padding-top: calc(env(safe-area-inset-top) + 8px); padding-bottom: 8px; }
+.avatar { width: 38px; height: 38px; font-size: 13px; }
+.back-btn { width: 38px; height: 38px; }
+.header-title { font-size: 16px; }
+.home { gap: 20px; padding-top: 12px; }
+
+.rec { min-height: 196px; padding: 20px; border-radius: 24px; gap: 8px; }
+.rec-eyebrow { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-headline { font-size: 21px; line-height: 1.2; text-wrap: balance; }
+.rec-body { font-size: 14px; max-width: none; text-wrap: pretty; }
+.rec-cta { font-size: 14px; white-space: nowrap; }
+.carousel-count { top: 20px; font-size: 12px; white-space: nowrap; }
+.arrow { width: 40px; height: 40px; }
+
+.card { padding: 14px; }
+.card-big { font-size: 26px; white-space: nowrap; }
+.card-label, .card-sub { font-size: 12.5px; }
+.card-unit { font-size: 14px; }
+.snap-message { font-size: 14px; text-wrap: pretty; }
+.snap-num { font-size: 17px; white-space: nowrap; }
+.snap-tiles .card-sub { white-space: nowrap; }
+.glance-balance { gap: 12px; }
+.glance-pay { text-align: right; white-space: nowrap; }
+.glance-pay-date { font-size: 15px; }
+.cat-row { font-size: 14px; min-height: 40px; padding: 7px 0; grid-template-columns: 12px 1fr auto 48px; }
+.cat-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cat-amt, .cat-diff { white-space: nowrap; }
+
+.insight-title { font-size: 14.5px; }
+.insight-body { font-size: 12.5px; }
+.detail-title { font-size: 20px; text-wrap: balance; }
+.step-body h3 { font-size: 15px; }
+.step-body p { font-size: 14px; text-wrap: pretty; }
+.facts-row { font-size: 13px; }
+.msg { font-size: 14.5px; }
+.chip { font-size: 13px; min-height: 40px; padding: 8px 14px; }
+.fab { font-size: 15px; min-height: 52px; padding: 0 20px 0 16px; }
+.login h1 { font-size: 22px; }
+
+/* The track is wider than the card so the card's shadow is not cut off at the edges */
+.carousel-track { padding: 10px 16px 28px; margin: -10px -16px -28px; scroll-padding: 0 16px; }
+.rec { box-shadow: 0 10px 24px rgba(0, 70, 40, .2); }
+.rec-alert { box-shadow: 0 10px 24px rgba(183, 0, 0, .2); }
+.rec-tip { box-shadow: 0 10px 24px rgba(136, 86, 0, .2); }
+.cat-hint { margin: 12px 0 2px; font-size: 12.5px; color: var(--muted); }
+
+.carousel-track { gap: 16px; }
+.snap-line { font-weight: 700; font-size: 14px; margin-bottom: 10px; white-space: nowrap; }
+.snap-line.up { color: var(--error); }
+.snap-line.down { color: var(--green-700); }
+
+.detail { gap: 12px; }
+.back { min-height: 32px; padding: 4px 0; }
+.detail-title { margin: 0 0 4px; }
+.rec { box-shadow: 0 14px 18px -12px rgba(0, 70, 40, .35); }
+.rec-alert { box-shadow: 0 14px 18px -12px rgba(183, 0, 0, .35); }
+.rec-tip { box-shadow: 0 14px 18px -12px rgba(136, 86, 0, .35); }

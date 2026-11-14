@@ -144,5 +144,5 @@ export const exploreService = {
 };
 
 function merchantLabel(key: string, mcc: number | null) {
-  return `${mccLabel(mcc) ?? "Shop"} (${key})`;
+  return `${mccLabel(mcc) ?? "Shop"} #${Number(key.split("-").pop()) || key}`;
 }

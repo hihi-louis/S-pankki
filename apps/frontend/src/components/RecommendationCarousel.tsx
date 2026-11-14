@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import type { Recommendation } from "@sbank/shared";
 import { IconArrowLeft, IconArrowRight, IconBars } from "./Icons";
 
-const GAP = 12;
+const GAP = 16;
+/** Distance between two slides: the real slide width plus the gap. */
+const step = (el: HTMLElement) => ((el.firstElementChild as HTMLElement | null)?.offsetWidth ?? el.clientWidth) + GAP;
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 interface Props {
@@ -22,7 +24,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setIndex(Math.max(0, Math.min(items.length - 1, Math.round(el.scrollLeft / (el.clientWidth + GAP))))));
+      frame = requestAnimationFrame(() => setIndex(Math.max(0, Math.min(items.length - 1, Math.round(el.scrollLeft / step(el))))));
     };
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
@@ -35,7 +37,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     const el = track.current;
     if (!el) return;
     const next = Math.max(0, Math.min(items.length - 1, i));
-    el.scrollTo({ left: next * (el.clientWidth + GAP), behavior: reduced() ? "auto" : "smooth" });
+    el.scrollTo({ left: next * step(el), behavior: reduced() ? "auto" : "smooth" });
   }
 
   return (

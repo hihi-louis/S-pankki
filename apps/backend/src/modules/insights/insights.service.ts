@@ -11,7 +11,7 @@ const MONTHS = 6;
 const MAX_INSIGHTS = 4;
 const FIXED = new Set(["Housing", "Utilities"]); // khoản cố định, không coi là "tăng bất thường"
 
-const eur = (n: number) => `${Math.round(n).toLocaleString("en-IE")} €`;
+const eur = (n: number) => `€${Math.round(n).toLocaleString("en-IE")}`;
 const list = (xs: string[]) => new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(xs);
 const human = (category: string) => category.replace("&", "and").toLowerCase();
 

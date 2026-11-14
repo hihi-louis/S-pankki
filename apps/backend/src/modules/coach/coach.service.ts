@@ -148,7 +148,7 @@ export const coachService = {
       endUsual: last.usual,
       endPlan: last.plan,
       runsOutOn: runsOut,
-      note: "An estimate from your 6-month averages and your regular bills. It does not know about purchases you have not made yet.",
+      note: "Estimated from your 6-month averages and regular bills. Purchases you have not made yet are not included.",
     };
   },
 

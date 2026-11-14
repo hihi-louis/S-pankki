@@ -15,8 +15,8 @@ import type { ChatRequestBody } from "./chat.schema.js";
  * 0 token, vài chục mili-giây, kết quả luôn giống nhau, và mọi con số đều đến từ code. Câu tự do vẫn đi qua LLM.
  */
 
-const m2 = (n: number) => `${n.toLocaleString("en-IE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-const m0 = (n: number) => `${Math.round(n).toLocaleString("en-IE")} €`;
+const m2 = (n: number) => `€${n.toLocaleString("en-IE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+const m0 = (n: number) => `€${Math.round(n).toLocaleString("en-IE")}`;
 const lower = (s: string) => s.toLowerCase();
 const monthLabel = (yyyyMm: string) => MONTH_NAMES[Number(yyyyMm.slice(5, 7)) - 1];
 

@@ -3,7 +3,7 @@ import { eur0, shortDate } from "../lib/format";
 
 const W = 340;
 const H = 190;
-const PAD = { l: 8, r: 8, t: 12, b: 24 };
+const PAD = { l: 8, r: 8, t: 30, b: 24 };
 
 /** Estimated balance until payday: usual pace, saved plan and safe pace. Plain SVG, no chart library. */
 export function ForecastChart({ points }: { points: ForecastPoint[] }) {
@@ -28,7 +28,7 @@ export function ForecastChart({ points }: { points: ForecastPoint[] }) {
       {hasPlan && <path className="fc-line fc-plan" d={line((p) => p.plan)} />}
       <text className="fc-axis" x={PAD.l} y={H - 6}>{shortDate(first.date)}</text>
       <text className="fc-axis" x={W - PAD.r} y={H - 6} textAnchor="end">{shortDate(last.date)} payday</text>
-      <text className="fc-axis" x={PAD.l} y={y(first.usual) - 6}>{eur0(first.usual)}</text>
+      <text className="fc-axis" x={PAD.l} y={y(first.usual) - 8}>{eur0(first.usual)}</text>
     </svg>
   );
 }

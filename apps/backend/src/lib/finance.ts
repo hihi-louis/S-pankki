@@ -6,5 +6,5 @@ export function annuityPayment(principal: number, annualRate: number, years: num
   return (principal * i) / (1 - Math.pow(1 + i, -n));
 }
 
-export const eur0 = (n: number) => `${Math.round(n).toLocaleString("en-IE")} €`;
+export const eur0 = (n: number) => `€${Math.round(n).toLocaleString("en-IE")}`;
 export const pct1 = (x: number) => `${(x * 100).toFixed(1)}%`;
