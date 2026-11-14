@@ -77,6 +77,7 @@ export const mortgageService = {
         { label: "Year of the sales", value: housingSource.year },
       ],
       note: "Average of real sales of old homes (Statistics Finland). Not a valuation.",
+      action: { kind: "ask", label: "Can I afford this? How long to save?", question: `Could I afford a €${estimatedPrice.toLocaleString("en-US")} home, and how long would it take me to save for it?` },
     };
     return {
       found: true,

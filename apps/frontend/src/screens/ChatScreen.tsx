@@ -85,7 +85,7 @@ export function ChatScreen({ customerId, greeting, messages, busy, onAsk }: Prop
               ) : (
                 <div className={`msg assistant${m.error ? " error" : ""}${m.pending ? " writing" : ""}`}>{m.content}</div>
               )}
-              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} customerId={customerId} />)}
+              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} customerId={customerId} onAsk={busy ? undefined : onAsk} />)}
               {m.res?.chart && <MiniChart chart={m.res.chart} />}
               {m.res?.verified === true && <div className="verified">✓ Numbers checked against your data</div>}
               {m.res?.provenance && m.res.provenance.length > 0 && (

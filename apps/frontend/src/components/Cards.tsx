@@ -4,7 +4,7 @@ import type { AmountCard, BenchmarkCard, Card, Chart, FactsCard, SafeToSaveCard,
 import { eur, eur0, shortDate } from "../lib/format";
 
 /** Picks the right widget for each card the backend sends. */
-export function CardRenderer({ card, customerId }: { card: Card; customerId: string }) {
+export function CardRenderer({ card, customerId, onAsk }: { card: Card; customerId: string; onAsk?: (text: string) => void }) {
   switch (card.type) {
     case "amount":
       return <Amount card={card} />;
@@ -13,7 +13,7 @@ export function CardRenderer({ card, customerId }: { card: Card; customerId: str
     case "safe_to_save":
       return <SafeToSave card={card} />;
     case "facts":
-      return <Facts card={card} customerId={customerId} />;
+      return <Facts card={card} customerId={customerId} onAsk={onAsk} />;
     case "what_if":
       return <WhatIf card={card} />;
     case "benchmark":
@@ -60,7 +60,7 @@ function SafeToSave({ card }: { card: SafeToSaveCard }) {
   );
 }
 
-function Facts({ card, customerId }: { card: FactsCard; customerId: string }) {
+function Facts({ card, customerId, onAsk }: { card: FactsCard; customerId: string; onAsk?: (text: string) => void }) {
   const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   async function save() {
     if (card.action?.kind !== "save_plan") return;
@@ -90,12 +90,15 @@ function Facts({ card, customerId }: { card: FactsCard; customerId: string }) {
         ))}
       </dl>
       {card.note && <div className="card-sub facts-note">{card.note}</div>}
-      {card.action && (
+      {card.action?.kind === "ask" && onAsk && (
+        <button className="cta" onClick={() => onAsk(card.action?.kind === "ask" ? card.action.question : "")}>{card.action.label}</button>
+      )}
+      {card.action?.kind === "save_plan" && (
         <>
           <button className="cta" disabled={state === "saving" || state === "saved"} onClick={() => void save()}>
             {state === "saved" ? "Plan saved" : state === "saving" ? "Saving…" : "Save plan"}
           </button>
-          {state === "saved" && <div className="card-sub facts-note">You can follow it on the Overview.</div>}
+          {state === "saved" && <div className="card-sub facts-note">Ask me how you are doing against your plan any time.</div>}
           {state === "error" && <div className="card-sub facts-error" role="alert">Could not save the plan. Try again.</div>}
         </>
       )}

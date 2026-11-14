@@ -93,8 +93,8 @@ export interface FactsCard {
   headline?: { label: string; value: string };
   rows: { label: string; value: string; tone?: "good" | "warn" }[];
   note?: string;
-  /** A button under the table. `save_plan` saves `draft` through PUT /plan (the model never writes to the database). */
-  action?: { kind: "save_plan"; draft: PlanDraft };
+  /** A button under the table. `save_plan` saves `draft` through PUT /plan (the model never writes to the database); `ask` sends `question` to the chat as if the customer typed it. */
+  action?: { kind: "save_plan"; draft: PlanDraft } | { kind: "ask"; label: string; question: string };
 }
 
 /** What-if slider. Frontend recalculates savings locally as the user drags. */
