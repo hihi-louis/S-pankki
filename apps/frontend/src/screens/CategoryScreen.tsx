@@ -15,7 +15,7 @@ export function CategoryScreen({ customerId, category, nav }: { customerId: stri
 
   return (
     <main className="home detail screen-enter">
-      <button className="back" onClick={nav.back}>← Overview</button>
+      <button className="back" onClick={nav.back} aria-label="Back to Overview">←</button>
       <h2 className="detail-title">{category}</h2>
       {error && <p className="empty">Couldn't load: {error}</p>}
       {!data && !error && <div className="skeleton" />}

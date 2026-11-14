@@ -17,7 +17,7 @@ export function BasketScreen({ customerId, basket, nav }: { customerId: string; 
 
   return (
     <main className="home detail screen-enter">
-      <button className="back" onClick={nav.back}>← Overview</button>
+      <button className="back" onClick={nav.back} aria-label="Back to Overview">←</button>
       <h2 className="detail-title">{data?.basketName ?? "Transactions"}</h2>
       {error && <p className="empty">Couldn't load: {error}</p>}
       {!data && !error && <div className="skeleton" />}

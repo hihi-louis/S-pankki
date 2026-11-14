@@ -85,7 +85,7 @@ export function PlansScreen({ customerId, nav }: { customerId: string; nav: Nav 
 
   return (
     <main className="home detail screen-enter">
-      <button className="back" onClick={nav.back}>← Overview</button>
+      <button className="back" onClick={nav.back} aria-label="Back to Overview">←</button>
       <h2 className="detail-title">My plans</h2>
       <p className="card-sub">Sipi only suggests. You decide what to keep. I read your transactions to see how you are doing, and I never move money.</p>
       {error && <p className="empty" role="alert">{error}</p>}
