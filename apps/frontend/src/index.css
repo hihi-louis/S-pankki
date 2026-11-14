@@ -481,4 +481,4 @@ html { scroll-behavior: smooth; }
 .pie-name { font-weight: 600; line-height: 1.2; }
 .pie-amt { grid-column: 2; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
 .pie-amt small { font-weight: 500; color: var(--muted); font-size: 12px; }
-.pie-title { margin-top: 2px; } .money-block .eyebrow { margin-bottom: 10px; }
+.pie-title { margin-top: 2px; } 

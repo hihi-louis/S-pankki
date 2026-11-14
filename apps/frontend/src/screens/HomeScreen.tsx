@@ -4,7 +4,7 @@ import type { Recommendation, SummaryResponse } from "@sbank/shared";
 import { getRecommendations, getSummary } from "../api";
 import { BasketPie } from "../components/BasketPie";
 import { RecommendationCarousel } from "../components/RecommendationCarousel";
-import { eur, monthName } from "../lib/format";
+import { eur } from "../lib/format";
 import type { Nav } from "../lib/nav";
 import { useCountUp } from "../lib/useCountUp";
 
@@ -35,7 +35,6 @@ export function HomeScreen({ customerId, nav }: Props) {
     getRecommendations(customerId).then((r) => setRecs(r.items)).catch(() => setRecs([]));
   }, [customerId]);
 
-  const month = data ? monthName(data.month) : "This month";
 
   function openRec(r: Recommendation) {
     nav.open(r.target.kind === "forecast" ? { name: "forecast" } : { name: "insight", id: r.target.id });
@@ -58,7 +57,8 @@ export function HomeScreen({ customerId, nav }: Props) {
       </section>
 
       <section className="block rise money-block" style={rise(1)}>
-        <div className="eyebrow">Your money</div>
+        <div className="eyebrow">Insights</div>
+        <h2 className="h-display">Know your money</h2>
         {!data ? (
           <div className="card skeleton-money" aria-busy="true">
             <div className="skeleton sk-line sk-wide" /><div className="skeleton sk-big" />
@@ -72,7 +72,7 @@ export function HomeScreen({ customerId, nav }: Props) {
                 <div className="card-big"><Count value={data.balance} /></div>
               </div>
             </div>
-            <div className="card-sub pie-title">Where {month}'s money went</div>
+            <div className="card-sub pie-title">Current monthly spending</div>
             <BasketPie baskets={data.baskets} />
           </div>
         )}
