@@ -168,7 +168,7 @@ export const storyService = {
       title: `You spent ${eur0(diff)} more than usual on ${name}`,
       happened: {
         title: "What happened",
-        text: `You spent ${eur0(dive.now)} on ${name} in ${monthName(monthStart(0).slice(0, 7))}. In a normal month it is about ${eur0(dive.usual)}.`,
+        text: `You spent ${eur0(dive.now)} on ${name} in ${monthName(monthStart(0).slice(0, 7))}. ${dive.usual < 10 ? "In a normal month you spend almost nothing on it." : `In a normal month it is about ${eur0(dive.usual)}.`}`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
           { label: "A normal month (typical of the last 3)", value: eur0(dive.usual) },
