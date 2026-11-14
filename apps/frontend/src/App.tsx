@@ -130,6 +130,7 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
         <HomeScreen customerId={customerId} onAsk={ask} />
       ) : (
         <ChatScreen
+          customerId={customerId}
           greeting={`Hello, welcome ${customerId} to Personal Economic Trainer`}
           messages={messages}
           busy={busy}

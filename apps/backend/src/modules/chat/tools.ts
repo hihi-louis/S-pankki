@@ -6,6 +6,8 @@ import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { benchmarkQuerySchema } from "../benchmark/benchmark.schema.js";
 import { exploreService } from "../explore/explore.service.js";
 import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.schema.js";
+import { planService } from "../plan/plan.service.js";
+import { proposeQuerySchema } from "../plan/plan.schema.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
 import { affordabilityQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
@@ -19,6 +21,7 @@ const compareInput = compareQuerySchema.omit({ customerId: true });
 const benchmarkInput = benchmarkQuerySchema.omit({ customerId: true });
 const affordabilityInput = affordabilityQuerySchema.omit({ customerId: true });
 const savingsPlanInput = savingsPlanQuerySchema.omit({ customerId: true });
+const proposeInput = proposeQuerySchema.omit({ customerId: true });
 const noInput = z.object({});
 
 const toolSchema = (s: z.ZodType) => {
@@ -94,6 +97,24 @@ const defs: ToolDef[] = [
       "budget survey, 2022). Optional topic: total, groceries, housing, transport, restaurants, recreation, health; leave EMPTY for a general 'how do I compare' question so all categories are returned.",
     schema: benchmarkInput,
     run: (input, customerId) => benchmarkService.compare(benchmarkQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "propose_plan",
+    description:
+      "Build a monthly spending plan from the last six months: caps for essentials, unexpected costs and everyday spending, and a monthly saving amount. " +
+      "Optional goal: goalAmount (EUR to save), months (deadline), goalType home|savings, goalLabel. For a home, first call mortgage_savings_plan to get the cash needed, " +
+      "then pass that as goalAmount with goalType home. It only proposes: the customer saves it with a button, you never save it.",
+    schema: proposeInput,
+    run: (input, customerId) => planService.propose(proposeQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "plan_progress",
+    description: "How this month is going against the customer's saved spending plan (spending per basket vs caps, saved vs target). Says so if there is no saved plan.",
+    schema: noInput,
+    run: async (_input, customerId) => {
+      const r = await planService.progress(customerId);
+      return r.plan ? r : { hasPlan: false, message: r.message };
+    },
   },
   {
     name: "mortgage_affordability",

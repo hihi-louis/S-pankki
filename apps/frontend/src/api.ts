@@ -1,4 +1,4 @@
-import type { ChatRequest, ChatResponse, CustomerProfile, InsightsResponse, Persona, SummaryResponse } from "@sbank/shared";
+import type { ChatRequest, ChatResponse, CustomerProfile, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, SummaryResponse } from "@sbank/shared";
 
 // "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
 // localhost, on a teammate's device and through a tunnel with a single port.
@@ -114,3 +114,10 @@ export async function chatStream(req: ChatRequest, handlers: ChatStreamHandlers 
 /** The "login": checks that the customer ID exists. Rejects with a readable message if not. */
 export const getCustomer = (customerId: string) =>
   request<CustomerProfile>(`/customers/${encodeURIComponent(customerId)}`);
+
+export const getPlanProgress = (customerId: string) =>
+  request<PlanProgressResponse>(`/plan/progress?customerId=${encodeURIComponent(customerId)}`);
+
+/** Saves the plan on a card. Only the customer's button press calls this: the assistant never saves anything. */
+export const savePlan = (customerId: string, plan: PlanDraft) =>
+  request<SavedPlan>("/plan", { method: "PUT", body: JSON.stringify({ customerId, plan }) });

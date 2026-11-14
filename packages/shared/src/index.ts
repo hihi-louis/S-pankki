@@ -53,6 +53,36 @@ export interface SafeToSaveCard {
   currency: "EUR";
 }
 
+/** A spending plan the customer can save: monthly caps per basket plus a monthly saving target. */
+export interface PlanDraft {
+  goalType: "home" | "savings";
+  goalLabel: string;
+  goalAmount: number | null;
+  /** Months to reach the goal, or null when no deadline was given. */
+  months: number | null;
+  monthlySaving: number;
+  capEssentials: number;
+  capUnexpected: number;
+  capEveryday: number;
+}
+
+export interface SavedPlan extends PlanDraft {
+  createdAt: string;
+}
+
+/** How this month is going against the saved plan. `plan` is null when the customer has none. */
+export interface PlanProgressResponse {
+  asOf: string;
+  month: string;
+  plan: SavedPlan | null;
+  baskets: { id: 1 | 2 | 3; name: string; cap: number; spent: number; pct: number }[];
+  saving: { target: number; actual: number; pct: number };
+  /** Everyday-spending cap divided into weeks. */
+  weeklyEverydayAllowance: number;
+  status: "on_track" | "watch" | "over";
+  message: string;
+}
+
 /**
  * A small table of ready-to-show facts (mortgage answers, plans). The backend formats the values, so every
  * number on the card comes from code. `tone` colours a row: good = positive, warn = needs attention.
@@ -63,6 +93,8 @@ export interface FactsCard {
   headline?: { label: string; value: string };
   rows: { label: string; value: string; tone?: "good" | "warn" }[];
   note?: string;
+  /** A button under the table. `save_plan` saves `draft` through PUT /plan (the model never writes to the database). */
+  action?: { kind: "save_plan"; draft: PlanDraft };
 }
 
 /** What-if slider. Frontend recalculates savings locally as the user drags. */

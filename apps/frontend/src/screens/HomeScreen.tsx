@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Insight, SummaryResponse } from "@sbank/shared";
-import { getInsights, getSummary } from "../api";
+import type { Insight, PlanProgressResponse, SummaryResponse } from "@sbank/shared";
+import { getInsights, getPlanProgress, getSummary } from "../api";
 import { BASKET_EMOJI, BASKET_HINT, eur, eur0, monthName, shortDate } from "../lib/format";
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 export function HomeScreen({ customerId, onAsk }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
   const [insights, setInsights] = useState<Insight[]>([]);
+  const [plan, setPlan] = useState<PlanProgressResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,6 +22,9 @@ export function HomeScreen({ customerId, onAsk }: Props) {
     getInsights(customerId)
       .then((r) => setInsights(r.insights))
       .catch(() => setInsights([]));
+    getPlanProgress(customerId)
+      .then(setPlan)
+      .catch(() => setPlan(null));
   }, [customerId]);
 
   if (error) return <main className="home"><p className="empty">Couldn't load: {error}</p></main>;
@@ -42,6 +46,47 @@ export function HomeScreen({ customerId, onAsk }: Props) {
           What can I safely spend? →
         </button>
       </section>
+
+      {plan && (
+        <>
+          <h2 className="section-title">Your plan</h2>
+          {plan.plan ? (
+            <div className={`card plan ${plan.status}`}>
+              <div className="plan-head">{plan.message}</div>
+              {plan.baskets.map((b) => (
+                <div key={b.id} className="meter-row">
+                  <div className="meter-label">
+                    <span>{b.name}</span>
+                    <span>{eur0(b.spent)} of {eur0(b.cap)}</span>
+                  </div>
+                  <div className="meter" role="img" aria-label={`${b.name}: ${b.pct}% of the plan`}>
+                    <div className={`meter-fill ${b.pct > 100 ? "over" : b.pct >= 85 ? "watch" : ""}`} style={{ width: `${Math.min(100, b.pct)}%` }} />
+                  </div>
+                </div>
+              ))}
+              <div className="meter-row">
+                <div className="meter-label">
+                  <span>Saved this month</span>
+                  <span>{eur0(plan.saving.actual)} of {eur0(plan.saving.target)}</span>
+                </div>
+                <div className="meter" role="img" aria-label={`Saved ${plan.saving.pct}% of the monthly target`}>
+                  <div className="meter-fill good" style={{ width: `${Math.min(100, plan.saving.pct)}%` }} />
+                </div>
+              </div>
+              <div className="card-sub">
+                {plan.plan.goalLabel}
+                {plan.plan.goalAmount !== null ? `: ${eur0(plan.plan.goalAmount)}` : ""} · everyday allowance about {eur0(plan.weeklyEverydayAllowance)} a week
+              </div>
+            </div>
+          ) : (
+            <button className="insight info" onClick={() => onAsk("Make me a spending plan")}>
+              <span className="insight-title">Make a spending plan</span>
+              <span className="insight-body">A monthly plan from your own numbers: what to keep for essentials, what to spend, what to save.</span>
+              <span className="insight-ask">Build one →</span>
+            </button>
+          )}
+        </>
+      )}
 
       {insights.length > 0 && (
         <>

@@ -90,6 +90,19 @@ export interface MortgageEvents {
   ts: Timestamp;
 }
 
+export interface Plans {
+  cap_essentials: Numeric;
+  cap_everyday: Numeric;
+  cap_unexpected: Numeric;
+  created_at: Generated<Timestamp>;
+  customer_id: string;
+  goal_amount: Numeric | null;
+  goal_label: string;
+  goal_type: string;
+  monthly_saving: Numeric;
+  months: number | null;
+}
+
 export interface Transactions {
   account_id: string;
   amount: Numeric;
@@ -112,5 +125,6 @@ export interface DB {
   monthly_spend: MonthlySpend;
   mortgage_applications: MortgageApplications;
   mortgage_events: MortgageEvents;
+  plans: Plans;
   transactions: Transactions;
 }

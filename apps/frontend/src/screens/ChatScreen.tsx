@@ -22,6 +22,7 @@ export const STARTERS = [
 ];
 
 interface Props {
+  customerId: string;
   /** First assistant message, e.g. "Hello, welcome Aino to Personal Economic Trainer". */
   greeting: string;
   messages: ChatMsg[];
@@ -29,7 +30,7 @@ interface Props {
   onAsk: (text: string) => void;
 }
 
-export function ChatScreen({ greeting, messages, busy, onAsk }: Props) {
+export function ChatScreen({ customerId, greeting, messages, busy, onAsk }: Props) {
   const [input, setInput] = useState("");
   const [sheet, setSheet] = useState<{ sources: SourceTx[]; total?: number } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -84,7 +85,7 @@ export function ChatScreen({ greeting, messages, busy, onAsk }: Props) {
               ) : (
                 <div className={`msg assistant${m.error ? " error" : ""}${m.pending ? " writing" : ""}`}>{m.content}</div>
               )}
-              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} />)}
+              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} customerId={customerId} />)}
               {m.res?.chart && <MiniChart chart={m.res.chart} />}
               {m.res && m.res.sources.length > 0 && (
                 <button
