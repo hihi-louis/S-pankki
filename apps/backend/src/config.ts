@@ -10,6 +10,8 @@ const envSchema = z.object({
   LLM_API_KEY: z.string().optional(), // chỉ cần khi dùng module chat
   LLM_BASE_URL: z.string().default("https://inference.verda.com/v1"), // endpoint kiểu OpenAI
   LLM_MODEL: z.string().default("kimi-k3-1-pro"),
+  // Chỉ bật khi nhà cung cấp KHÔNG cache tiền tố prompt (hoặc token cache đắt hơn ~35% giá thường): lọc tool làm đổi tiền tố nên mất cache.
+  LLM_TOOL_GATING: z.enum(["true", "false"]).default("false").transform((v) => v === "true"),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -27,4 +29,5 @@ export const config = {
   llmApiKey: parsed.data.LLM_API_KEY,
   llmBaseUrl: parsed.data.LLM_BASE_URL,
   llmModel: parsed.data.LLM_MODEL,
+  llmToolGating: parsed.data.LLM_TOOL_GATING,
 };

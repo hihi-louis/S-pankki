@@ -69,7 +69,10 @@ async function main() {
   console.log(`\nChecks passed: ${pass}/${CASES.length}`);
   console.table(u.byPath);
   const llm = u.byPath.find((p) => p.path === "llm");
-  if (llm) console.log(`LLM questions: avg ${llm.avgPrompt} prompt + ${llm.avgCompletion} completion tokens (cached ${llm.avgCached}), p50 ${llm.p50} ms, p95 ${llm.p95} ms`);
+  if (llm)
+    console.log(
+      `LLM questions: avg ${llm.avgPrompt} prompt tokens (${llm.avgCached} served from the provider cache, ${llm.avgPrompt - llm.avgCached} full price) + ${llm.avgCompletion} completion, p50 ${llm.p50} ms, p95 ${llm.p95} ms`,
+    );
   if (failures.length) console.log("\nFailures:\n- " + failures.join("\n- "));
   await db.destroy();
   process.exit(failures.length ? 1 : 0);

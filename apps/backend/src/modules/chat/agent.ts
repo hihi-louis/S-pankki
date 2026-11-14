@@ -5,6 +5,7 @@ import { mccLabel } from "../../lib/mcc.js";
 import { periodLabel } from "../../lib/dates.js";
 import { HttpError } from "../../lib/errors.js";
 import { SYSTEM_PROMPT } from "./prompt.js";
+import { selectTools } from "./router.js";
 import { runTool, toolDefinitions } from "./tools.js";
 import type { ChatRequestBody } from "./chat.schema.js";
 
@@ -194,6 +195,8 @@ export async function runAgent(
     { role: "user", content: req.message },
   ];
 
+  // Mặc định gửi đủ tool: tiền tố prompt ổn định nên nhà cung cấp cache được (token cache rẻ hơn nhiều). Xem LLM_TOOL_GATING.
+  const tools = config.llmToolGating ? selectTools(req.message) : toolDefinitions;
   let answer = "";
   let usedTool = false;
   let forceTool = false;
@@ -208,10 +211,10 @@ export async function runAgent(
         {
           model: config.llmModel,
           messages,
-          tools: toolDefinitions,
+          tools,
           // Mặc định để model tự quyết; nếu nó định trả lời có số mà chưa gọi tool thì ép gọi (chống bịa số)
           tool_choice: forceTool ? "required" : "auto",
-          max_tokens: 4096,
+          max_tokens: 1200,
           reasoning_effort: "low",
           stream: true,
           stream_options: { include_usage: true },

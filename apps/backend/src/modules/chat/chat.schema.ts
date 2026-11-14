@@ -6,7 +6,7 @@ export const chatRequestSchema = z.object({
   history: z
     .array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(4000) }))
     .max(100)
-    .transform((h) => h.slice(-10)) // chỉ giữ 10 tin gần nhất
+    .transform((h) => h.slice(-6)) // chỉ giữ 6 tin gần nhất (tiết kiệm token)
     .optional(),
 });
 export type ChatRequestBody = z.infer<typeof chatRequestSchema>;
