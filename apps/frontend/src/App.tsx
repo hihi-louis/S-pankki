@@ -108,7 +108,7 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
   return (
     <div className="app">
       <header className="header">
-        <span className="brand">Money Coach</span>
+        <span className="brand">S-Pankki</span>
         <nav className="tabs" role="tablist">
           <button role="tab" aria-selected={tab === "home"} onClick={() => setTab("home")}>
             Overview

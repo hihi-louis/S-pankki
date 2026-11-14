@@ -2,7 +2,7 @@
  * Design tokens follow S-Bank's public design system (the --sds-brand-* variables served by s-pankki.fi):
  * forest green as the main colour, light green primary buttons, neutral greys, 12px inputs.
  * The S Bonus typefaces are proprietary, so they are only named first in the font stack
- * (used if installed); everything else falls back to system fonts. No S-Bank logo or brand copy.
+ * (used if installed); everything else falls back to system fonts. The header shows the name as text only; no S-Bank logo.
  */
 :root {
   /* greens (sds-brand-color-*-primary / secondary) */
