@@ -5,6 +5,7 @@ import { benchmarkRepository } from "../benchmark/benchmark.repository.js";
 import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
+import { mortgageService } from "../mortgage/mortgage.service.js";
 import { exploreExtras } from "../explore/explore.repository.js";
 import { exploreService } from "../explore/explore.service.js";
 import { pickRecommendations } from "./recommendations.js";
@@ -37,7 +38,7 @@ export const insightsService = {
    */
   async recommendations(customerId: string): Promise<RecommendationsResponse> {
     const lastFull = lastNMonths(1)[0];
-    const [safe, forecast, hist, baskets, income, all, prev, weekday] = await Promise.all([
+    const [safe, forecast, hist, baskets, income, all, prev, weekday, loan] = await Promise.all([
       coachService.safeToSpend(customerId),
       coachService.forecast(customerId),
       categoryHistory(customerId),
@@ -46,6 +47,7 @@ export const insightsService = {
       this.forCustomer(customerId),
       benchmarkRepository.spentByCategory(customerId, lastFull, monthStart(0)),
       exploreService.breakdown({ customerId, from: lastNMonths(3)[0], to: monthStart(0), groupBy: "weekday", basket: 3, category: undefined, mcc: undefined, limit: 7 }),
+      mortgageService.loanContext(customerId),
     ]);
     const topDay = [...weekday.rows].sort((a, b) => b.spent - a.spent)[0];
     const prevTop = [...prev.entries()].sort((a, b) => b[1] - a[1])[0];
@@ -64,6 +66,7 @@ export const insightsService = {
       monthsWithData: hist.monthsWithData,
       weekday: topDay ? { name: topDay.key, spent: topDay.spent, sharePct: topDay.sharePct, total: weekday.total } : null,
       invested: income.avgInvestedPerMonth,
+      loan,
       peer: peer ? { id: peer.id, headline: peer.title, body: peer.body } : null,
       lastMonth: { total: [...prev.values()].reduce((a, v) => a + v, 0), topCategory: prevTop?.[0] ?? null, topAmount: prevTop?.[1] ?? 0 },
     });

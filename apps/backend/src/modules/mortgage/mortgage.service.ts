@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { FactsCard } from "@sbank/shared";
+import { daysBetween, TODAY } from "../../lib/dates.js";
 import { HttpError } from "../../lib/errors.js";
 import { annuityPayment, eur0, pct1 } from "../../lib/finance.js";
 import { basketsService } from "../baskets/baskets.service.js";
@@ -53,7 +54,44 @@ async function salaryOf(customerId: string) {
   return { salary: customer.avgSalary ?? income.avgMonthlyIncome, totalIncome: income.avgMonthlyIncome };
 }
 
+/** Applications decided within this many days still shape the budget (first payments, buying costs). */
+const RECENT_DAYS = 45;
+
+export interface LoanContext {
+  /** open = the bank has not decided yet; recent = decided in the last 45 days. */
+  state: "in_progress" | "recent";
+  decision: "approved" | "rejected" | null;
+  reason: string | null;
+  startedOn: string;
+  decidedOn: string | null;
+  daysSinceDecision: number | null;
+  loan: number;
+  /** Estimated monthly payment of the applied loan (public average rate, 25 years): an estimate, not an offer. */
+  estimatedMonthlyPayment: number;
+  typicalBuyingCosts: number;
+}
+
 export const mortgageService = {
+  /** The home-loan situation that changes how safe it is to spend: an open application, or one decided recently. null otherwise. */
+  async loanContext(customerId: string, asOf = TODAY): Promise<LoanContext | null> {
+    const st = await mortgageRepository.stageAt(customerId, asOf);
+    if (!st) return null;
+    const daysSince = st.decided ? daysBetween(st.decided, asOf) : null;
+    if (st.decided && (daysSince ?? 0) > RECENT_DAYS) return null;
+    const costs = await costsFor(st.price);
+    return {
+      state: st.decided ? "recent" : "in_progress",
+      decision: st.decided ? (st.decision === "approved" ? "approved" : "rejected") : null,
+      reason: st.decided && st.reason ? REASONS[st.reason] ?? st.reason : null,
+      startedOn: st.started,
+      decidedOn: st.decided,
+      daysSinceDecision: daysSince,
+      loan: Math.round(st.loan),
+      estimatedMonthlyPayment: Math.round(annuityPayment(st.loan, AVG_RATE, TERM)),
+      typicalBuyingCosts: costs.total,
+    };
+  },
+
   /** Typical price of a home of a given size in a given place, from Statistics Finland (price per m² times size). */
   async housingPrice(q: HousingPriceQuery) {
     let area = q.area;

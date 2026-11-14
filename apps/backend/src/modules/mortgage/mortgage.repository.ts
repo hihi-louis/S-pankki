@@ -13,6 +13,21 @@ export const mortgageRepository = {
     return db.selectFrom("mortgage_applications").selectAll().where("customer_id", "=", customerId).executeTakeFirst();
   },
 
+  /** Where the customer's application stands on a given day, from its event log (open = no decision event yet). */
+  async stageAt(customerId: string, asOf: string) {
+    const r = await sql<{ id: string; started: string; decided: string | null; decision: string | null; reason: string | null; loan: number; price: number }>`
+      SELECT a.mortgage_id AS id,
+             MIN(e.ts)::date::text AS started,
+             (MAX(e.ts) FILTER (WHERE e.event_type = 'loan_decision' AND e.ts::date <= ${asOf}::date))::date::text AS decided,
+             a.final_decision AS decision, a.rejection_reason AS reason,
+             a.requested_loan::float AS loan, a.property_price::float AS price
+      FROM mortgage_applications a JOIN mortgage_events e USING (mortgage_id)
+      WHERE a.customer_id = ${customerId} AND e.ts::date <= ${asOf}::date
+      GROUP BY a.mortgage_id, a.final_decision, a.rejection_reason, a.requested_loan, a.property_price
+      LIMIT 1`.execute(db);
+    return r.rows[0] ?? null;
+  },
+
   /** Tóm tắt dòng thời gian của một hồ sơ. */
   async timelineOf(mortgageId: string) {
     const r = await sql<{ events: number; days: number | null; contacts: number; docs: number; extraCollateral: boolean }>`

@@ -170,9 +170,12 @@ const defs: ToolDef[] = [
     name: "safe_to_spend",
     description:
       "How much the customer can safely spend until the next payday after reserving the expected essentials, " +
-      "plus the per-day amount.",
+      "plus the per-day amount. May include loanContext: a home loan application that is open or was decided recently.",
     schema: noInput,
-    run: (_input, customerId) => coachService.safeToSpend(customerId),
+    run: async (_input, customerId) => {
+      const [r, loanContext] = await Promise.all([coachService.safeToSpend(customerId), mortgageService.loanContext(customerId)]);
+      return loanContext ? { ...r, loanContext } : r;
+    },
   },
   {
     name: "simulate_whatif",

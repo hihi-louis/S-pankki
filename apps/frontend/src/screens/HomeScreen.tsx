@@ -37,7 +37,8 @@ export function HomeScreen({ customerId, nav }: Props) {
 
 
   function openRec(r: Recommendation) {
-    nav.open(r.target.kind === "forecast" ? { name: "forecast" } : { name: "insight", id: r.target.id });
+    if (r.target.kind === "ask") nav.ask(r.target.text);
+    else nav.open(r.target.kind === "forecast" ? { name: "forecast" } : { name: "insight", id: r.target.id });
   }
 
   return (

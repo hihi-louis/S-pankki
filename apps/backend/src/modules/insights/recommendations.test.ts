@@ -17,6 +17,7 @@ const base = (over: Partial<RecInputs> = {}): RecInputs => ({
   weekday: { name: "Friday", spent: 420, sharePct: 38, total: 1100 },
   invested: 0,
   peer: null,
+  loan: null,
   lastMonth: { total: 2000, topCategory: "Housing", topAmount: 1200 },
   ...over,
 });
@@ -78,5 +79,29 @@ describe("pickRecommendations", () => {
   it("falls back to the saving habit as good news", () => {
     const r = pickRecommendations(base({ invested: 230, categories: [{ category: "Restaurants", now: 200, usual: 200, flexible: true }], weekday: null }));
     assert.equal(r.find((c) => c.type === "good")?.id, "saving-habit");
+  });
+
+  it("warns about an open home loan application right after any heads-up and softens the safe amount", () => {
+    const loan = { state: "in_progress" as const, decision: null, reason: null, daysSinceDecision: null, estimatedMonthlyPayment: 900, typicalBuyingCosts: 8000 };
+    const r = pickRecommendations(base({ loan }));
+    assert.deepEqual(r.slice(0, 2).map((c) => c.type), ["loan", "week"]);
+    assert.match(r[0].headline, /still open/);
+    assert.match(r[1].body, /home loan is still open, so you may want to spend less/);
+    assert.deepEqual(r[0].target, { kind: "ask", text: "What is the status of my mortgage application?" });
+  });
+
+  it("shows payments and costs for a loan approved recently, after the week card", () => {
+    const loan = { state: "recent" as const, decision: "approved" as const, reason: null, daysSinceDecision: 12, estimatedMonthlyPayment: 920, typicalBuyingCosts: 7800 };
+    const r = pickRecommendations(base({ loan }));
+    assert.deepEqual(r.slice(0, 2).map((c) => c.type), ["week", "loan"]);
+    assert.match(r[1].headline, /approved 12 days ago/);
+    assert.match(r[1].body, /€920 a month \(an estimate\)/);
+  });
+
+  it("is neutral about a rejected application and still at most 5 cards", () => {
+    const loan = { state: "recent" as const, decision: "rejected" as const, reason: "The property used as security was worth too little for the loan.", daysSinceDecision: 5, estimatedMonthlyPayment: 900, typicalBuyingCosts: 8000 };
+    const r = pickRecommendations(base({ loan, peer: { id: "peer-x", headline: "h", body: "b" } }));
+    assert.ok(r.length <= 5);
+    assert.match(r.find((c) => c.type === "loan")!.headline, /was not approved 5 days ago/);
   });
 });

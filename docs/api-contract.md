@@ -136,6 +136,7 @@ The cards of the Overview carousel, in plain English, at most 5, at most one per
 | type | when | button | opens |
 |---|---|---|---|
 | `heads_up` | the balance may reach zero before payday (replaces `week` if the bills alone do not fit) | Make a plan | story `runway-short` |
+| `loan` | a home-loan application is open (no decision yet) or was decided in the last 45 days. Open: right after any heads-up, and the `week` card adds "your home loan is still open, so you may want to spend less". Decided: after `week`. | Check my application / See my application / See why | the chat (`target.kind = "ask"`) |
 | `week` | always (unless `heads_up` replaced it) | See how I worked this out | the forecast |
 | `pattern` | a weekday is 25%+ of everyday spending, or a category is clearly above usual | Show me why | story `weekday-<Day>` or `spike-<Category>` |
 | `opportunity` | the biggest flexible category (everyday spending), a 20% trim | Try it | story `trim-<Category>` (10/20/30% buttons) |
@@ -152,6 +153,10 @@ Rules live in `insights/recommendations.ts` (pure function with unit tests). Wor
     "body": "That is about €380 a day after your bills and basics, until payday on 14 Oct.",
     "cta": "See how I worked this out", "target": { "kind": "forecast" } } ] }
 ```
+
+`target` is `{kind:"forecast"}`, `{kind:"insight", id}` or `{kind:"ask", text}` (send `text` to the chat).
+An application counts as open when its event log has no `loan_decision` yet on the as-of day. In the dataset every application is decided by 10 Sep 2026, so with today = 30 Sep the customers who see this are those decided in the last 45 days (15 of 200).
+The chat tool `safe_to_spend` also returns `loanContext` in that case, and the assistant says that cash flow alone does not show that spending more is wise.
 
 `query_spending` results also carry `perDay`, `perWeek` and `averagePerTransaction`, so the assistant can say "about 39 € a ride" without doing its own arithmetic (numbers it makes up are rejected by the number check).
 

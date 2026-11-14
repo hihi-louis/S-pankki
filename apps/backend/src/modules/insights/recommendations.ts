@@ -21,6 +21,15 @@ export interface RecInputs {
   invested: number;
   peer: { id: string; headline: string; body: string } | null;
   lastMonth: { total: number; topCategory: string | null; topAmount: number };
+  /** Home-loan situation (open application, or decided in the last 45 days), if any. */
+  loan: {
+    state: "in_progress" | "recent";
+    decision: "approved" | "rejected" | null;
+    reason: string | null;
+    daysSinceDecision: number | null;
+    estimatedMonthlyPayment: number;
+    typicalBuyingCosts: number;
+  } | null;
 }
 
 const card = (c: Omit<Recommendation, "target"> & { target: Recommendation["target"] }): Recommendation => c;
@@ -52,6 +61,34 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
     });
   }
 
+  // Home loan: the cash flow may look fine while a loan is being decided, so spending more may not be wise
+  let loanCard: Recommendation | null = null;
+  const L = x.loan;
+  if (L) {
+    const ago = L.daysSinceDecision === null ? "" : L.daysSinceDecision === 0 ? "today" : `${L.daysSinceDecision} day${L.daysSinceDecision === 1 ? "" : "s"} ago`;
+    loanCard =
+      L.state === "in_progress"
+        ? card({
+            id: "loan-open", type: "loan", eyebrow: "Your home loan", tone: "tip",
+            headline: "Your home loan application is still open",
+            body: "Your cash flow may look fine, but until the bank decides, big new spending may not be wise. Keep extras small for now.",
+            cta: "Check my application", target: { kind: "ask", text: "What is the status of my mortgage application?" },
+          })
+        : L.decision === "approved"
+          ? card({
+              id: "loan-approved", type: "loan", eyebrow: "Your home loan", tone: "info",
+              headline: `Your home loan was approved ${ago}`,
+              body: `Plan for payments of about ${eur(L.estimatedMonthlyPayment)} a month (an estimate) and buying costs of about ${eur(L.typicalBuyingCosts)}. Check they fit before you spend more.`,
+              cta: "See my application", target: { kind: "ask", text: "What is the status of my mortgage application?" },
+            })
+          : card({
+              id: "loan-rejected", type: "loan", eyebrow: "Your home loan", tone: "tip",
+              headline: `Your home loan application was not approved ${ago}`,
+              body: L.reason ? `The reason on file: ${L.reason.charAt(0).toLowerCase()}${L.reason.slice(1)}. Look at what the data shows before you try again.` : "Look at what the data shows before you try again.",
+              cta: "See why", target: { kind: "ask", text: "Why was my mortgage application rejected?" },
+            });
+  }
+
   // 2. This week: what is safe to spend (skipped when the heads-up already says there is no room)
   const week: Recommendation | null = short
     ? null
@@ -61,14 +98,14 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
         eyebrow: "This week",
         tone: "info",
         headline: `You can safely spend ${eur(Math.min(x.safe.safeToSpend, x.safe.perDay * 7))}`,
-        body: `That is about ${eur(x.safe.perDay)} a day after your bills and basics, until payday on ${payday}.${guess}`,
+        body: `That is about ${eur(x.safe.perDay)} a day after your bills and basics, until payday on ${payday}.${L?.state === "in_progress" ? " Your home loan is still open, so you may want to spend less." : ""}${guess}`,
         cta: "See how I worked this out",
         target: { kind: "forecast" },
       });
 
   // Not enough history to know what is "usual": keep it simple and honest
   if (x.monthsWithData < 3) {
-    const out: Recommendation[] = [headsUp, week].filter((c): c is Recommendation => c !== null);
+    const out: Recommendation[] = (L?.state === "in_progress" ? [headsUp, loanCard, week] : [headsUp, week, loanCard]).filter((c): c is Recommendation => c !== null);
     if (x.lastMonth.total > 0 && x.lastMonth.topCategory) {
       out.push(card({
         id: "last-month",
@@ -183,7 +220,7 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
   }
 
   rest.sort((a, b) => b.impact - a.impact);
-  const out = [headsUp, week, ...rest.map((r) => r.rec)].filter((c): c is Recommendation => c !== null);
+  const out = [headsUp, ...(L?.state === "in_progress" ? [loanCard] : []), week, ...(L?.state === "recent" ? [loanCard] : []), ...rest.map((r) => r.rec)].filter((c): c is Recommendation => c !== null);
 
   // Compared with others (Statistics Finland): last, and only if there is room
   if (x.peer && out.length < MAX_CARDS) {
