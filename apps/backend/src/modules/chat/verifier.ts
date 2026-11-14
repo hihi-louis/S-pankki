@@ -48,6 +48,8 @@ interface Numbers {
   groups: number[][];
   /** Nhóm số được phép lấy tỉ lệ phần trăm: chỉ cùng một đối tượng, không trộn chéo giữa các tool. */
   pctGroups: number[][];
+  /** Các số ở cấp trên cùng của dữ liệu tool (tổng, số lượng...). */
+  tops: number[];
 }
 
 const MAX_GROUP = 12;
@@ -97,7 +99,7 @@ export function collectNumbers(facts: unknown[]): Numbers {
   // Cấp trên cùng của các tool khác nhau (vd tổng của hai lần gọi query_spending)
   const tops = facts.flatMap((f) => (f && typeof f === "object" && !Array.isArray(f) ? numericProps(f as Record<string, unknown>) : []));
   if (tops.length > 1 && tops.length <= MAX_GROUP) groups.push(tops);
-  return { base: [...base], sums: [...sums], groups, pctGroups };
+  return { base: [...base], sums: [...sums], groups, pctGroups, tops };
 }
 
 const tol = (b: number) => Math.max(1, Math.abs(b) * 0.005);
@@ -137,6 +139,11 @@ export function verifyAnswer(answer: string, facts: unknown[], context: string[]
   for (const c of context) for (const v of [...extractAmounts(c), ...extractPercents(c)]) n.base.push(v);
   // Số do người dùng gõ thường không có ký hiệu €: "250000 euro", "5000"
   for (const c of context) for (const m of c.matchAll(/\d[\d,]*(?:\.\d+)?/g)) n.base.push(parseAmount(m[0]));
+
+  // So sánh với lời đáp trước ("ít hơn 589,33 € của tháng trước"): cho phép cộng/trừ giữa số trong hội thoại và số cấp trên cùng của tool
+  const spoken = context.flatMap((c) => extractAmounts(c));
+  const mixed = [...new Set([...spoken, ...n.tops])];
+  if (spoken.length && mixed.length > 1 && mixed.length <= MAX_GROUP) n.groups.push(mixed);
 
   const unverified: string[] = [];
   const amounts = extractAmounts(answer);

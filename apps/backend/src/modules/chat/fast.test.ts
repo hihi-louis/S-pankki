@@ -25,6 +25,17 @@ test("wording variants and punctuation still match", async () => {
   assert.ok(await ask("What are my regular monthly payments?"));
 });
 
+test("investment advice requests get a fixed refusal without the LLM", async () => {
+  for (const q of ["Should I buy bitcoin?", "is it a good idea to invest in stocks", "What ETF do you recommend?"]) {
+    const res = await ask(q);
+    assert.ok(res, q);
+    assert.match(res.answer, /cannot advise/i);
+    assert.equal(res.cards.length, 0);
+  }
+  // câu hỏi về chính khoản đầu tư của mình không bị từ chối nhầm
+  assert.equal(await ask("How much did I put into stocks last month?"), null);
+});
+
 test("free-form questions fall through to the LLM", async () => {
   assert.equal(await ask("Why did my spending jump so much in September?"), null);
   assert.equal(await ask("Where did my money go in August?"), null); // tháng khác tháng hiện tại: để LLM

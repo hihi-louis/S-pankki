@@ -319,6 +319,7 @@ export async function runAgent(
     if (!verdict.ok) {
       stats.regenerated = true;
       console.warn(`[verify] unverified in answer: ${verdict.unverified.join(", ")} (tools: ${stats.tools.join(", ")})`);
+      if (process.env.LLM_DEBUG) console.warn(`[verify] the rejected answer was: ${answer}`);
       emit({ type: "reset" });
       emit({ type: "status", text: "Double-checking the numbers…" });
       try {

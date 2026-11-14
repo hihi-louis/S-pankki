@@ -49,6 +49,13 @@ test("cannot derive an invented number by mixing unrelated results", () => {
   assert.ok(verifyAnswer("Taxis plus the first two rows is 2,183.25 €.", many).ok === false);
 });
 
+test("a difference between a number from the conversation and a tool number is allowed", () => {
+  const july = [{ total: 248.78, count: 7 }];
+  const history = ["You spent 589.33 € on taxis in August across 15 rides."];
+  assert.ok(verifyAnswer("July was 248.78 €, which is 340.55 € less than August.", july, history).ok);
+  assert.equal(verifyAnswer("July was 248.78 €, which is 400.00 € less than August.", july, history).ok, false);
+});
+
 test("percentile phrases are names, not claims", () => {
   assert.ok(verifyAnswer("The fastest 10% took 18 days and the slowest 10% about 34 days.", [{ fastest10: 18, slowest10: 34 }]).ok);
   assert.deepEqual(extractPercents("the fastest 10% and a 42% rise"), [42]);

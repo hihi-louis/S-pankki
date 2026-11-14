@@ -28,6 +28,12 @@ function normalize(text: string) {
 type Run = (customerId: string, c: Collector, m: RegExpExecArray) => Promise<string | null>;
 const RULES: { re: RegExp; run: Run }[] = [
   {
+    // Chốt chặn xác định: xin lời khuyên đầu tư thì từ chối cố định, không phụ thuộc vào việc model có tuân thủ prompt hay không
+    re: /^(?=.*\b(?:bitcoin|btc|crypto|cryptocurrency|ethereum|dogecoin|nft|forex|stocks?|shares|etfs?|index funds?|day trading|options)\b)(?=.*\b(?:should|worth|good idea|recommend|advice|advise|best|safe to|invest in|buy|sell)\b).*$/,
+    run: async () =>
+      "I cannot advise on investments or products such as crypto, shares or funds. I can help you see how much you could safely set aside each month, or how your own spending looks.",
+  },
+  {
     re: /^what can i (?:safely )?spend (?:this week|until payday|until my next payday)$/,
     run: async (id, c) => {
       const r = await coachService.safeToSpend(id);
