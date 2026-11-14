@@ -60,7 +60,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
       last = now;
       const hold = paused.current || document.hidden || Date.now() < resumeAt.current;
       if (hold) {
-        setFree(false);
+        // Stay where we are: no snapping, so hovering never makes the card jump
         pos = el.scrollLeft;
       } else {
         setFree(true);
@@ -83,6 +83,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     el.addEventListener("mouseleave", release);
     return () => {
       cancelAnimationFrame(frame);
+      free = true;
       setFree(false);
       el.removeEventListener("pointerdown", hold);
       el.removeEventListener("pointerup", release);
