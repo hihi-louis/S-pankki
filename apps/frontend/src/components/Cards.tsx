@@ -107,6 +107,7 @@ function Benchmark({ card }: { card: BenchmarkCard }) {
           <span className="bench-val">{eur0(r.v)}</span>
         </div>
       ))}
+      {card.source && <div className="card-sub">Source: {card.source}</div>}
     </div>
   );
 }

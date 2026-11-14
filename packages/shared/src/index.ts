@@ -69,6 +69,8 @@ export interface BenchmarkCard {
   you: number;
   peers: number;
   peerGroup: string;
+  /** Where the peer figure comes from, e.g. "Statistics Finland, 2022". */
+  source?: string;
   currency: "EUR";
 }
 

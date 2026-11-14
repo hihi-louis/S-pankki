@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { basketsRouter } from "./modules/baskets/baskets.routes.js";
+import { benchmarkRouter } from "./modules/benchmark/benchmark.routes.js";
 import { chatRouter } from "./modules/chat/chat.routes.js";
 import { coachRouter } from "./modules/coach/coach.routes.js";
 import { customersRouter, personasRouter } from "./modules/customers/customers.routes.js";
@@ -18,4 +19,5 @@ router.use("/customers", customersRouter);
 router.use("/summary", basketsRouter);
 router.use("/coach", coachRouter);
 router.use("/explore", exploreRouter);
+router.use("/benchmark", benchmarkRouter);
 router.use("/chat", chatRouter);

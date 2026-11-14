@@ -2,6 +2,8 @@ import { z } from "zod";
 import { basketsService } from "../baskets/baskets.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { whatIfBaseSchema, whatIfQuerySchema } from "../coach/coach.schema.js";
+import { benchmarkService } from "../benchmark/benchmark.service.js";
+import { benchmarkQuerySchema } from "../benchmark/benchmark.schema.js";
 import { exploreService } from "../explore/explore.service.js";
 import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
@@ -12,6 +14,7 @@ const spendingInput = spendingQuerySchema.omit({ customerId: true });
 const whatIfInput = whatIfBaseSchema.omit({ customerId: true });
 const breakdownInput = breakdownQuerySchema.omit({ customerId: true });
 const compareInput = compareQuerySchema.omit({ customerId: true });
+const benchmarkInput = benchmarkQuerySchema.omit({ customerId: true });
 const noInput = z.object({});
 
 const toolSchema = (s: z.ZodType) => {
@@ -79,6 +82,14 @@ const defs: ToolDef[] = [
       "plus how many months of essentials the balance covers and the gap to a 3-month emergency fund.",
     schema: noInput,
     run: (_input, customerId) => coachService.safeToSave(customerId),
+  },
+  {
+    name: "compare_with_peers",
+    description:
+      "Compare the customer's average monthly spending with Finns of the same age group (Statistics Finland household " +
+      "budget survey, 2022). Optional topic: total, groceries, housing, transport, restaurants, recreation, health; leave EMPTY for a general 'how do I compare' question so all categories are returned.",
+    schema: benchmarkInput,
+    run: (input, customerId) => benchmarkService.compare(benchmarkQuerySchema.parse({ ...(input as object), customerId })),
   },
   {
     name: "get_baskets",

@@ -13,6 +13,7 @@ const MAX_CARDS = 3;
 
 const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Show my spending by basket"];
 const SUGGESTIONS: Record<string, string[]> = {
+  compare_with_peers: ["How could I save more?", "Where does my money go?"],
   spending_breakdown: ["How does that compare with last month?", "What are my regular monthly payments?"],
   compare_periods: ["Where does my money go?", "What if I cut everyday spending by 20%?"],
   recurring_payments: ["How much can I safely save right now?", "How steady is my income?"],
@@ -47,7 +48,8 @@ class Collector {
     if (!r || r.error) return;
     this.lastTool = name;
     const push = (c: Card) => {
-      if (this.cards.length < MAX_CARDS) this.cards.push(c);
+      const dup = this.cards.some((x) => x.type === c.type && "label" in x && "label" in c && x.label === c.label);
+      if (!dup && this.cards.length < MAX_CARDS) this.cards.push(c);
     };
     if (name === "query_spending") {
       if (r.count === 0) return; // không có giao dịch: để LLM tự nói, không hiện card 0 €
@@ -94,6 +96,14 @@ class Collector {
       };
     } else if (name === "safe_to_save") {
       push({ type: "safe_to_save", amount: r.safeToSave, until: r.nextPayday.date, monthsCovered: r.monthsOfEssentialsCovered, currency: "EUR" });
+    } else if (name === "compare_with_peers") {
+      const rows: { key: string; label: string; you: number; peers: number }[] = r.rows;
+      const chosen = args.topic
+        ? rows
+        : rows.filter((x) => x.key !== "total").sort((a, b) => Math.abs(b.you - b.peers) - Math.abs(a.you - a.peers));
+      for (const x of chosen.slice(0, MAX_CARDS)) {
+        push({ type: "benchmark", label: `${x.label} per month`, you: x.you, peers: x.peers, peerGroup: r.peerGroup, source: r.source, currency: "EUR" });
+      }
     } else if (name === "get_baskets") {
       this.chart = {
         type: "donut",
