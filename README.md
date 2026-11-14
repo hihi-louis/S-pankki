@@ -26,7 +26,7 @@ cp apps/frontend/.env.example apps/frontend/.env
 ```bash
 npm run dev        # backend (3001) + frontend (5173) together
 npm run dev:backend    # backend only
-npm run dev:frontend    # frontend only (set VITE_USE_MOCK=true in apps/frontend/.env to work without the backend)
+npm run dev:frontend    # frontend only
 npm run typecheck  # all workspaces
 ```
 
