@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { config } from "./config.js";
 import { adminRouter } from "./modules/admin/admin.routes.js";
 import { basketsRouter } from "./modules/baskets/baskets.routes.js";
 import { benchmarkRouter } from "./modules/benchmark/benchmark.routes.js";
@@ -16,7 +17,11 @@ import { spendingRouter } from "./modules/spending/spending.routes.js";
 export const router = Router();
 
 router.get("/health", (_req, res) => {
-  res.json({ ok: true });
+  // Safe to show: whether the assistant is configured (never the key itself), to spot a missing variable on a deployment
+  res.json({
+    ok: true,
+    llm: { configured: Boolean(config.llmApiKey?.trim()), model: config.llmModel, host: new URL(config.llmBaseUrl).host },
+  });
 });
 
 router.use("/spending", spendingRouter);

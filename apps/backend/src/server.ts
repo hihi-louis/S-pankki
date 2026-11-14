@@ -38,4 +38,7 @@ if (fs.existsSync(path.join(dist, "index.html"))) {
 
 app.use(errorHandler);
 
-app.listen(config.port, () => console.log(`api listening on http://localhost:${config.port}`));
+app.listen(config.port, () => {
+  console.log(`api listening on http://localhost:${config.port}`);
+  if (!config.llmApiKey?.trim()) console.warn("[config] LLM_API_KEY is not set: free-form chat questions will fail (suggested questions still work)");
+});
