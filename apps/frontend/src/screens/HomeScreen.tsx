@@ -1,78 +1,103 @@
 import { useEffect, useState } from "react";
-import type { SummaryResponse } from "@sbank/shared";
-import { getSummary } from "../api";
-import { BASKET_EMOJI, BASKET_HINT, eur, eur0, monthName, shortDate } from "../lib/format";
+import type { CSSProperties } from "react";
+import type { LoanStatusResponse, PlansOverview, Recommendation, SummaryResponse } from "@sbank/shared";
+import { getLoanStatus, getPlans, getRecommendations, getSummary } from "../api";
+import { BasketPie } from "../components/BasketPie";
+import { PlanStrip } from "../components/PlanStrip";
+import { LoanStrip } from "../components/LoanStrip";
+import { RecommendationCarousel } from "../components/RecommendationCarousel";
+import { eur } from "../lib/format";
+import type { Nav } from "../lib/nav";
+import { useCountUp } from "../lib/useCountUp";
+
+/** A euro amount that counts up to its value. */
+function Count({ value }: { value: number }) {
+  return <>{eur(useCountUp(value))}</>;
+}
 
 interface Props {
   customerId: string;
-  onAsk: (text: string) => void;
+  nav: Nav;
 }
 
-export function HomeScreen({ customerId, onAsk }: Props) {
+/** Cards come in one after another instead of all at once. */
+const rise = (i: number) => ({ "--i": i }) as CSSProperties;
+
+/**
+ * Overview: recommendations first, then the month at a glance.
+ * Each part loads on its own, so a slow or failed one never blocks the other.
+ */
+export function HomeScreen({ customerId, nav }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
+  const [recs, setRecs] = useState<Recommendation[] | null>(null);
+  const [loan, setLoan] = useState<LoanStatusResponse | null>(null);
+  const [plan, setPlan] = useState<PlansOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getSummary(customerId)
-      .then(setData)
-      .catch((e: Error) => setError(e.message));
+    getSummary(customerId).then(setData).catch((e: Error) => setError(e.message));
+    getPlans(customerId).then(setPlan).catch(() => setPlan(null));
+    getLoanStatus(customerId).then(setLoan).catch(() => setLoan(null));
+    getRecommendations(customerId).then((r) => setRecs(r.items)).catch(() => setRecs([]));
   }, [customerId]);
 
-  if (error) return <main className="home"><p className="empty">Couldn't load: {error}</p></main>;
-  if (!data) return <main className="home"><div className="skeleton" /><div className="skeleton" /><div className="skeleton" /></main>;
 
-  const month = monthName(data.month);
-  const total = data.baskets.reduce((s, b) => s + b.spent, 0) || 1;
+  function openRec(r: Recommendation) {
+    if (r.target.kind === "ask") nav.ask(r.target.text);
+    else nav.open(r.target.kind === "forecast" ? { name: "forecast" } : { name: "insight", id: r.target.id });
+  }
 
   return (
-    <main className="home">
-      <section className="hero">
-        <div className="hero-label">Balance{data.asOf ? ` · ${shortDate(data.asOf)}` : ""}</div>
-        <div className="hero-big">{eur(data.balance)}</div>
-        <div className="hero-sub">
-          Next salary ~{shortDate(data.nextPayday.date)} · about {eur0(data.nextPayday.expected)}
-        </div>
-        <button className="cta" onClick={() => onAsk("What can I safely spend this week?")}>
-          What can I safely spend? →
-        </button>
+    <main className="home screen-enter">
+      {error && <p className="empty">Couldn't load everything: {error}</p>}
+
+      <section className="block rise rec-block" style={rise(0)}>
+        <div className="eyebrow">Picked for you</div>
+        <h2 className="h-display">Recommendations</h2>
+        {recs === null ? (
+          <div className="skeleton skeleton-card" />
+        ) : recs.length > 0 ? (
+          <RecommendationCarousel items={recs} onOpen={openRec} />
+        ) : (
+          <p className="card-sub">Nothing stands out right now.</p>
+        )}
       </section>
 
-      <h2 className="section-title">Where your money went in {month}</h2>
+      {loan?.context && (
+        <section className="block rise" style={rise(1)}>
+          <LoanStrip status={loan} onOpen={() => nav.ask("What is the status of my mortgage application?")} />
+        </section>
+      )}
 
-      <div className="stack stack-lg">
-        {data.baskets.map((b) => (
-          <div key={b.id} className={`stack-seg c${b.id - 1}`} style={{ width: `${(b.spent / total) * 100}%` }} />
-        ))}
-      </div>
+      <section className="block rise money-block" style={rise(1)}>
+        <div className="eyebrow">Insights</div>
+        <h2 className="h-display">Know your money</h2>
+        {!data ? (
+          <div className="card skeleton-money" aria-busy="true">
+            <div className="skeleton sk-line sk-wide" /><div className="skeleton sk-big" />
+            <div className="skeleton sk-line" /><div className="skeleton sk-line sk-wide" />
+          </div>
+        ) : (
+          <div className="card">
+            <div className="glance-balance">
+              <div>
+                <div className="card-sub">Current balance</div>
+                <div className="card-big"><Count value={data.balance} /></div>
+              </div>
+            </div>
+            <div className="card-sub pie-title">Current monthly spending</div>
+            <BasketPie baskets={data.baskets} onPick={(basket) => nav.open({ name: "basket", basket })} />
+          </div>
+        )}
+      </section>
 
-      {data.baskets.map((b) => {
-        const diff = b.spent - b.avg6m;
-        const pct = b.avg6m ? Math.round((diff / b.avg6m) * 100) : 0;
-        return (
-          <button
-            key={b.id}
-            className="basket"
-            onClick={() => onAsk(`Tell me about my ${b.name.toLowerCase()} in ${month}`)}
-          >
-            <span className={`basket-icon c${b.id - 1}`}>{BASKET_EMOJI[b.id]}</span>
-            <span className="basket-body">
-              <span className="basket-row">
-                <span className="basket-name">{b.name}</span>
-                <span className="basket-amt">{eur0(b.spent)}</span>
-              </span>
-              <span className="basket-hint">{BASKET_HINT[b.id]}</span>
-              <span className="basket-row basket-meta">
-                <span>{b.top.map((t) => t.category).join(" · ")}</span>
-                {b.avg6m > 0 && (
-                  <span className={diff > 0 ? "up" : "down"}>
-                    {diff > 0 ? "▲" : "▼"} {Math.abs(pct)}% vs usual
-                  </span>
-                )}
-              </span>
-            </span>
-          </button>
-        );
-      })}
+      {plan && (plan.goals.length > 0 || plan.weeklyLimit) && (
+        <section className="block rise" style={rise(3)}>
+          <div className="eyebrow">Plans</div>
+          <h2 className="h-display">Your plan</h2>
+          <PlanStrip overview={plan} onOpen={() => nav.open({ name: "plans" })} />
+        </section>
+      )}
     </main>
   );
 }

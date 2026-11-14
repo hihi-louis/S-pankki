@@ -9,6 +9,9 @@ export interface ChatMsg {
   content: string;
   res?: ChatResponse;
   error?: boolean;
+  /** Still being written: show the status line and the text so far. */
+  pending?: boolean;
+  status?: string;
 }
 
 export const STARTERS = [
@@ -19,12 +22,15 @@ export const STARTERS = [
 ];
 
 interface Props {
+  customerId: string;
+  /** First assistant message, e.g. "Hi, I'm Sipi. Welcome CUST05020!". */
+  greeting: string;
   messages: ChatMsg[];
   busy: boolean;
   onAsk: (text: string) => void;
 }
 
-export function ChatScreen({ messages, busy, onAsk }: Props) {
+export function ChatScreen({ customerId, greeting, messages, busy, onAsk }: Props) {
   const [input, setInput] = useState("");
   const [sheet, setSheet] = useState<{ sources: SourceTx[]; total?: number } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -45,21 +51,22 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
 
   return (
     <>
-      <main className="messages">
-        {messages.length === 0 && (
-          <div className="empty">
-            <div className="empty-emoji">💬</div>
-            <h2>Ask your money</h2>
-            <p>Plain answers from your own transactions.</p>
-            <div className="chips chips-col">
-              {STARTERS.map((q) => (
-                <button key={q} className="chip" onClick={() => onAsk(q)}>
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+      <main className="messages screen-enter">
+        <div className="assistant-block">
+          <div className="msg assistant greeting">{greeting}</div>
+          {messages.length === 0 && (
+            <>
+              <p className="greeting-sub">Ask anything about your money. Try one of these:</p>
+              <div className="chips chips-col">
+                {STARTERS.map((q) => (
+                  <button key={q} className="chip" onClick={() => onAsk(q)}>
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         {messages.map((m, i) =>
           m.role === "user" ? (
@@ -68,9 +75,43 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
             </div>
           ) : (
             <div key={i} className="assistant-block">
-              <div className={`msg assistant${m.error ? " error" : ""}`}>{m.content}</div>
-              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} />)}
+              {m.pending && !m.content ? (
+                <div className="msg assistant typing" aria-label={m.status ?? "Thinking"} role="status">
+                  <span />
+                  <span />
+                  <span />
+                  {m.status && <em className="typing-status">{m.status}</em>}
+                </div>
+              ) : (
+                <div className={`msg assistant${m.error ? " error" : ""}${m.pending ? " writing" : ""}`}>{m.content}</div>
+              )}
+              {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} customerId={customerId} onAsk={busy ? undefined : onAsk} />)}
               {m.res?.chart && <MiniChart chart={m.res.chart} />}
+              {m.res?.verified === true && <div className="verified">✓ Numbers checked against your data</div>}
+              {m.res?.provenance && m.res.provenance.length > 0 && (
+                <details className="how">
+                  <summary>How I calculated this</summary>
+                  <ul>
+                    {m.res.provenance.map((p) => (
+                      <li key={`${p.title}-${p.data ?? ""}`}>
+                        <strong>{p.title}</strong>
+                        <span>{p.how}</span>
+                        {p.data && <span className="how-data">Data: {p.data}</span>}
+                        <span className="how-source">
+                          Source:{" "}
+                          {p.sourceUrl ? (
+                            <a href={p.sourceUrl} target="_blank" rel="noreferrer">
+                              {p.source}
+                            </a>
+                          ) : (
+                            p.source
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               {m.res && m.res.sources.length > 0 && (
                 <button
                   className="link sources-btn"
@@ -92,13 +133,6 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
           ),
         )}
 
-        {busy && (
-          <div className="msg assistant typing" aria-label="Thinking">
-            <span />
-            <span />
-            <span />
-          </div>
-        )}
         <div ref={endRef} />
       </main>
 

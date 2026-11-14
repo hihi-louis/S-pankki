@@ -6,17 +6,30 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
-    "db:build": "tsx scripts/build-db.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "knex": "tsx ../../node_modules/knex/bin/cli.js --knexfile knexfile.ts",
+    "migrate": "npm run knex -- migrate:latest",
+    "migrate:rollback": "npm run knex -- migrate:rollback",
+    "migrate:make": "npm run knex -- migrate:make -x ts",
+    "db:import": "tsx scripts/import-csv.ts",
+    "db:codegen": "kysely-codegen --dialect postgres --out-file src/db/types.ts --exclude-pattern \"(knex_*|raw_*)\" --date-parser string --numeric-parser number",
+    "db:setup": "npm run migrate && npm run db:import && npm run db:codegen",
+    "data:statfin": "tsx scripts/fetch-statfin.ts",
+    "data:prices": "tsx scripts/fetch-housing-prices.ts",
+    "eval": "tsx scripts/eval.ts",
+    "test": "tsx --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@sbank/shared": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "knex": "^3.3.0",
+    "kysely": "^0.29.9",
+    "openai": "^7.57.0",
     "pg": "^8.23.1",
     "pg-copy-streams": "^7.0.0",
-    "zod": "^3.23.8"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -24,6 +37,7 @@
     "@types/node": "^20.14.0",
     "@types/pg": "^8.23.1",
     "@types/pg-copy-streams": "^1.2.5",
+    "kysely-codegen": "^0.20.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"
   }

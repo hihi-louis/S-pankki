@@ -1,0 +1,30 @@
+{
+  "retrievedAt": "2026-11-14",
+  "note": "Curated snapshot of public figures. The Bank of Finland API needs a subscription key, so these are copied from the cited pages. Update by hand and bump retrievedAt.",
+  "loanCap": {
+    "generalLtv": 0.9,
+    "firstHomeLtv": 0.95,
+    "comment": "FIN-FSA: a housing loan may be at most 90% of the collateral value (95% for first-home loans). FIN-FSA decided on 30 June 2026 to raise the cap to 95% for all borrowers; the article does not state an effective date, so this app uses the 90% general cap to stay cautious.",
+    "sources": [
+      "https://www.finanssivalvonta.fi/en/consumers/borrowing/housing-loans-and-loan-cap/",
+      "https://www.finanssivalvonta.fi/en/publications-and-press-releases/Press-release/2026/macroprudential-decision-housing-loan-cap-to-be-increased-to-95-for-all-borrowers--capital-buffer-requirements-for-banks-to-remain-unchanged/"
+    ]
+  },
+  "stress": {
+    "ratePct": 6,
+    "comment": "FIN-FSA consumer guidance: when assessing ability to service a loan, use an interest rate of at least 6%, even when rates are low.",
+    "source": "https://www.finanssivalvonta.fi/en/consumers/borrowing/housing-loans-and-loan-cap/"
+  },
+  "rates": {
+    "avgNewHousingLoanPct": 3.17,
+    "avgHousingLoanStockPct": 2.87,
+    "asOf": "2026-05",
+    "publishedAt": "2026-06-30",
+    "source": "https://www.suomenpankki.fi/en/statistics/statistical-news/mfi-balance-sheet/2026/interest-rates-on-household-loans-increased-in-may-2026/",
+    "label": "Bank of Finland, average interest rate on new housing loans, May 2026"
+  },
+  "assumptions": {
+    "termYears": 25,
+    "comment": "Loan term is an assumption for the payment estimate; the dataset does not contain terms."
+  }
+}

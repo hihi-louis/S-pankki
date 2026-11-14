@@ -1,0 +1,8693 @@
+{
+ "source": "Statistics Finland, Prices of old dwellings in housing companies (asset transfer tax data)",
+ "tables": [
+  "StatFin/ashi/13mx.px (municipality)",
+  "StatFin/ashi/13mu.px (postal code)"
+ ],
+ "url": "https://pxdata.stat.fi/PxWeb/api/v1/en/StatFin/ashi/",
+ "year": "2025",
+ "unit": "EUR per m², average price (not median), old dwellings in housing companies. Missing = too few sales to publish.",
+ "updated": "2026-05-19T05:00:00Z",
+ "fetchedAt": "2026-11-14",
+ "municipalities": {
+  "102": {
+   "name": "Huittinen",
+   "all": 883,
+   "flats": 865,
+   "terraced": 895,
+   "sales": 68
+  },
+  "106": {
+   "name": "Hyvinkää",
+   "all": 1888,
+   "flats": 1771,
+   "terraced": 2074,
+   "sales": 551
+  },
+  "108": {
+   "name": "Hämeenkyrö",
+   "all": 1186,
+   "flats": 1304,
+   "terraced": 1134,
+   "sales": 42
+  },
+  "109": {
+   "name": "Hämeenlinna",
+   "all": 1784,
+   "flats": 1759,
+   "terraced": 1829,
+   "sales": 1208
+  },
+  "111": {
+   "name": "Heinola",
+   "all": 996,
+   "flats": 977,
+   "terraced": 1032,
+   "sales": 216
+  },
+  "139": {
+   "name": "Ii",
+   "all": 1140,
+   "flats": 2154,
+   "terraced": 953,
+   "sales": 38
+  },
+  "140": {
+   "name": "Iisalmi",
+   "all": 1161,
+   "flats": 1111,
+   "terraced": 1238,
+   "sales": 180
+  },
+  "142": {
+   "name": "Iitti",
+   "all": 773,
+   "flats": 622,
+   "terraced": 810,
+   "sales": 46
+  },
+  "143": {
+   "name": "Ikaalinen",
+   "all": 755,
+   "flats": 739,
+   "terraced": 767,
+   "sales": 34
+  },
+  "145": {
+   "name": "Ilmajoki",
+   "all": 1718,
+   "flats": null,
+   "terraced": null,
+   "sales": 51
+  },
+  "146": {
+   "name": "Ilomantsi",
+   "all": 349,
+   "flats": 472,
+   "terraced": 296,
+   "sales": 48
+  },
+  "148": {
+   "name": "Inari",
+   "all": 1866,
+   "flats": 2222,
+   "terraced": 1771,
+   "sales": 45
+  },
+  "149": {
+   "name": "Inkoo",
+   "all": 1697,
+   "flats": 1400,
+   "terraced": 1751,
+   "sales": 34
+  },
+  "152": {
+   "name": "Isokyrö",
+   "all": 1087,
+   "flats": null,
+   "terraced": null,
+   "sales": 12
+  },
+  "153": {
+   "name": "Imatra",
+   "all": 667,
+   "flats": 574,
+   "terraced": 816,
+   "sales": 181
+  },
+  "165": {
+   "name": "Janakkala",
+   "all": 1297,
+   "flats": 944,
+   "terraced": 1480,
+   "sales": 134
+  },
+  "167": {
+   "name": "Joensuu",
+   "all": 1875,
+   "flats": 2052,
+   "terraced": 1551,
+   "sales": 1034
+  },
+  "169": {
+   "name": "Jokioinen",
+   "all": 1009,
+   "flats": 879,
+   "terraced": 1103,
+   "sales": 18
+  },
+  "171": {
+   "name": "Joroinen",
+   "all": 568,
+   "flats": null,
+   "terraced": null,
+   "sales": 29
+  },
+  "172": {
+   "name": "Joutsa",
+   "all": 704,
+   "flats": 637,
+   "terraced": 734,
+   "sales": 52
+  },
+  "176": {
+   "name": "Juuka",
+   "all": 365,
+   "flats": null,
+   "terraced": null,
+   "sales": 16
+  },
+  "178": {
+   "name": "Juva",
+   "all": 595,
+   "flats": 491,
+   "terraced": 642,
+   "sales": 40
+  },
+  "179": {
+   "name": "Jyväskylä",
+   "all": 2038,
+   "flats": 2070,
+   "terraced": 1958,
+   "sales": 2129
+  },
+  "182": {
+   "name": "Jämsä",
+   "all": 825,
+   "flats": 901,
+   "terraced": 741,
+   "sales": 142
+  },
+  "186": {
+   "name": "Järvenpää",
+   "all": 2450,
+   "flats": 2243,
+   "terraced": 2663,
+   "sales": 560
+  },
+  "202": {
+   "name": "Kaarina",
+   "all": 2477,
+   "flats": 1976,
+   "terraced": 2727,
+   "sales": 390
+  },
+  "205": {
+   "name": "Kajaani",
+   "all": 1240,
+   "flats": 1204,
+   "terraced": 1319,
+   "sales": 391
+  },
+  "208": {
+   "name": "Kalajoki",
+   "all": 1521,
+   "flats": 1956,
+   "terraced": 1347,
+   "sales": 31
+  },
+  "211": {
+   "name": "Kangasala",
+   "all": 2201,
+   "flats": 2003,
+   "terraced": 2332,
+   "sales": 350
+  },
+  "213": {
+   "name": "Kangasniemi",
+   "all": 787,
+   "flats": 810,
+   "terraced": 759,
+   "sales": 27
+  },
+  "214": {
+   "name": "Kankaanpää",
+   "all": 946,
+   "flats": 979,
+   "terraced": 926,
+   "sales": 63
+  },
+  "217": {
+   "name": "Kannus",
+   "all": 1046,
+   "flats": 1230,
+   "terraced": 989,
+   "sales": 28
+  },
+  "224": {
+   "name": "Karkkila",
+   "all": 1094,
+   "flats": 1049,
+   "terraced": 1226,
+   "sales": 74
+  },
+  "226": {
+   "name": "Karstula",
+   "all": 719,
+   "flats": null,
+   "terraced": 719,
+   "sales": 11
+  },
+  "231": {
+   "name": "Kaskinen",
+   "all": 551,
+   "flats": 551,
+   "terraced": null,
+   "sales": 18
+  },
+  "232": {
+   "name": "Kauhajoki",
+   "all": 1028,
+   "flats": null,
+   "terraced": null,
+   "sales": 43
+  },
+  "233": {
+   "name": "Kauhava",
+   "all": 1007,
+   "flats": null,
+   "terraced": null,
+   "sales": 44
+  },
+  "235": {
+   "name": "Kauniainen",
+   "all": 4210,
+   "flats": 4343,
+   "terraced": 3940,
+   "sales": 185
+  },
+  "236": {
+   "name": "Kaustinen",
+   "all": 905,
+   "flats": null,
+   "terraced": null,
+   "sales": 11
+  },
+  "240": {
+   "name": "Kemi",
+   "all": 878,
+   "flats": 904,
+   "terraced": 824,
+   "sales": 208
+  },
+  "241": {
+   "name": "Keminmaa",
+   "all": 739,
+   "flats": 545,
+   "terraced": 787,
+   "sales": 47
+  },
+  "244": {
+   "name": "Kempele",
+   "all": 2088,
+   "flats": 2259,
+   "terraced": 2036,
+   "sales": 201
+  },
+  "245": {
+   "name": "Kerava",
+   "all": 2167,
+   "flats": 2180,
+   "terraced": 2139,
+   "sales": 393
+  },
+  "249": {
+   "name": "Keuruu",
+   "all": 676,
+   "flats": 592,
+   "terraced": 909,
+   "sales": 130
+  },
+  "257": {
+   "name": "Kirkkonummi",
+   "all": 2696,
+   "flats": 2086,
+   "terraced": 2889,
+   "sales": 438
+  },
+  "260": {
+   "name": "Kitee",
+   "all": 514,
+   "flats": 523,
+   "terraced": 504,
+   "sales": 69
+  },
+  "261": {
+   "name": "Kittilä",
+   "all": 2133,
+   "flats": null,
+   "terraced": null,
+   "sales": 26
+  },
+  "263": {
+   "name": "Kiuruvesi",
+   "all": 796,
+   "flats": 1101,
+   "terraced": 525,
+   "sales": 42
+  },
+  "271": {
+   "name": "Kokemäki",
+   "all": 708,
+   "flats": null,
+   "terraced": null,
+   "sales": 39
+  },
+  "272": {
+   "name": "Kokkola",
+   "all": 1831,
+   "flats": 1834,
+   "terraced": 1827,
+   "sales": 422
+  },
+  "273": {
+   "name": "Kolari",
+   "all": 1620,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "276": {
+   "name": "Kontiolahti",
+   "all": 1582,
+   "flats": 1553,
+   "terraced": 1590,
+   "sales": 86
+  },
+  "284": {
+   "name": "Koski Tl",
+   "all": 745,
+   "flats": null,
+   "terraced": null,
+   "sales": 6
+  },
+  "285": {
+   "name": "Kotka",
+   "all": 1184,
+   "flats": 1154,
+   "terraced": 1272,
+   "sales": 742
+  },
+  "286": {
+   "name": "Kouvola",
+   "all": 1088,
+   "flats": 1078,
+   "terraced": 1106,
+   "sales": 784
+  },
+  "287": {
+   "name": "Kristiinankaupunki",
+   "all": 687,
+   "flats": 701,
+   "terraced": 680,
+   "sales": 27
+  },
+  "288": {
+   "name": "Kruunupyy",
+   "all": 1443,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "290": {
+   "name": "Kuhmo",
+   "all": 747,
+   "flats": 888,
+   "terraced": 592,
+   "sales": 35
+  },
+  "291": {
+   "name": "Kuhmoinen",
+   "all": 604,
+   "flats": null,
+   "terraced": null,
+   "sales": 14
+  },
+  "297": {
+   "name": "Kuopio",
+   "all": 2086,
+   "flats": 2164,
+   "terraced": 1895,
+   "sales": 1950
+  },
+  "300": {
+   "name": "Kuortane",
+   "all": 851,
+   "flats": null,
+   "terraced": 851,
+   "sales": 6
+  },
+  "301": {
+   "name": "Kurikka",
+   "all": 967,
+   "flats": 762,
+   "terraced": 997,
+   "sales": 73
+  },
+  "305": {
+   "name": "Kuusamo",
+   "all": 1427,
+   "flats": 1460,
+   "terraced": 1398,
+   "sales": 174
+  },
+  "309": {
+   "name": "Outokumpu",
+   "all": 345,
+   "flats": 366,
+   "terraced": 341,
+   "sales": 61
+  },
+  "316": {
+   "name": "Kärkölä",
+   "all": 780,
+   "flats": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "320": {
+   "name": "Kemijärvi",
+   "all": 605,
+   "flats": 656,
+   "terraced": 582,
+   "sales": 62
+  },
+  "322": {
+   "name": "Kemiönsaari",
+   "all": 1235,
+   "flats": 1141,
+   "terraced": 1280,
+   "sales": 38
+  },
+  "398": {
+   "name": "Lahti",
+   "all": 1675,
+   "flats": 1619,
+   "terraced": 1907,
+   "sales": 1676
+  },
+  "399": {
+   "name": "Laihia",
+   "all": 1435,
+   "flats": 1498,
+   "terraced": 1414,
+   "sales": 39
+  },
+  "400": {
+   "name": "Laitila",
+   "all": 1171,
+   "flats": 1055,
+   "terraced": 1290,
+   "sales": 37
+  },
+  "402": {
+   "name": "Lapinlahti",
+   "all": 749,
+   "flats": 817,
+   "terraced": 729,
+   "sales": 41
+  },
+  "405": {
+   "name": "Lappeenranta",
+   "all": 1733,
+   "flats": 1763,
+   "terraced": 1648,
+   "sales": 712
+  },
+  "408": {
+   "name": "Lapua",
+   "all": 1381,
+   "flats": 1133,
+   "terraced": 1488,
+   "sales": 62
+  },
+  "410": {
+   "name": "Laukaa",
+   "all": 1414,
+   "flats": 1602,
+   "terraced": 1343,
+   "sales": 72
+  },
+  "416": {
+   "name": "Lemi",
+   "all": 805,
+   "flats": null,
+   "terraced": null,
+   "sales": 11
+  },
+  "418": {
+   "name": "Lempäälä",
+   "all": 2443,
+   "flats": 2098,
+   "terraced": 2593,
+   "sales": 241
+  },
+  "420": {
+   "name": "Leppävirta",
+   "all": 700,
+   "flats": 491,
+   "terraced": 765,
+   "sales": 67
+  },
+  "422": {
+   "name": "Lieksa",
+   "all": 382,
+   "flats": 351,
+   "terraced": 410,
+   "sales": 54
+  },
+  "423": {
+   "name": "Lieto",
+   "all": 2359,
+   "flats": 2174,
+   "terraced": 2475,
+   "sales": 118
+  },
+  "425": {
+   "name": "Liminka",
+   "all": 1599,
+   "flats": 2404,
+   "terraced": 1447,
+   "sales": 32
+  },
+  "426": {
+   "name": "Liperi",
+   "all": 1081,
+   "flats": null,
+   "terraced": null,
+   "sales": 41
+  },
+  "430": {
+   "name": "Loimaa",
+   "all": 983,
+   "flats": 904,
+   "terraced": 1077,
+   "sales": 113
+  },
+  "433": {
+   "name": "Loppi",
+   "all": 985,
+   "flats": 812,
+   "terraced": 1195,
+   "sales": 34
+  },
+  "434": {
+   "name": "Loviisa",
+   "all": 1227,
+   "flats": 1123,
+   "terraced": 1342,
+   "sales": 73
+  },
+  "440": {
+   "name": "Luoto",
+   "all": 1936,
+   "flats": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "441": {
+   "name": "Luumäki",
+   "all": 669,
+   "flats": 457,
+   "terraced": 759,
+   "sales": 26
+  },
+  "444": {
+   "name": "Lohja",
+   "all": 1944,
+   "flats": 1913,
+   "terraced": 1972,
+   "sales": 482
+  },
+  "445": {
+   "name": "Parainen",
+   "all": 1551,
+   "flats": 1312,
+   "terraced": 2063,
+   "sales": 109
+  },
+  "475": {
+   "name": "Maalahti",
+   "all": 1515,
+   "flats": null,
+   "terraced": 1515,
+   "sales": 16
+  },
+  "481": {
+   "name": "Masku",
+   "all": 1917,
+   "flats": 1256,
+   "terraced": 2096,
+   "sales": 42
+  },
+  "484": {
+   "name": "Merikarvia",
+   "all": 572,
+   "flats": null,
+   "terraced": 572,
+   "sales": 11
+  },
+  "491": {
+   "name": "Mikkeli",
+   "all": 1459,
+   "flats": 1418,
+   "terraced": 1557,
+   "sales": 532
+  },
+  "494": {
+   "name": "Muhos",
+   "all": 1191,
+   "flats": null,
+   "terraced": null,
+   "sales": 44
+  },
+  "499": {
+   "name": "Mustasaari",
+   "all": 1792,
+   "flats": 1848,
+   "terraced": 1776,
+   "sales": 116
+  },
+  "500": {
+   "name": "Muurame",
+   "all": 1267,
+   "flats": 890,
+   "terraced": 1781,
+   "sales": 67
+  },
+  "503": {
+   "name": "Mynämäki",
+   "all": 1425,
+   "flats": 1266,
+   "terraced": 1531,
+   "sales": 41
+  },
+  "505": {
+   "name": "Mäntsälä",
+   "all": 1735,
+   "flats": 1796,
+   "terraced": 1689,
+   "sales": 159
+  },
+  "507": {
+   "name": "Mäntyharju",
+   "all": 655,
+   "flats": 765,
+   "terraced": 563,
+   "sales": 58
+  },
+  "508": {
+   "name": "Mänttä-Vilppula",
+   "all": 611,
+   "flats": null,
+   "terraced": null,
+   "sales": 62
+  },
+  "529": {
+   "name": "Naantali",
+   "all": 2318,
+   "flats": 2103,
+   "terraced": 2470,
+   "sales": 218
+  },
+  "531": {
+   "name": "Nakkila",
+   "all": 1041,
+   "flats": null,
+   "terraced": null,
+   "sales": 21
+  },
+  "535": {
+   "name": "Nivala",
+   "all": 1142,
+   "flats": 1308,
+   "terraced": 1000,
+   "sales": 43
+  },
+  "536": {
+   "name": "Nokia",
+   "all": 2039,
+   "flats": 1771,
+   "terraced": 2271,
+   "sales": 471
+  },
+  "538": {
+   "name": "Nousiainen",
+   "all": 1659,
+   "flats": 1715,
+   "terraced": 1571,
+   "sales": 15
+  },
+  "541": {
+   "name": "Nurmes",
+   "all": 565,
+   "flats": 551,
+   "terraced": 575,
+   "sales": 68
+  },
+  "543": {
+   "name": "Nurmijärvi",
+   "all": 2151,
+   "flats": 2048,
+   "terraced": 2193,
+   "sales": 345
+  },
+  "545": {
+   "name": "Närpiö",
+   "all": 1439,
+   "flats": 1300,
+   "terraced": 1811,
+   "sales": 42
+  },
+  "560": {
+   "name": "Orimattila",
+   "all": 1140,
+   "flats": 916,
+   "terraced": 1299,
+   "sales": 168
+  },
+  "562": {
+   "name": "Orivesi",
+   "all": 1097,
+   "flats": 1106,
+   "terraced": 1090,
+   "sales": 71
+  },
+  "563": {
+   "name": "Oulainen",
+   "all": 840,
+   "flats": 902,
+   "terraced": 781,
+   "sales": 30
+  },
+  "564": {
+   "name": "Oulu",
+   "all": 2105,
+   "flats": 2207,
+   "terraced": 1930,
+   "sales": 3172
+  },
+  "576": {
+   "name": "Padasjoki",
+   "all": 680,
+   "flats": null,
+   "terraced": null,
+   "sales": 14
+  },
+  "577": {
+   "name": "Paimio",
+   "all": 1588,
+   "flats": 1386,
+   "terraced": 1737,
+   "sales": 97
+  },
+  "580": {
+   "name": "Parikkala",
+   "all": 465,
+   "flats": null,
+   "terraced": null,
+   "sales": 24
+  },
+  "581": {
+   "name": "Parkano",
+   "all": 922,
+   "flats": 1198,
+   "terraced": 766,
+   "sales": 32
+  },
+  "592": {
+   "name": "Petäjävesi",
+   "all": 764,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "593": {
+   "name": "Pieksämäki",
+   "all": 526,
+   "flats": 471,
+   "terraced": 627,
+   "sales": 166
+  },
+  "595": {
+   "name": "Pielavesi",
+   "all": 521,
+   "flats": 446,
+   "terraced": 575,
+   "sales": 33
+  },
+  "598": {
+   "name": "Pietarsaari",
+   "all": 1230,
+   "flats": 1187,
+   "terraced": 1303,
+   "sales": 179
+  },
+  "604": {
+   "name": "Pirkkala",
+   "all": 2915,
+   "flats": 2704,
+   "terraced": 3041,
+   "sales": 376
+  },
+  "607": {
+   "name": "Polvijärvi",
+   "all": 325,
+   "flats": null,
+   "terraced": null,
+   "sales": 18
+  },
+  "608": {
+   "name": "Pomarkku",
+   "all": 795,
+   "flats": null,
+   "terraced": 795,
+   "sales": 7
+  },
+  "609": {
+   "name": "Pori",
+   "all": 1325,
+   "flats": 1292,
+   "terraced": 1413,
+   "sales": 1008
+  },
+  "611": {
+   "name": "Pornainen",
+   "all": 2092,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "614": {
+   "name": "Posio",
+   "all": 481,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "615": {
+   "name": "Pudasjärvi",
+   "all": 753,
+   "flats": 642,
+   "terraced": 784,
+   "sales": 30
+  },
+  "619": {
+   "name": "Punkalaidun",
+   "all": 593,
+   "flats": null,
+   "terraced": null,
+   "sales": 14
+  },
+  "623": {
+   "name": "Puumala",
+   "all": 961,
+   "flats": 767,
+   "terraced": 1080,
+   "sales": 17
+  },
+  "624": {
+   "name": "Pyhtää",
+   "all": 1272,
+   "flats": null,
+   "terraced": 1272,
+   "sales": 18
+  },
+  "626": {
+   "name": "Pyhäjärvi",
+   "all": 678,
+   "flats": null,
+   "terraced": null,
+   "sales": 20
+  },
+  "635": {
+   "name": "Pälkäne",
+   "all": 1383,
+   "flats": null,
+   "terraced": null,
+   "sales": 16
+  },
+  "636": {
+   "name": "Pöytyä",
+   "all": 961,
+   "flats": null,
+   "terraced": null,
+   "sales": 21
+  },
+  "638": {
+   "name": "Porvoo",
+   "all": 2597,
+   "flats": 2646,
+   "terraced": 2495,
+   "sales": 453
+  },
+  "678": {
+   "name": "Raahe",
+   "all": 1230,
+   "flats": 1368,
+   "terraced": 1123,
+   "sales": 137
+  },
+  "680": {
+   "name": "Raisio",
+   "all": 1855,
+   "flats": 1621,
+   "terraced": 2115,
+   "sales": 324
+  },
+  "681": {
+   "name": "Rantasalmi",
+   "all": 554,
+   "flats": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "683": {
+   "name": "Ranua",
+   "all": 842,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "684": {
+   "name": "Rauma",
+   "all": 1345,
+   "flats": 1301,
+   "terraced": 1444,
+   "sales": 506
+  },
+  "686": {
+   "name": "Rautalampi",
+   "all": 542,
+   "flats": null,
+   "terraced": null,
+   "sales": 7
+  },
+  "691": {
+   "name": "Reisjärvi",
+   "all": 894,
+   "flats": null,
+   "terraced": 894,
+   "sales": 21
+  },
+  "694": {
+   "name": "Riihimäki",
+   "all": 1548,
+   "flats": 1440,
+   "terraced": 1894,
+   "sales": 405
+  },
+  "698": {
+   "name": "Rovaniemi",
+   "all": 1953,
+   "flats": 1973,
+   "terraced": 1888,
+   "sales": 1185
+  },
+  "702": {
+   "name": "Ruovesi",
+   "all": 720,
+   "flats": null,
+   "terraced": null,
+   "sales": 28
+  },
+  "704": {
+   "name": "Rusko",
+   "all": 2269,
+   "flats": null,
+   "terraced": null,
+   "sales": 31
+  },
+  "710": {
+   "name": "Raasepori",
+   "all": 1769,
+   "flats": 1765,
+   "terraced": 1781,
+   "sales": 256
+  },
+  "729": {
+   "name": "Saarijärvi",
+   "all": 870,
+   "flats": 855,
+   "terraced": 901,
+   "sales": 42
+  },
+  "732": {
+   "name": "Salla",
+   "all": 754,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "734": {
+   "name": "Salo",
+   "all": 1361,
+   "flats": 1431,
+   "terraced": 1301,
+   "sales": 515
+  },
+  "738": {
+   "name": "Sauvo",
+   "all": 1251,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "739": {
+   "name": "Savitaipale",
+   "all": 792,
+   "flats": null,
+   "terraced": null,
+   "sales": 14
+  },
+  "740": {
+   "name": "Savonlinna",
+   "all": 1141,
+   "flats": 1298,
+   "terraced": 791,
+   "sales": 323
+  },
+  "743": {
+   "name": "Seinäjoki",
+   "all": 1960,
+   "flats": 2012,
+   "terraced": 1911,
+   "sales": 786
+  },
+  "746": {
+   "name": "Sievi",
+   "all": 905,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "749": {
+   "name": "Siilinjärvi",
+   "all": 1469,
+   "flats": 1396,
+   "terraced": 1500,
+   "sales": 185
+  },
+  "753": {
+   "name": "Sipoo",
+   "all": 2575,
+   "flats": 2697,
+   "terraced": 2420,
+   "sales": 154
+  },
+  "755": {
+   "name": "Siuntio",
+   "all": 1507,
+   "flats": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "758": {
+   "name": "Sodankylä",
+   "all": 1089,
+   "flats": 1007,
+   "terraced": 1141,
+   "sales": 47
+  },
+  "761": {
+   "name": "Somero",
+   "all": 805,
+   "flats": 719,
+   "terraced": 881,
+   "sales": 72
+  },
+  "762": {
+   "name": "Sonkajärvi",
+   "all": 430,
+   "flats": null,
+   "terraced": null,
+   "sales": 12
+  },
+  "765": {
+   "name": "Sotkamo",
+   "all": 1467,
+   "flats": 1521,
+   "terraced": 1429,
+   "sales": 82
+  },
+  "768": {
+   "name": "Sulkava",
+   "all": 426,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "777": {
+   "name": "Suomussalmi",
+   "all": 663,
+   "flats": null,
+   "terraced": null,
+   "sales": 26
+  },
+  "778": {
+   "name": "Suonenjoki",
+   "all": 865,
+   "flats": null,
+   "terraced": null,
+   "sales": 37
+  },
+  "781": {
+   "name": "Sysmä",
+   "all": 857,
+   "flats": null,
+   "terraced": null,
+   "sales": 23
+  },
+  "783": {
+   "name": "Säkylä",
+   "all": 920,
+   "flats": null,
+   "terraced": null,
+   "sales": 32
+  },
+  "790": {
+   "name": "Sastamala",
+   "all": 1314,
+   "flats": 1411,
+   "terraced": 1204,
+   "sales": 157
+  },
+  "831": {
+   "name": "Taipalsaari",
+   "all": 1144,
+   "flats": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "832": {
+   "name": "Taivalkoski",
+   "all": 832,
+   "flats": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "833": {
+   "name": "Taivassalo",
+   "all": 1360,
+   "flats": null,
+   "terraced": null,
+   "sales": 6
+  },
+  "834": {
+   "name": "Tammela",
+   "all": 1041,
+   "flats": null,
+   "terraced": null,
+   "sales": 21
+  },
+  "837": {
+   "name": "Tampere",
+   "all": 2979,
+   "flats": 3062,
+   "terraced": 2708,
+   "sales": 4320
+  },
+  "848": {
+   "name": "Tohmajärvi",
+   "all": 351,
+   "flats": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "850": {
+   "name": "Toivakka",
+   "all": 799,
+   "flats": null,
+   "terraced": 799,
+   "sales": 13
+  },
+  "851": {
+   "name": "Tornio",
+   "all": 1447,
+   "flats": 1528,
+   "terraced": 1327,
+   "sales": 139
+  },
+  "853": {
+   "name": "Turku",
+   "all": 2653,
+   "flats": 2639,
+   "terraced": 2712,
+   "sales": 3024
+  },
+  "854": {
+   "name": "Pello",
+   "all": 644,
+   "flats": null,
+   "terraced": null,
+   "sales": 8
+  },
+  "858": {
+   "name": "Tuusula",
+   "all": 2272,
+   "flats": 1948,
+   "terraced": 2439,
+   "sales": 307
+  },
+  "859": {
+   "name": "Tyrnävä",
+   "all": 1122,
+   "flats": null,
+   "terraced": 1122,
+   "sales": 14
+  },
+  "886": {
+   "name": "Ulvila",
+   "all": 1127,
+   "flats": 1054,
+   "terraced": 1165,
+   "sales": 69
+  },
+  "887": {
+   "name": "Urjala",
+   "all": 815,
+   "flats": null,
+   "terraced": null,
+   "sales": 18
+  },
+  "889": {
+   "name": "Utajärvi",
+   "all": 913,
+   "flats": null,
+   "terraced": 913,
+   "sales": 12
+  },
+  "892": {
+   "name": "Uurainen",
+   "all": 1046,
+   "flats": null,
+   "terraced": null,
+   "sales": 9
+  },
+  "893": {
+   "name": "Uusikaarlepyy",
+   "all": 1485,
+   "flats": 1381,
+   "terraced": 1628,
+   "sales": 31
+  },
+  "895": {
+   "name": "Uusikaupunki",
+   "all": 1008,
+   "flats": 938,
+   "terraced": 1070,
+   "sales": 138
+  },
+  "905": {
+   "name": "Vaasa",
+   "all": 2028,
+   "flats": 2078,
+   "terraced": 1806,
+   "sales": 1120
+  },
+  "908": {
+   "name": "Valkeakoski",
+   "all": 1257,
+   "flats": 1231,
+   "terraced": 1315,
+   "sales": 210
+  },
+  "915": {
+   "name": "Varkaus",
+   "all": 636,
+   "flats": 597,
+   "terraced": 664,
+   "sales": 215
+  },
+  "918": {
+   "name": "Vehmaa",
+   "all": 822,
+   "flats": null,
+   "terraced": null,
+   "sales": 10
+  },
+  "922": {
+   "name": "Vesilahti",
+   "all": 1692,
+   "flats": null,
+   "terraced": 1692,
+   "sales": 12
+  },
+  "927": {
+   "name": "Vihti",
+   "all": 1930,
+   "flats": 2020,
+   "terraced": 1887,
+   "sales": 317
+  },
+  "931": {
+   "name": "Viitasaari",
+   "all": 731,
+   "flats": null,
+   "terraced": null,
+   "sales": 24
+  },
+  "936": {
+   "name": "Virrat",
+   "all": 803,
+   "flats": 754,
+   "terraced": 832,
+   "sales": 34
+  },
+  "946": {
+   "name": "Vöyri",
+   "all": 1030,
+   "flats": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "977": {
+   "name": "Ylivieska",
+   "all": 1341,
+   "flats": 1253,
+   "terraced": 1403,
+   "sales": 146
+  },
+  "980": {
+   "name": "Ylöjärvi",
+   "all": 2186,
+   "flats": 1978,
+   "terraced": 2243,
+   "sales": 275
+  },
+  "981": {
+   "name": "Ypäjä",
+   "all": 834,
+   "flats": null,
+   "terraced": null,
+   "sales": 7
+  },
+  "989": {
+   "name": "Ähtäri",
+   "all": 879,
+   "flats": null,
+   "terraced": null,
+   "sales": 24
+  },
+  "992": {
+   "name": "Äänekoski",
+   "all": 850,
+   "flats": 829,
+   "terraced": 882,
+   "sales": 146
+  },
+  "020": {
+   "name": "Akaa",
+   "all": 1243,
+   "flats": 1194,
+   "terraced": 1289,
+   "sales": 153
+  },
+  "005": {
+   "name": "Alajärvi",
+   "all": 1429,
+   "flats": null,
+   "terraced": null,
+   "sales": 20
+  },
+  "010": {
+   "name": "Alavus",
+   "all": 996,
+   "flats": null,
+   "terraced": null,
+   "sales": 36
+  },
+  "016": {
+   "name": "Asikkala",
+   "all": 1185,
+   "flats": 1152,
+   "terraced": 1220,
+   "sales": 60
+  },
+  "018": {
+   "name": "Askola",
+   "all": 1406,
+   "flats": null,
+   "terraced": 1406,
+   "sales": 9
+  },
+  "019": {
+   "name": "Aura",
+   "all": 1285,
+   "flats": null,
+   "terraced": null,
+   "sales": 33
+  },
+  "049": {
+   "name": "Espoo",
+   "all": 3773,
+   "flats": 3812,
+   "terraced": 3736,
+   "sales": 4094
+  },
+  "050": {
+   "name": "Eura",
+   "all": 890,
+   "flats": 948,
+   "terraced": 871,
+   "sales": 44
+  },
+  "051": {
+   "name": "Eurajoki",
+   "all": 1136,
+   "flats": null,
+   "terraced": 1136,
+   "sales": 24
+  },
+  "061": {
+   "name": "Forssa",
+   "all": 1041,
+   "flats": 1007,
+   "terraced": 1188,
+   "sales": 172
+  },
+  "069": {
+   "name": "Haapajärvi",
+   "all": 917,
+   "flats": 733,
+   "terraced": 1202,
+   "sales": 30
+  },
+  "071": {
+   "name": "Haapavesi",
+   "all": 777,
+   "flats": null,
+   "terraced": 777,
+   "sales": 14
+  },
+  "075": {
+   "name": "Hamina",
+   "all": 1158,
+   "flats": 1129,
+   "terraced": 1188,
+   "sales": 164
+  },
+  "077": {
+   "name": "Hankasalmi",
+   "all": 656,
+   "flats": null,
+   "terraced": 656,
+   "sales": 13
+  },
+  "078": {
+   "name": "Hanko",
+   "all": 2306,
+   "flats": 2189,
+   "terraced": 2556,
+   "sales": 187
+  },
+  "079": {
+   "name": "Harjavalta",
+   "all": 802,
+   "flats": 590,
+   "terraced": 843,
+   "sales": 62
+  },
+  "082": {
+   "name": "Hattula",
+   "all": 1482,
+   "flats": 1007,
+   "terraced": 1594,
+   "sales": 57
+  },
+  "086": {
+   "name": "Hausjärvi",
+   "all": 893,
+   "flats": null,
+   "terraced": null,
+   "sales": 23
+  },
+  "091": {
+   "name": "Helsinki",
+   "all": 4983,
+   "flats": 5225,
+   "terraced": 3672,
+   "sales": 10455
+  },
+  "097": {
+   "name": "Hirvensalmi",
+   "all": 720,
+   "flats": null,
+   "terraced": 720,
+   "sales": 11
+  },
+  "098": {
+   "name": "Hollola",
+   "all": 1288,
+   "flats": 983,
+   "terraced": 1598,
+   "sales": 162
+  },
+  "092": {
+   "name": "Vantaa",
+   "all": 2675,
+   "flats": 2543,
+   "terraced": 2936,
+   "sales": 2771
+  }
+ },
+ "postal": {
+  "10210": {
+   "name": "Inkoo Keskus",
+   "municipality": "Ingå",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1751,
+   "sales": 34
+  },
+  "10300": {
+   "name": "Karjaa Keskus",
+   "municipality": "Raasepori",
+   "flats1": null,
+   "flats2": 1565,
+   "flats3": 1184,
+   "terraced": 1809,
+   "sales": 68
+  },
+  "10420": {
+   "name": "Pohjankuru",
+   "municipality": "Raasepori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 833,
+   "sales": 20
+  },
+  "10600": {
+   "name": "Tammisaari Keskus",
+   "municipality": "Raasepori",
+   "flats1": 1912,
+   "flats2": 2369,
+   "flats3": 2483,
+   "terraced": 2457,
+   "sales": 98
+  },
+  "10650": {
+   "name": "Flyet",
+   "municipality": "Raasepori",
+   "flats1": 1222,
+   "flats2": 1197,
+   "flats3": null,
+   "terraced": null,
+   "sales": 22
+  },
+  "10900": {
+   "name": "Hanko Keskus",
+   "municipality": "Hanko",
+   "flats1": 2322,
+   "flats2": 2147,
+   "flats3": 2165,
+   "terraced": 4391,
+   "sales": 94
+  },
+  "10940": {
+   "name": "Hangonkylä",
+   "municipality": "Hanko",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1756,
+   "sales": 8
+  },
+  "10960": {
+   "name": "Hanko Pohjoinen",
+   "municipality": "Hanko",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2193,
+   "sales": 15
+  },
+  "11100": {
+   "name": "Riihimäki Keskus",
+   "municipality": "Riihimäki",
+   "flats1": 1670,
+   "flats2": 1564,
+   "flats3": 1535,
+   "terraced": 1801,
+   "sales": 176
+  },
+  "11120": {
+   "name": "Pohjois-Riihimäki",
+   "municipality": "Riihimäki",
+   "flats1": 1444,
+   "flats2": 1239,
+   "flats3": 1153,
+   "terraced": 1802,
+   "sales": 56
+  },
+  "11130": {
+   "name": "Peltosaari-Patastenmäki",
+   "municipality": "Riihimäki",
+   "flats1": 1570,
+   "flats2": 1185,
+   "flats3": 1180,
+   "terraced": 2101,
+   "sales": 122
+  },
+  "11710": {
+   "name": "Herajoki",
+   "municipality": "Riihimäki",
+   "flats1": null,
+   "flats2": 1391,
+   "flats3": null,
+   "terraced": 1865,
+   "sales": 25
+  },
+  "11910": {
+   "name": "Lasi-Kumela",
+   "municipality": "Riihimäki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1633,
+   "sales": 22
+  },
+  "12100": {
+   "name": "Oitti",
+   "municipality": "Hausjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 782,
+   "sales": 14
+  },
+  "12400": {
+   "name": "Tervakoski",
+   "municipality": "Janakkala",
+   "flats1": null,
+   "flats2": 843,
+   "flats3": null,
+   "terraced": 1391,
+   "sales": 34
+  },
+  "12700": {
+   "name": "Loppi kk",
+   "municipality": "Loppi",
+   "flats1": null,
+   "flats2": 780,
+   "flats3": null,
+   "terraced": 1177,
+   "sales": 27
+  },
+  "13100": {
+   "name": "Hämeenlinna Keskus",
+   "municipality": "Hämeenlinna",
+   "flats1": 2430,
+   "flats2": 2064,
+   "flats3": 2145,
+   "terraced": 2002,
+   "sales": 304
+  },
+  "13130": {
+   "name": "Kauriala",
+   "municipality": "Hämeenlinna",
+   "flats1": 1853,
+   "flats2": 1627,
+   "flats3": 1621,
+   "terraced": 2202,
+   "sales": 151
+  },
+  "13200": {
+   "name": "Keinusaari",
+   "municipality": "Hämeenlinna",
+   "flats1": 1613,
+   "flats2": 2080,
+   "flats3": 2396,
+   "terraced": null,
+   "sales": 71
+  },
+  "13210": {
+   "name": "Hätilä",
+   "municipality": "Hämeenlinna",
+   "flats1": 1712,
+   "flats2": 1419,
+   "flats3": 1288,
+   "terraced": 1976,
+   "sales": 130
+  },
+  "13220": {
+   "name": "Sairio",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2710,
+   "terraced": 2562,
+   "sales": 21
+  },
+  "13250": {
+   "name": "Katuma",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": 985,
+   "flats3": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "13270": {
+   "name": "Ruununmylly",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2284,
+   "sales": 9
+  },
+  "13300": {
+   "name": "Käikälä",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1864,
+   "sales": 34
+  },
+  "13500": {
+   "name": "Jukola",
+   "municipality": "Hämeenlinna",
+   "flats1": 1254,
+   "flats2": 968,
+   "flats3": 891,
+   "terraced": 1840,
+   "sales": 328
+  },
+  "13600": {
+   "name": "Ojoinen",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": 1050,
+   "flats3": 959,
+   "terraced": 1841,
+   "sales": 49
+  },
+  "13720": {
+   "name": "Parola",
+   "municipality": "Hattula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1451,
+   "sales": 32
+  },
+  "13880": {
+   "name": "Rahkoila",
+   "municipality": "Hattula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1755,
+   "sales": 11
+  },
+  "14200": {
+   "name": "Turenki",
+   "municipality": "Janakkala",
+   "flats1": 1094,
+   "flats2": 919,
+   "flats3": 975,
+   "terraced": 1487,
+   "sales": 94
+  },
+  "14500": {
+   "name": "Iittala",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1123,
+   "sales": 36
+  },
+  "14700": {
+   "name": "Hauho kk",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 743,
+   "sales": 13
+  },
+  "15100": {
+   "name": "Lahti Asemanseutu",
+   "municipality": "Lahti",
+   "flats1": 1984,
+   "flats2": 1989,
+   "flats3": 2220,
+   "terraced": 2639,
+   "sales": 87
+  },
+  "15110": {
+   "name": "Keski-Lahti",
+   "municipality": "Lahti",
+   "flats1": 2453,
+   "flats2": 2377,
+   "flats3": 2269,
+   "terraced": null,
+   "sales": 118
+  },
+  "15140": {
+   "name": "Kartano-Paavola",
+   "municipality": "Lahti",
+   "flats1": 2255,
+   "flats2": 2149,
+   "flats3": 2435,
+   "terraced": 3837,
+   "sales": 343
+  },
+  "15150": {
+   "name": "Möysä",
+   "municipality": "Lahti",
+   "flats1": 1231,
+   "flats2": 1371,
+   "flats3": 1337,
+   "terraced": 1987,
+   "sales": 88
+  },
+  "15160": {
+   "name": "Kolava",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2554,
+   "sales": 36
+  },
+  "15170": {
+   "name": "Tenava-Tonttila",
+   "municipality": "Lahti",
+   "flats1": 1153,
+   "flats2": 969,
+   "flats3": 928,
+   "terraced": null,
+   "sales": 69
+  },
+  "15200": {
+   "name": "Kiveriö",
+   "municipality": "Lahti",
+   "flats1": 1075,
+   "flats2": 931,
+   "flats3": 1211,
+   "terraced": null,
+   "sales": 43
+  },
+  "15210": {
+   "name": "Kivistönmäki",
+   "municipality": "Lahti",
+   "flats1": 1820,
+   "flats2": 1353,
+   "flats3": 1072,
+   "terraced": null,
+   "sales": 86
+  },
+  "15230": {
+   "name": "Kytölä",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2291,
+   "sales": 14
+  },
+  "15240": {
+   "name": "Mukkula",
+   "municipality": "Lahti",
+   "flats1": 1062,
+   "flats2": 790,
+   "flats3": 899,
+   "terraced": 1732,
+   "sales": 108
+  },
+  "15300": {
+   "name": "Myllypohja-Koiskala",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": 595,
+   "flats3": null,
+   "terraced": 1810,
+   "sales": 24
+  },
+  "15320": {
+   "name": "Ahtiala",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1565,
+   "sales": 18
+  },
+  "15500": {
+   "name": "Liipola",
+   "municipality": "Lahti",
+   "flats1": 803,
+   "flats2": 803,
+   "flats3": 841,
+   "terraced": null,
+   "sales": 61
+  },
+  "15520": {
+   "name": "Saksala",
+   "municipality": "Lahti",
+   "flats1": 1155,
+   "flats2": 1064,
+   "flats3": 985,
+   "terraced": null,
+   "sales": 40
+  },
+  "15540": {
+   "name": "Villähde",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1604,
+   "sales": 22
+  },
+  "15550": {
+   "name": "Rakokivi",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1481,
+   "sales": 36
+  },
+  "15560": {
+   "name": "Nastola kk",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": 980,
+   "flats3": 910,
+   "terraced": 1343,
+   "sales": 39
+  },
+  "15610": {
+   "name": "Laune-Nikkilä",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1994,
+   "sales": 22
+  },
+  "15680": {
+   "name": "Renkomäki-Ämmälä",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2612,
+   "sales": 16
+  },
+  "15700": {
+   "name": "Hennala-Jokimaa",
+   "municipality": "Lahti",
+   "flats1": 1763,
+   "flats2": 1584,
+   "flats3": 1864,
+   "terraced": 1969,
+   "sales": 159
+  },
+  "15800": {
+   "name": "Kärpänen",
+   "municipality": "Lahti",
+   "flats1": 1383,
+   "flats2": 1200,
+   "flats3": 1522,
+   "terraced": 1922,
+   "sales": 39
+  },
+  "15830": {
+   "name": "Metsäkangas",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": 903,
+   "flats3": 934,
+   "terraced": null,
+   "sales": 62
+  },
+  "15840": {
+   "name": "Riihelä",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1108,
+   "sales": 20
+  },
+  "15860": {
+   "name": "Kartano",
+   "municipality": "Hollola",
+   "flats1": 1063,
+   "flats2": 773,
+   "flats3": 925,
+   "terraced": 1698,
+   "sales": 55
+  },
+  "15870": {
+   "name": "Salpakangas",
+   "municipality": "Hollola",
+   "flats1": null,
+   "flats2": 1451,
+   "flats3": 1059,
+   "terraced": 1826,
+   "sales": 53
+  },
+  "15880": {
+   "name": "Soramäki",
+   "municipality": "Hollola",
+   "flats1": null,
+   "flats2": 871,
+   "flats3": null,
+   "terraced": 1379,
+   "sales": 39
+  },
+  "15900": {
+   "name": "Jalkaranta",
+   "municipality": "Lahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2761,
+   "terraced": 2055,
+   "sales": 37
+  },
+  "15950": {
+   "name": "Kiikkula",
+   "municipality": "Lahti",
+   "flats1": 1787,
+   "flats2": 1360,
+   "flats3": 1350,
+   "terraced": 1698,
+   "sales": 62
+  },
+  "16300": {
+   "name": "Orimattila Keskus",
+   "municipality": "Orimattila",
+   "flats1": 677,
+   "flats2": 1054,
+   "flats3": 885,
+   "terraced": 1324,
+   "sales": 163
+  },
+  "16600": {
+   "name": "Järvelä",
+   "municipality": "Kärkölä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 781,
+   "sales": 14
+  },
+  "16800": {
+   "name": "Hämeenkoski",
+   "municipality": "Hollola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 779,
+   "sales": 8
+  },
+  "16900": {
+   "name": "Lammi kk",
+   "municipality": "Hämeenlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 909,
+   "sales": 31
+  },
+  "17200": {
+   "name": "Vääksy Keskus",
+   "municipality": "Asikkala",
+   "flats1": null,
+   "flats2": 1299,
+   "flats3": 914,
+   "terraced": 1220,
+   "sales": 59
+  },
+  "18100": {
+   "name": "Heinola Keskus",
+   "municipality": "Heinola",
+   "flats1": 839,
+   "flats2": 1021,
+   "flats3": 1235,
+   "terraced": 1190,
+   "sales": 91
+  },
+  "18130": {
+   "name": "Tommola-Sahanniemi",
+   "municipality": "Heinola",
+   "flats1": 652,
+   "flats2": 582,
+   "flats3": null,
+   "terraced": null,
+   "sales": 51
+  },
+  "18150": {
+   "name": "Jyränkö",
+   "municipality": "Heinola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1088,
+   "sales": 33
+  },
+  "19650": {
+   "name": "Joutsa Keskus",
+   "municipality": "Joutsa",
+   "flats1": null,
+   "flats2": 666,
+   "flats3": null,
+   "terraced": 725,
+   "sales": 39
+  },
+  "19700": {
+   "name": "Sysmä Keskus",
+   "municipality": "Sysmä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 998,
+   "sales": 23
+  },
+  "20100": {
+   "name": "Turku Keskus",
+   "municipality": "Turku",
+   "flats1": 3999,
+   "flats2": 3376,
+   "flats3": 3353,
+   "terraced": 4193,
+   "sales": 663
+  },
+  "20200": {
+   "name": "Iso-Heikkilä",
+   "municipality": "Turku",
+   "flats1": 2891,
+   "flats2": 2462,
+   "flats3": 2206,
+   "terraced": null,
+   "sales": 72
+  },
+  "20210": {
+   "name": "Pahaniemi",
+   "municipality": "Turku",
+   "flats1": null,
+   "flats2": 1076,
+   "flats3": 1034,
+   "terraced": null,
+   "sales": 48
+  },
+  "20240": {
+   "name": "Pansio-Perno",
+   "municipality": "Turku",
+   "flats1": null,
+   "flats2": 1057,
+   "flats3": 959,
+   "terraced": 1200,
+   "sales": 44
+  },
+  "20300": {
+   "name": "Pohjola-Kastu",
+   "municipality": "Turku",
+   "flats1": 2702,
+   "flats2": 2641,
+   "flats3": 2459,
+   "terraced": 2886,
+   "sales": 154
+  },
+  "20320": {
+   "name": "Kuninkoja-Mälikkälä",
+   "municipality": "Turku",
+   "flats1": 2375,
+   "flats2": 2137,
+   "flats3": 1982,
+   "terraced": 2531,
+   "sales": 295
+  },
+  "20360": {
+   "name": "Runosmäki-Kärsämäki",
+   "municipality": "Turku",
+   "flats1": 1750,
+   "flats2": 1192,
+   "flats3": 1352,
+   "terraced": 1762,
+   "sales": 137
+  },
+  "20380": {
+   "name": "Räntämäki-Saramäki",
+   "municipality": "Turku",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1968,
+   "sales": 16
+  },
+  "20460": {
+   "name": "Jäkärlä",
+   "municipality": "Turku",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 904,
+   "terraced": 1356,
+   "sales": 38
+  },
+  "20500": {
+   "name": "Vesilinna",
+   "municipality": "Turku",
+   "flats1": 4024,
+   "flats2": 3389,
+   "flats3": 3229,
+   "terraced": null,
+   "sales": 133
+  },
+  "20520": {
+   "name": "Kupittaa",
+   "municipality": "Turku",
+   "flats1": 4681,
+   "flats2": 4066,
+   "flats3": 3654,
+   "terraced": null,
+   "sales": 80
+  },
+  "20540": {
+   "name": "Nummi-Ylioppilaskylä",
+   "municipality": "Turku",
+   "flats1": 3533,
+   "flats2": 2486,
+   "flats3": 2067,
+   "terraced": 2403,
+   "sales": 218
+  },
+  "20610": {
+   "name": "Varissuo",
+   "municipality": "Turku",
+   "flats1": 1679,
+   "flats2": 1246,
+   "flats3": 1210,
+   "terraced": 1461,
+   "sales": 166
+  },
+  "20660": {
+   "name": "Littoinen",
+   "municipality": "Kaarina",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2742,
+   "sales": 53
+  },
+  "20700": {
+   "name": "Vartiovuori-Samppalinna",
+   "municipality": "Turku",
+   "flats1": 3907,
+   "flats2": 3310,
+   "flats3": 3292,
+   "terraced": null,
+   "sales": 111
+  },
+  "20720": {
+   "name": "Vasaramäki",
+   "municipality": "Turku",
+   "flats1": 2619,
+   "flats2": 2422,
+   "flats3": 2138,
+   "terraced": 2784,
+   "sales": 104
+  },
+  "20740": {
+   "name": "Ilpoinen-Harittu",
+   "municipality": "Turku",
+   "flats1": 2160,
+   "flats2": 1863,
+   "flats3": 1821,
+   "terraced": 2252,
+   "sales": 108
+  },
+  "20750": {
+   "name": "Huhkola-Lauste-Vaala",
+   "municipality": "Turku",
+   "flats1": 1281,
+   "flats2": 868,
+   "flats3": 862,
+   "terraced": 1871,
+   "sales": 62
+  },
+  "20760": {
+   "name": "Piispanristi",
+   "municipality": "Kaarina",
+   "flats1": 2291,
+   "flats2": 2263,
+   "flats3": 1789,
+   "terraced": 2720,
+   "sales": 96
+  },
+  "20780": {
+   "name": "Kaarina Keskus",
+   "municipality": "Kaarina",
+   "flats1": 2475,
+   "flats2": 1995,
+   "flats3": 1975,
+   "terraced": 2836,
+   "sales": 173
+  },
+  "20810": {
+   "name": "Martti-Korppolaismäki",
+   "municipality": "Turku",
+   "flats1": 3560,
+   "flats2": 3441,
+   "flats3": 3555,
+   "terraced": 3799,
+   "sales": 348
+  },
+  "20880": {
+   "name": "Uittamo",
+   "municipality": "Turku",
+   "flats1": 2411,
+   "flats2": 1991,
+   "flats3": 1767,
+   "terraced": 2660,
+   "sales": 87
+  },
+  "20900": {
+   "name": "Moikoinen-Pikisaari",
+   "municipality": "Turku",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3046,
+   "sales": 100
+  },
+  "21100": {
+   "name": "Naantali Keskus",
+   "municipality": "Naantali",
+   "flats1": 1805,
+   "flats2": 2252,
+   "flats3": 2411,
+   "terraced": 2864,
+   "sales": 116
+  },
+  "21110": {
+   "name": "Taimo-Nuhjala-Lietsala",
+   "municipality": "Naantali",
+   "flats1": null,
+   "flats2": 1485,
+   "flats3": 1854,
+   "terraced": 2282,
+   "sales": 81
+  },
+  "21160": {
+   "name": "Merimasku",
+   "municipality": "Naantali",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2430,
+   "sales": 12
+  },
+  "21200": {
+   "name": "Raisio Keskus",
+   "municipality": "Raisio",
+   "flats1": 1852,
+   "flats2": 1729,
+   "flats3": 1670,
+   "terraced": 2005,
+   "sales": 219
+  },
+  "21210": {
+   "name": "Hakinmäki",
+   "municipality": "Raisio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2646,
+   "sales": 29
+  },
+  "21220": {
+   "name": "Somersoja",
+   "municipality": "Raisio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1534,
+   "sales": 17
+  },
+  "21250": {
+   "name": "Masku",
+   "municipality": "Masku",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2144,
+   "sales": 40
+  },
+  "21260": {
+   "name": "Ihala",
+   "municipality": "Raisio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2006,
+   "sales": 27
+  },
+  "21270": {
+   "name": "Nousiainen",
+   "municipality": "Nousiainen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1571,
+   "sales": 15
+  },
+  "21280": {
+   "name": "Kuloinen",
+   "municipality": "Raisio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2375,
+   "sales": 23
+  },
+  "21290": {
+   "name": "Rusko",
+   "municipality": "Rusko",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2518,
+   "sales": 24
+  },
+  "21310": {
+   "name": "Vahto",
+   "municipality": "Rusko",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1227,
+   "sales": 7
+  },
+  "21350": {
+   "name": "Ilmarinen",
+   "municipality": "Lieto",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3020,
+   "sales": 7
+  },
+  "21380": {
+   "name": "Aura Keskus",
+   "municipality": "Aura",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1291,
+   "sales": 32
+  },
+  "21410": {
+   "name": "Vanhalinna",
+   "municipality": "Lieto",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3350,
+   "sales": 12
+  },
+  "21420": {
+   "name": "Lieto Keskus",
+   "municipality": "Lieto",
+   "flats1": 2058,
+   "flats2": 2129,
+   "flats3": 2281,
+   "terraced": 2296,
+   "sales": 85
+  },
+  "21450": {
+   "name": "Tarvasjoki Keskus",
+   "municipality": "Lieto",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1003,
+   "sales": 9
+  },
+  "21500": {
+   "name": "Piikkiö",
+   "municipality": "Kaarina",
+   "flats1": 1603,
+   "flats2": 1459,
+   "flats3": 1449,
+   "terraced": 2669,
+   "sales": 58
+  },
+  "21530": {
+   "name": "Paimio Keskus",
+   "municipality": "Paimio",
+   "flats1": 1160,
+   "flats2": 1375,
+   "flats3": 1539,
+   "terraced": 1728,
+   "sales": 96
+  },
+  "21570": {
+   "name": "Sauvo Keskus",
+   "municipality": "Sauvo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1164,
+   "sales": 10
+  },
+  "21600": {
+   "name": "Parainen Keskus",
+   "municipality": "Pargas",
+   "flats1": 1426,
+   "flats2": 1292,
+   "flats3": 1304,
+   "terraced": 2227,
+   "sales": 98
+  },
+  "21620": {
+   "name": "Kuusisto",
+   "municipality": "Kaarina",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2310,
+   "sales": 10
+  },
+  "23100": {
+   "name": "Mynämäki Keskus",
+   "municipality": "Mynämäki",
+   "flats1": null,
+   "flats2": 1451,
+   "flats3": null,
+   "terraced": 1642,
+   "sales": 38
+  },
+  "23500": {
+   "name": "Uusikaupunki Keskus",
+   "municipality": "Uusikaupunki",
+   "flats1": 1001,
+   "flats2": 882,
+   "flats3": 999,
+   "terraced": 1106,
+   "sales": 128
+  },
+  "23800": {
+   "name": "Laitila Keskus",
+   "municipality": "Laitila",
+   "flats1": null,
+   "flats2": 940,
+   "flats3": null,
+   "terraced": 1290,
+   "sales": 37
+  },
+  "24100": {
+   "name": "Salo Keskus",
+   "municipality": "Salo",
+   "flats1": 1518,
+   "flats2": 1673,
+   "flats3": 1583,
+   "terraced": 1417,
+   "sales": 189
+  },
+  "24130": {
+   "name": "Ylhäisi",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1293,
+   "sales": 20
+  },
+  "24240": {
+   "name": "Rappula",
+   "municipality": "Salo",
+   "flats1": 1835,
+   "flats2": 1749,
+   "flats3": 1736,
+   "terraced": 1439,
+   "sales": 62
+  },
+  "24260": {
+   "name": "Ollikkala",
+   "municipality": "Salo",
+   "flats1": 932,
+   "flats2": 694,
+   "flats3": null,
+   "terraced": 1306,
+   "sales": 45
+  },
+  "24280": {
+   "name": "Tupuri-Hähkänä",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1434,
+   "sales": 50
+  },
+  "24800": {
+   "name": "Halikko Keskus",
+   "municipality": "Salo",
+   "flats1": 1085,
+   "flats2": 1116,
+   "flats3": 1096,
+   "terraced": 1367,
+   "sales": 66
+  },
+  "25130": {
+   "name": "Muurla",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1157,
+   "sales": 7
+  },
+  "25250": {
+   "name": "Märynummi",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1011,
+   "sales": 7
+  },
+  "25360": {
+   "name": "Pertteli Keskus",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1033,
+   "sales": 14
+  },
+  "25500": {
+   "name": "Perniö Keskus",
+   "municipality": "Salo",
+   "flats1": null,
+   "flats2": 826,
+   "flats3": null,
+   "terraced": 984,
+   "sales": 19
+  },
+  "25700": {
+   "name": "Kemiö Keskus",
+   "municipality": "Kimitoön",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1356,
+   "sales": 15
+  },
+  "26100": {
+   "name": "Rauma Keskus",
+   "municipality": "Rauma",
+   "flats1": 1689,
+   "flats2": 1477,
+   "flats3": 1458,
+   "terraced": 1792,
+   "sales": 296
+  },
+  "26200": {
+   "name": "Merirauma-Kappelinluhta",
+   "municipality": "Rauma",
+   "flats1": null,
+   "flats2": 795,
+   "flats3": 984,
+   "terraced": 1538,
+   "sales": 125
+  },
+  "26660": {
+   "name": "Paroalho",
+   "municipality": "Rauma",
+   "flats1": null,
+   "flats2": 730,
+   "flats3": 732,
+   "terraced": 1135,
+   "sales": 54
+  },
+  "27100": {
+   "name": "Eurajoki Keskus",
+   "municipality": "Eurajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1219,
+   "sales": 16
+  },
+  "27510": {
+   "name": "Eura Keskus",
+   "municipality": "Eura",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 760,
+   "sales": 23
+  },
+  "27800": {
+   "name": "Säkylä Keskus",
+   "municipality": "Säkylä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1071,
+   "sales": 17
+  },
+  "28100": {
+   "name": "Pori Keskus",
+   "municipality": "Pori",
+   "flats1": 1744,
+   "flats2": 1723,
+   "flats3": 1649,
+   "terraced": null,
+   "sales": 327
+  },
+  "28120": {
+   "name": "Käppärä-Isomäki",
+   "municipality": "Pori",
+   "flats1": 957,
+   "flats2": 1013,
+   "flats3": 894,
+   "terraced": 1066,
+   "sales": 48
+  },
+  "28130": {
+   "name": "Impola",
+   "municipality": "Pori",
+   "flats1": 2264,
+   "flats2": 1541,
+   "flats3": 1168,
+   "terraced": null,
+   "sales": 152
+  },
+  "28190": {
+   "name": "Pormestarinluoto",
+   "municipality": "Pori",
+   "flats1": 636,
+   "flats2": 504,
+   "flats3": 597,
+   "terraced": 868,
+   "sales": 51
+  },
+  "28200": {
+   "name": "Toejoki",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1928,
+   "sales": 28
+  },
+  "28220": {
+   "name": "Ruosniemi",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1690,
+   "sales": 36
+  },
+  "28300": {
+   "name": "Kalaholma-Väinölä",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1681,
+   "sales": 19
+  },
+  "28330": {
+   "name": "Koivistonluoto",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": 553,
+   "flats3": null,
+   "terraced": 1277,
+   "sales": 39
+  },
+  "28360": {
+   "name": "Vanhakoivisto",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": 1169,
+   "flats3": 1169,
+   "terraced": 1282,
+   "sales": 45
+  },
+  "28370": {
+   "name": "Sampola",
+   "municipality": "Pori",
+   "flats1": 540,
+   "flats2": 483,
+   "flats3": null,
+   "terraced": null,
+   "sales": 46
+  },
+  "28400": {
+   "name": "Ulvila Keskus",
+   "municipality": "Ulvila",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 1192,
+   "terraced": 1310,
+   "sales": 49
+  },
+  "28430": {
+   "name": "Kartano-Harmaalinna",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1360,
+   "sales": 9
+  },
+  "28450": {
+   "name": "Vanha-Ulvila",
+   "municipality": "Ulvila",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1011,
+   "sales": 17
+  },
+  "28500": {
+   "name": "Keskussairaala-alue-Tiilimäki",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1131,
+   "sales": 15
+  },
+  "28540": {
+   "name": "Pinomäki",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1473,
+   "sales": 6
+  },
+  "28600": {
+   "name": "Vähärauma",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1858,
+   "sales": 36
+  },
+  "28610": {
+   "name": "Musa-Tiiliruukki",
+   "municipality": "Pori",
+   "flats1": 752,
+   "flats2": 659,
+   "flats3": null,
+   "terraced": 1449,
+   "sales": 38
+  },
+  "28660": {
+   "name": "Pietniemi-Leppäkorpi",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1199,
+   "sales": 23
+  },
+  "28760": {
+   "name": "Kyläsaari",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 950,
+   "sales": 7
+  },
+  "28800": {
+   "name": "Pihlava",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 973,
+   "sales": 47
+  },
+  "29100": {
+   "name": "Luvia Keskus",
+   "municipality": "Eurajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1087,
+   "sales": 6
+  },
+  "29200": {
+   "name": "Harjavalta Keskus",
+   "municipality": "Harjavalta",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 843,
+   "sales": 62
+  },
+  "29250": {
+   "name": "Nakkila Keskus",
+   "municipality": "Nakkila",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 840,
+   "sales": 21
+  },
+  "29600": {
+   "name": "Noormarkku Keskus",
+   "municipality": "Pori",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 976,
+   "sales": 15
+  },
+  "29630": {
+   "name": "Pomarkku Keskus",
+   "municipality": "Pomarkku",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 795,
+   "sales": 7
+  },
+  "29900": {
+   "name": "Merikarvia Keskus-Rannikko",
+   "municipality": "Merikarvia",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 572,
+   "sales": 11
+  },
+  "30100": {
+   "name": "Forssa Keskus",
+   "municipality": "Forssa",
+   "flats1": 1198,
+   "flats2": 960,
+   "flats3": 1374,
+   "terraced": 1209,
+   "sales": 104
+  },
+  "30300": {
+   "name": "Viksberg",
+   "municipality": "Forssa",
+   "flats1": null,
+   "flats2": 494,
+   "flats3": 541,
+   "terraced": null,
+   "sales": 32
+  },
+  "30420": {
+   "name": "Tölö",
+   "municipality": "Forssa",
+   "flats1": 1002,
+   "flats2": 862,
+   "flats3": 990,
+   "terraced": null,
+   "sales": 36
+  },
+  "31300": {
+   "name": "Tammela Keskus",
+   "municipality": "Tammela",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1153,
+   "sales": 21
+  },
+  "31400": {
+   "name": "Somero Keskus",
+   "municipality": "Somero",
+   "flats1": 947,
+   "flats2": 750,
+   "flats3": 662,
+   "terraced": 881,
+   "sales": 72
+  },
+  "31600": {
+   "name": "Jokioinen Keskus",
+   "municipality": "Jokioinen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1103,
+   "sales": 18
+  },
+  "31760": {
+   "name": "Urjala Keskus",
+   "municipality": "Urjala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 875,
+   "sales": 14
+  },
+  "31900": {
+   "name": "Punkalaidun Keskus",
+   "municipality": "Punkalaidun",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 596,
+   "sales": 14
+  },
+  "32200": {
+   "name": "Loimaa Keskus",
+   "municipality": "Loimaa",
+   "flats1": 850,
+   "flats2": 907,
+   "flats3": 1003,
+   "terraced": 1195,
+   "sales": 81
+  },
+  "32700": {
+   "name": "Huittinen Keskus",
+   "municipality": "Huittinen",
+   "flats1": 716,
+   "flats2": 746,
+   "flats3": null,
+   "terraced": 910,
+   "sales": 67
+  },
+  "32740": {
+   "name": "Pehula",
+   "municipality": "Sastamala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 575,
+   "sales": 8
+  },
+  "32800": {
+   "name": "Kokemäki Keskus",
+   "municipality": "Kokemäki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 822,
+   "sales": 30
+  },
+  "33100": {
+   "name": "Tampere Keskus",
+   "municipality": "Tampere",
+   "flats1": 4256,
+   "flats2": 3960,
+   "flats3": 3811,
+   "terraced": 2600,
+   "sales": 380
+  },
+  "33180": {
+   "name": "Lapinniemi-Käpylä",
+   "municipality": "Tampere",
+   "flats1": 5718,
+   "flats2": 5355,
+   "flats3": 5389,
+   "terraced": null,
+   "sales": 72
+  },
+  "33200": {
+   "name": "Tampere Keskus Läntinen",
+   "municipality": "Tampere",
+   "flats1": 4317,
+   "flats2": 3701,
+   "flats3": 3621,
+   "terraced": null,
+   "sales": 164
+  },
+  "33210": {
+   "name": "Itä-Amuri-Tammerkoski",
+   "municipality": "Tampere",
+   "flats1": 4266,
+   "flats2": 3850,
+   "flats3": 3740,
+   "terraced": null,
+   "sales": 136
+  },
+  "33230": {
+   "name": "Länsi-Amuri",
+   "municipality": "Tampere",
+   "flats1": 4018,
+   "flats2": 3758,
+   "flats3": 3575,
+   "terraced": null,
+   "sales": 148
+  },
+  "33240": {
+   "name": "Tahmela",
+   "municipality": "Tampere",
+   "flats1": 2972,
+   "flats2": 2954,
+   "flats3": null,
+   "terraced": 3898,
+   "sales": 42
+  },
+  "33250": {
+   "name": "Pispala",
+   "municipality": "Tampere",
+   "flats1": 4200,
+   "flats2": 3546,
+   "flats3": 3542,
+   "terraced": 3392,
+   "sales": 71
+  },
+  "33270": {
+   "name": "Epilä",
+   "municipality": "Tampere",
+   "flats1": 2536,
+   "flats2": 2592,
+   "flats3": 2710,
+   "terraced": 2798,
+   "sales": 107
+  },
+  "33300": {
+   "name": "Rahola",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": 2039,
+   "flats3": 2118,
+   "terraced": 2654,
+   "sales": 84
+  },
+  "33310": {
+   "name": "Tesoma",
+   "municipality": "Tampere",
+   "flats1": 2507,
+   "flats2": 1516,
+   "flats3": 1360,
+   "terraced": 2589,
+   "sales": 112
+  },
+  "33330": {
+   "name": "Myllypuro-Kalkku",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": 1525,
+   "flats3": null,
+   "terraced": 2478,
+   "sales": 25
+  },
+  "33340": {
+   "name": "Haukiluoma-Ikuri",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": 1960,
+   "flats3": 1637,
+   "terraced": 2538,
+   "sales": 70
+  },
+  "33400": {
+   "name": "Luoteis-Tampere",
+   "municipality": "Tampere",
+   "flats1": 3894,
+   "flats2": 3447,
+   "flats3": 4006,
+   "terraced": 2477,
+   "sales": 191
+  },
+  "33410": {
+   "name": "Lentävänniemi",
+   "municipality": "Tampere",
+   "flats1": 2632,
+   "flats2": 2303,
+   "flats3": 1903,
+   "terraced": 2336,
+   "sales": 125
+  },
+  "33420": {
+   "name": "Lamminpää",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2127,
+   "sales": 14
+  },
+  "33430": {
+   "name": "Vuorentausta",
+   "municipality": "Ylöjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2203,
+   "sales": 37
+  },
+  "33450": {
+   "name": "Siivikkala",
+   "municipality": "Ylöjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2499,
+   "sales": 27
+  },
+  "33470": {
+   "name": "Ylöjärvi Keskus",
+   "municipality": "Ylöjärvi",
+   "flats1": 2316,
+   "flats2": 2449,
+   "flats3": 2096,
+   "terraced": 2257,
+   "sales": 65
+  },
+  "33480": {
+   "name": "Manninmäki-Haavisto",
+   "municipality": "Ylöjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 1977,
+   "terraced": 2234,
+   "sales": 77
+  },
+  "33500": {
+   "name": "Osmonmäki-Petsamo",
+   "municipality": "Tampere",
+   "flats1": 3818,
+   "flats2": 3425,
+   "flats3": 3212,
+   "terraced": null,
+   "sales": 221
+  },
+  "33520": {
+   "name": "Keskussairaala-alue-Kauppi",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": 3055,
+   "flats3": null,
+   "terraced": null,
+   "sales": 21
+  },
+  "33530": {
+   "name": "Kissanmaa",
+   "municipality": "Tampere",
+   "flats1": 2871,
+   "flats2": 2738,
+   "flats3": 2528,
+   "terraced": 3275,
+   "sales": 82
+  },
+  "33540": {
+   "name": "Kaleva",
+   "municipality": "Tampere",
+   "flats1": 4121,
+   "flats2": 3451,
+   "flats3": 3456,
+   "terraced": null,
+   "sales": 276
+  },
+  "33560": {
+   "name": "Takahuhti",
+   "municipality": "Tampere",
+   "flats1": 2972,
+   "flats2": 2405,
+   "flats3": 2428,
+   "terraced": 2706,
+   "sales": 151
+  },
+  "33580": {
+   "name": "Atala-Linnainmaa",
+   "municipality": "Tampere",
+   "flats1": 2727,
+   "flats2": 2632,
+   "flats3": 2162,
+   "terraced": 2614,
+   "sales": 208
+  },
+  "33610": {
+   "name": "Olkahinen-Tasanne",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2247,
+   "sales": 63
+  },
+  "33700": {
+   "name": "Messukylä",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3074,
+   "sales": 20
+  },
+  "33710": {
+   "name": "Kaukajärvi",
+   "municipality": "Tampere",
+   "flats1": 2375,
+   "flats2": 1977,
+   "flats3": 2121,
+   "terraced": 2467,
+   "sales": 251
+  },
+  "33720": {
+   "name": "Hervanta",
+   "municipality": "Tampere",
+   "flats1": 2993,
+   "flats2": 1999,
+   "flats3": 1615,
+   "terraced": 2576,
+   "sales": 473
+  },
+  "33730": {
+   "name": "Leinola-Vehmainen",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 3474,
+   "terraced": 2920,
+   "sales": 33
+  },
+  "33800": {
+   "name": "Nekala",
+   "municipality": "Tampere",
+   "flats1": 2371,
+   "flats2": 2408,
+   "flats3": 2767,
+   "terraced": 3535,
+   "sales": 97
+  },
+  "33820": {
+   "name": "Koivistonkylä",
+   "municipality": "Tampere",
+   "flats1": 3478,
+   "flats2": 2207,
+   "flats3": 2209,
+   "terraced": 2787,
+   "sales": 108
+  },
+  "33840": {
+   "name": "Peltolammi",
+   "municipality": "Tampere",
+   "flats1": null,
+   "flats2": 1616,
+   "flats3": 1389,
+   "terraced": 2000,
+   "sales": 168
+  },
+  "33850": {
+   "name": "Multisilta",
+   "municipality": "Tampere",
+   "flats1": 2408,
+   "flats2": 1357,
+   "flats3": 1157,
+   "terraced": null,
+   "sales": 29
+  },
+  "33870": {
+   "name": "Vuores",
+   "municipality": "Tampere",
+   "flats1": 3663,
+   "flats2": 3360,
+   "flats3": 3393,
+   "terraced": 3603,
+   "sales": 151
+  },
+  "33880": {
+   "name": "Höytämö",
+   "municipality": "Lempäälä",
+   "flats1": null,
+   "flats2": 1472,
+   "flats3": null,
+   "terraced": 2185,
+   "sales": 40
+  },
+  "33900": {
+   "name": "Härmälä-Rantaperkiö",
+   "municipality": "Tampere",
+   "flats1": 3193,
+   "flats2": 3551,
+   "flats3": 3449,
+   "terraced": 3027,
+   "sales": 192
+  },
+  "33950": {
+   "name": "Killo",
+   "municipality": "Pirkkala",
+   "flats1": 2278,
+   "flats2": 2598,
+   "flats3": 2693,
+   "terraced": 3218,
+   "sales": 177
+  },
+  "33960": {
+   "name": "Suuppa",
+   "municipality": "Pirkkala",
+   "flats1": 2903,
+   "flats2": 3102,
+   "flats3": 2449,
+   "terraced": 2919,
+   "sales": 192
+  },
+  "34300": {
+   "name": "Kuru Keskus",
+   "municipality": "Ylöjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 673,
+   "sales": 12
+  },
+  "34600": {
+   "name": "Ruovesi Keskus-Nenonen",
+   "municipality": "Ruovesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 765,
+   "sales": 15
+  },
+  "34800": {
+   "name": "Virrat Keskus",
+   "municipality": "Virrat",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 832,
+   "sales": 32
+  },
+  "35100": {
+   "name": "Orivesi Asemanseutu",
+   "municipality": "Orivesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 989,
+   "sales": 12
+  },
+  "35300": {
+   "name": "Orivesi Keskus",
+   "municipality": "Orivesi",
+   "flats1": null,
+   "flats2": 1156,
+   "flats3": 1064,
+   "terraced": 1165,
+   "sales": 57
+  },
+  "36110": {
+   "name": "Ruutana",
+   "municipality": "Kangasala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2288,
+   "sales": 30
+  },
+  "36200": {
+   "name": "Kangasala Keskus",
+   "municipality": "Kangasala",
+   "flats1": 2063,
+   "flats2": 2064,
+   "flats3": 2177,
+   "terraced": 2254,
+   "sales": 138
+  },
+  "36220": {
+   "name": "Suorama",
+   "municipality": "Kangasala",
+   "flats1": null,
+   "flats2": 1889,
+   "flats3": 1496,
+   "terraced": 2134,
+   "sales": 57
+  },
+  "36240": {
+   "name": "Nattari",
+   "municipality": "Kangasala",
+   "flats1": 2403,
+   "flats2": 2211,
+   "flats3": 1821,
+   "terraced": 2677,
+   "sales": 85
+  },
+  "36270": {
+   "name": "Huutijärvi",
+   "municipality": "Kangasala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2168,
+   "sales": 11
+  },
+  "36420": {
+   "name": "Sahalahti Keskus",
+   "municipality": "Kangasala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 949,
+   "sales": 14
+  },
+  "36600": {
+   "name": "Pälkäne Keskus",
+   "municipality": "Pälkäne",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1601,
+   "sales": 8
+  },
+  "37100": {
+   "name": "Nokia Keskus",
+   "municipality": "Nokia",
+   "flats1": 2403,
+   "flats2": 1902,
+   "flats3": 1920,
+   "terraced": 2444,
+   "sales": 203
+  },
+  "37120": {
+   "name": "Koskenmäki",
+   "municipality": "Nokia",
+   "flats1": 1672,
+   "flats2": 1428,
+   "flats3": 1612,
+   "terraced": 2198,
+   "sales": 134
+  },
+  "37130": {
+   "name": "Alhoniitty",
+   "municipality": "Nokia",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2069,
+   "sales": 47
+  },
+  "37140": {
+   "name": "Harjuniitty",
+   "municipality": "Nokia",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2882,
+   "sales": 29
+  },
+  "37150": {
+   "name": "Kankaantaka",
+   "municipality": "Nokia",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2200,
+   "sales": 41
+  },
+  "37470": {
+   "name": "Vesilahti Keskus",
+   "municipality": "Vesilahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2300,
+   "sales": 7
+  },
+  "37500": {
+   "name": "Lempäälä Keskus",
+   "municipality": "Lempäälä",
+   "flats1": 2088,
+   "flats2": 2132,
+   "flats3": 2252,
+   "terraced": 2224,
+   "sales": 92
+  },
+  "37550": {
+   "name": "Kuivaspää",
+   "municipality": "Lempäälä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2729,
+   "sales": 63
+  },
+  "37560": {
+   "name": "Kulju",
+   "municipality": "Lempäälä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2844,
+   "sales": 46
+  },
+  "37600": {
+   "name": "Valkeakoski Keskus",
+   "municipality": "Valkeakoski",
+   "flats1": 856,
+   "flats2": 1471,
+   "flats3": 1215,
+   "terraced": 1174,
+   "sales": 125
+  },
+  "37630": {
+   "name": "Vääräkoivu",
+   "municipality": "Valkeakoski",
+   "flats1": 1019,
+   "flats2": 1081,
+   "flats3": 1200,
+   "terraced": 1473,
+   "sales": 83
+  },
+  "37800": {
+   "name": "Toijala keskus",
+   "municipality": "Akaa",
+   "flats1": 1052,
+   "flats2": 1136,
+   "flats3": 1396,
+   "terraced": 1262,
+   "sales": 107
+  },
+  "37830": {
+   "name": "Viiala Keskus",
+   "municipality": "Akaa",
+   "flats1": 841,
+   "flats2": 905,
+   "flats3": null,
+   "terraced": 1491,
+   "sales": 38
+  },
+  "37910": {
+   "name": "Kylmäkoski Keskus",
+   "municipality": "Akaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 862,
+   "sales": 7
+  },
+  "38200": {
+   "name": "Vammala Keskus",
+   "municipality": "Sastamala",
+   "flats1": 1611,
+   "flats2": 1553,
+   "flats3": 1408,
+   "terraced": 1528,
+   "sales": 82
+  },
+  "38210": {
+   "name": "Vammala Asemanseutu",
+   "municipality": "Sastamala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1280,
+   "sales": 22
+  },
+  "38460": {
+   "name": "Mouhijärvi Keskus",
+   "municipality": "Sastamala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 727,
+   "sales": 12
+  },
+  "38700": {
+   "name": "Kankaanpää Keskus",
+   "municipality": "Kankaanpää",
+   "flats1": 1009,
+   "flats2": 968,
+   "flats3": 1039,
+   "terraced": 978,
+   "sales": 49
+  },
+  "38710": {
+   "name": "Myllymäki",
+   "municipality": "Kankaanpää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 726,
+   "sales": 14
+  },
+  "39100": {
+   "name": "Hämeenkyrö Keskus",
+   "municipality": "Hämeenkyrö",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1168,
+   "sales": 19
+  },
+  "39160": {
+   "name": "Julkujärvi",
+   "municipality": "Ylöjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2489,
+   "sales": 42
+  },
+  "39200": {
+   "name": "Kyröskoski",
+   "municipality": "Hämeenkyrö",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1021,
+   "sales": 22
+  },
+  "39500": {
+   "name": "Ikaalinen Keskus",
+   "municipality": "Ikaalinen",
+   "flats1": 757,
+   "flats2": 808,
+   "flats3": null,
+   "terraced": 767,
+   "sales": 34
+  },
+  "39700": {
+   "name": "Parkano Keskus",
+   "municipality": "Parkano",
+   "flats1": null,
+   "flats2": 1205,
+   "flats3": null,
+   "terraced": 766,
+   "sales": 32
+  },
+  "40100": {
+   "name": "Jyväskylä Keskus",
+   "municipality": "Jyväskylä",
+   "flats1": 3101,
+   "flats2": 2716,
+   "flats3": 2722,
+   "terraced": null,
+   "sales": 399
+  },
+  "40200": {
+   "name": "Mannila-Taulumäki",
+   "municipality": "Jyväskylä",
+   "flats1": 2396,
+   "flats2": 2172,
+   "flats3": 2091,
+   "terraced": 2558,
+   "sales": 99
+  },
+  "40250": {
+   "name": "Ritoniemi-Lohikoski",
+   "municipality": "Jyväskylä",
+   "flats1": 1310,
+   "flats2": 1314,
+   "flats3": 1120,
+   "terraced": 1963,
+   "sales": 128
+  },
+  "40270": {
+   "name": "Palokka",
+   "municipality": "Jyväskylä",
+   "flats1": 2428,
+   "flats2": 1970,
+   "flats3": 2885,
+   "terraced": 2125,
+   "sales": 134
+  },
+  "40320": {
+   "name": "Seppälän Teollisuusalue",
+   "municipality": "Jyväskylä",
+   "flats1": 1553,
+   "flats2": 1546,
+   "flats3": 1437,
+   "terraced": 2019,
+   "sales": 68
+  },
+  "40340": {
+   "name": "Huhtasuo",
+   "municipality": "Jyväskylä",
+   "flats1": 997,
+   "flats2": 640,
+   "flats3": 792,
+   "terraced": null,
+   "sales": 199
+  },
+  "40400": {
+   "name": "Halssila",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": 1628,
+   "flats3": 1426,
+   "terraced": 1531,
+   "sales": 47
+  },
+  "40420": {
+   "name": "Jyskä",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": 1739,
+   "flats3": null,
+   "terraced": 1898,
+   "sales": 78
+  },
+  "40500": {
+   "name": "Keljo-Ristonmaa",
+   "municipality": "Jyväskylä",
+   "flats1": 2758,
+   "flats2": 2297,
+   "flats3": 2305,
+   "terraced": 1911,
+   "sales": 68
+  },
+  "40520": {
+   "name": "Kuokkala-Ristikivi",
+   "municipality": "Jyväskylä",
+   "flats1": 2400,
+   "flats2": 2318,
+   "flats3": 2218,
+   "terraced": 2105,
+   "sales": 241
+  },
+  "40530": {
+   "name": "Keljonkangas",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2225,
+   "sales": 25
+  },
+  "40600": {
+   "name": "Mattilanpelto",
+   "municipality": "Jyväskylä",
+   "flats1": 2964,
+   "flats2": 1914,
+   "flats3": 1884,
+   "terraced": 1786,
+   "sales": 35
+  },
+  "40630": {
+   "name": "Kypärämäki",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": 1857,
+   "flats3": null,
+   "terraced": null,
+   "sales": 25
+  },
+  "40640": {
+   "name": "Keltinmäki",
+   "municipality": "Jyväskylä",
+   "flats1": 886,
+   "flats2": 924,
+   "flats3": 853,
+   "terraced": 1190,
+   "sales": 76
+  },
+  "40700": {
+   "name": "Mäki-Matti",
+   "municipality": "Jyväskylä",
+   "flats1": 2869,
+   "flats2": 2161,
+   "flats3": 2501,
+   "terraced": null,
+   "sales": 101
+  },
+  "40720": {
+   "name": "Nisula",
+   "municipality": "Jyväskylä",
+   "flats1": 2871,
+   "flats2": 1966,
+   "flats3": 2365,
+   "terraced": 2171,
+   "sales": 56
+  },
+  "40740": {
+   "name": "Kortepohja",
+   "municipality": "Jyväskylä",
+   "flats1": 1798,
+   "flats2": 1387,
+   "flats3": 1356,
+   "terraced": 2331,
+   "sales": 89
+  },
+  "40800": {
+   "name": "Vaajakoski",
+   "municipality": "Jyväskylä",
+   "flats1": 1817,
+   "flats2": 1166,
+   "flats3": 1245,
+   "terraced": 1772,
+   "sales": 94
+  },
+  "40900": {
+   "name": "Säynätsalo",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": 609,
+   "flats3": null,
+   "terraced": 1704,
+   "sales": 51
+  },
+  "40930": {
+   "name": "Kinkomaa",
+   "municipality": "Muurame",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1955,
+   "sales": 6
+  },
+  "40950": {
+   "name": "Muurame Keskus",
+   "municipality": "Muurame",
+   "flats1": 953,
+   "flats2": 819,
+   "flats3": 980,
+   "terraced": 1704,
+   "sales": 61
+  },
+  "41160": {
+   "name": "Tikkakoski",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1426,
+   "sales": 35
+  },
+  "41310": {
+   "name": "Leppävesi",
+   "municipality": "Laukaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1788,
+   "sales": 7
+  },
+  "41340": {
+   "name": "Laukaa Keskus",
+   "municipality": "Laukaa",
+   "flats1": 963,
+   "flats2": 1631,
+   "flats3": null,
+   "terraced": 1386,
+   "sales": 43
+  },
+  "41660": {
+   "name": "Toivakka Keskus",
+   "municipality": "Toivakka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 799,
+   "sales": 13
+  },
+  "41800": {
+   "name": "Korpilahti Keskus",
+   "municipality": "Jyväskylä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 836,
+   "sales": 68
+  },
+  "41900": {
+   "name": "Petäjävesi Keskus",
+   "municipality": "Petäjävesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 757,
+   "sales": 10
+  },
+  "42100": {
+   "name": "Jämsä Keskus",
+   "municipality": "Jämsä",
+   "flats1": 871,
+   "flats2": 781,
+   "flats3": 1060,
+   "terraced": 804,
+   "sales": 77
+  },
+  "42300": {
+   "name": "Jämsänkoski Keskus",
+   "municipality": "Jämsä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 654,
+   "sales": 28
+  },
+  "42700": {
+   "name": "Keuruu Keskus",
+   "municipality": "Keuruu",
+   "flats1": 618,
+   "flats2": 658,
+   "flats3": 450,
+   "terraced": 1001,
+   "sales": 109
+  },
+  "43100": {
+   "name": "Saarijärvi Keskus",
+   "municipality": "Saarijärvi",
+   "flats1": null,
+   "flats2": 856,
+   "flats3": 911,
+   "terraced": 944,
+   "sales": 40
+  },
+  "43500": {
+   "name": "Karstula Keskus",
+   "municipality": "Karstula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 719,
+   "sales": 11
+  },
+  "44100": {
+   "name": "Äänekoski Keskus",
+   "municipality": "Äänekoski",
+   "flats1": 744,
+   "flats2": 948,
+   "flats3": 934,
+   "terraced": 1161,
+   "sales": 57
+  },
+  "44150": {
+   "name": "Likolahti-Karhunlähde",
+   "municipality": "Äänekoski",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 726,
+   "sales": 32
+  },
+  "44200": {
+   "name": "Suolahti Keskus",
+   "municipality": "Äänekoski",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 817,
+   "sales": 47
+  },
+  "44500": {
+   "name": "Viitasaari Keskus",
+   "municipality": "Viitasaari",
+   "flats1": null,
+   "flats2": 514,
+   "flats3": null,
+   "terraced": null,
+   "sales": 24
+  },
+  "45100": {
+   "name": "Kouvola Keskus",
+   "municipality": "Kouvola",
+   "flats1": 1523,
+   "flats2": 1330,
+   "flats3": 1537,
+   "terraced": 1431,
+   "sales": 148
+  },
+  "45120": {
+   "name": "Kotkankallio-Vahteronmäki",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1476,
+   "sales": 21
+  },
+  "45130": {
+   "name": "Korjala-Kaunisnurmi",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": 864,
+   "flats3": null,
+   "terraced": null,
+   "sales": 22
+  },
+  "45150": {
+   "name": "Kankaronmäki-Eskolanmäki",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 939,
+   "sales": 49
+  },
+  "45160": {
+   "name": "Lehtomäki",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": 608,
+   "flats3": 651,
+   "terraced": 1275,
+   "sales": 51
+  },
+  "45200": {
+   "name": "Tornionmäki",
+   "municipality": "Kouvola",
+   "flats1": 888,
+   "flats2": 814,
+   "flats3": 880,
+   "terraced": 1024,
+   "sales": 87
+  },
+  "45360": {
+   "name": "Kukkuramäki",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1302,
+   "sales": 35
+  },
+  "45370": {
+   "name": "Valkeala kk",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1157,
+   "sales": 13
+  },
+  "45610": {
+   "name": "Koria",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 880,
+   "sales": 45
+  },
+  "45700": {
+   "name": "Kuusankoski Keskus",
+   "municipality": "Kouvola",
+   "flats1": 580,
+   "flats2": 831,
+   "flats3": 1145,
+   "terraced": 1149,
+   "sales": 168
+  },
+  "45740": {
+   "name": "Maunuksela",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 903,
+   "sales": 11
+  },
+  "46800": {
+   "name": "Myllykoski",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 758,
+   "sales": 23
+  },
+  "46910": {
+   "name": "Anjala",
+   "municipality": "Kouvola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 680,
+   "sales": 12
+  },
+  "47400": {
+   "name": "Kausala",
+   "municipality": "Iitti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 810,
+   "sales": 46
+  },
+  "48100": {
+   "name": "Kotkansaari",
+   "municipality": "Kotka",
+   "flats1": 1526,
+   "flats2": 1455,
+   "flats3": 1468,
+   "terraced": null,
+   "sales": 285
+  },
+  "48200": {
+   "name": "Hovinsaari",
+   "municipality": "Kotka",
+   "flats1": 777,
+   "flats2": 821,
+   "flats3": null,
+   "terraced": null,
+   "sales": 31
+  },
+  "48310": {
+   "name": "Mussalo",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1995,
+   "sales": 47
+  },
+  "48350": {
+   "name": "Karhuvuori",
+   "municipality": "Kotka",
+   "flats1": 632,
+   "flats2": 459,
+   "flats3": null,
+   "terraced": null,
+   "sales": 87
+  },
+  "48400": {
+   "name": "Sutela",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1104,
+   "sales": 38
+  },
+  "48410": {
+   "name": "Kaukola",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1289,
+   "sales": 8
+  },
+  "48600": {
+   "name": "Karhula",
+   "municipality": "Kotka",
+   "flats1": 812,
+   "flats2": 935,
+   "flats3": 1050,
+   "terraced": 1024,
+   "sales": 124
+  },
+  "48700": {
+   "name": "Kyminlinna",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": 629,
+   "flats3": null,
+   "terraced": 1115,
+   "sales": 32
+  },
+  "48710": {
+   "name": "Koivula",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1094,
+   "sales": 6
+  },
+  "48770": {
+   "name": "Ristinkallio",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1061,
+   "sales": 18
+  },
+  "48800": {
+   "name": "Otsola-Mäntykangas",
+   "municipality": "Kotka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1394,
+   "sales": 11
+  },
+  "48900": {
+   "name": "Sunila",
+   "municipality": "Kotka",
+   "flats1": 666,
+   "flats2": 621,
+   "flats3": null,
+   "terraced": null,
+   "sales": 25
+  },
+  "49210": {
+   "name": "Huutjärvi",
+   "municipality": "Pyhtää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1025,
+   "sales": 7
+  },
+  "49220": {
+   "name": "Siltakylä",
+   "municipality": "Pyhtää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1722,
+   "sales": 6
+  },
+  "49400": {
+   "name": "Hamina Keskus",
+   "municipality": "Hamina",
+   "flats1": 1262,
+   "flats2": 1248,
+   "flats3": 1317,
+   "terraced": 1389,
+   "sales": 104
+  },
+  "49420": {
+   "name": "Uusi-Summa",
+   "municipality": "Hamina",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 779,
+   "sales": 11
+  },
+  "49460": {
+   "name": "Hillo",
+   "municipality": "Hamina",
+   "flats1": null,
+   "flats2": 533,
+   "flats3": null,
+   "terraced": null,
+   "sales": 15
+  },
+  "50100": {
+   "name": "Mikkeli Keskus",
+   "municipality": "Mikkeli",
+   "flats1": 1721,
+   "flats2": 1690,
+   "flats3": 1528,
+   "terraced": 1609,
+   "sales": 221
+  },
+  "50120": {
+   "name": "Siekkilä",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": 760,
+   "flats3": null,
+   "terraced": null,
+   "sales": 21
+  },
+  "50130": {
+   "name": "Nuijamies",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": 1675,
+   "flats3": 1590,
+   "terraced": 2071,
+   "sales": 37
+  },
+  "50160": {
+   "name": "Kattilansilta",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": 591,
+   "flats3": 515,
+   "terraced": null,
+   "sales": 32
+  },
+  "50170": {
+   "name": "Peitsari",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": 1147,
+   "flats3": 960,
+   "terraced": 1211,
+   "sales": 53
+  },
+  "50190": {
+   "name": "Tuppurala",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": 1934,
+   "flats3": 1431,
+   "terraced": 1133,
+   "sales": 53
+  },
+  "50500": {
+   "name": "Tuukkala-Kaituenmäki",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1216,
+   "sales": 10
+  },
+  "50600": {
+   "name": "Karikko",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1678,
+   "sales": 25
+  },
+  "50700": {
+   "name": "Syysjärvi",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2945,
+   "sales": 9
+  },
+  "50970": {
+   "name": "Ihastjärvi",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2188,
+   "sales": 8
+  },
+  "51200": {
+   "name": "Kangasniemi Keskus",
+   "municipality": "Kangasniemi",
+   "flats1": 525,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 759,
+   "sales": 27
+  },
+  "51900": {
+   "name": "Juva Keskus",
+   "municipality": "Juva",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 642,
+   "sales": 40
+  },
+  "52200": {
+   "name": "Puumala Keskus",
+   "municipality": "Puumala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1080,
+   "sales": 17
+  },
+  "52300": {
+   "name": "Ristiina Keskus",
+   "municipality": "Mikkeli",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1017,
+   "sales": 21
+  },
+  "52550": {
+   "name": "Hirvensalmi Keskus",
+   "municipality": "Hirvensalmi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 720,
+   "sales": 11
+  },
+  "52700": {
+   "name": "Mäntyharju Keskus",
+   "municipality": "Mäntyharju",
+   "flats1": 587,
+   "flats2": 884,
+   "flats3": null,
+   "terraced": 563,
+   "sales": 58
+  },
+  "53100": {
+   "name": "Lappeenranta keskus",
+   "municipality": "Lappeenranta",
+   "flats1": 2480,
+   "flats2": 1975,
+   "flats3": 2100,
+   "terraced": 2157,
+   "sales": 234
+  },
+  "53200": {
+   "name": "Kaukas-Tirilä",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": 1567,
+   "flats3": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "53300": {
+   "name": "Lauritsala-Mälkiä",
+   "municipality": "Lappeenranta",
+   "flats1": 965,
+   "flats2": 838,
+   "flats3": null,
+   "terraced": 1555,
+   "sales": 54
+  },
+  "53500": {
+   "name": "Parkkarila-Harapainen-Reijola",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1899,
+   "sales": 15
+  },
+  "53550": {
+   "name": "Kourulanmäki",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2091,
+   "sales": 17
+  },
+  "53600": {
+   "name": "Kesämäki",
+   "municipality": "Lappeenranta",
+   "flats1": 2430,
+   "flats2": 2208,
+   "flats3": 2095,
+   "terraced": null,
+   "sales": 41
+  },
+  "53810": {
+   "name": "Kuusimäki-Lavola",
+   "municipality": "Lappeenranta",
+   "flats1": 1334,
+   "flats2": 963,
+   "flats3": 964,
+   "terraced": 1328,
+   "sales": 65
+  },
+  "53850": {
+   "name": "Skinnarila",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": 1024,
+   "flats3": 914,
+   "terraced": 1653,
+   "sales": 66
+  },
+  "53900": {
+   "name": "Pallo-Tysterniemi-Leiri",
+   "municipality": "Lappeenranta",
+   "flats1": 1724,
+   "flats2": 2794,
+   "flats3": 3255,
+   "terraced": null,
+   "sales": 74
+  },
+  "53920": {
+   "name": "Voisalmi",
+   "municipality": "Lappeenranta",
+   "flats1": 1066,
+   "flats2": 968,
+   "flats3": null,
+   "terraced": 2020,
+   "sales": 43
+  },
+  "53950": {
+   "name": "Kivisalmi",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": 665,
+   "flats3": null,
+   "terraced": null,
+   "sales": 14
+  },
+  "54100": {
+   "name": "Joutseno Keskus",
+   "municipality": "Lappeenranta",
+   "flats1": null,
+   "flats2": 798,
+   "flats3": null,
+   "terraced": 746,
+   "sales": 28
+  },
+  "54500": {
+   "name": "Taavetti-Somerharju",
+   "municipality": "Luumäki",
+   "flats1": null,
+   "flats2": 457,
+   "flats3": null,
+   "terraced": 717,
+   "sales": 24
+  },
+  "54800": {
+   "name": "Savitaipale Keskus",
+   "municipality": "Savitaipale",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 780,
+   "sales": 13
+  },
+  "54915": {
+   "name": "Saimaanharju-Kyläniemi",
+   "municipality": "Taipalsaari",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1183,
+   "sales": 11
+  },
+  "55100": {
+   "name": "Imatra Keskus",
+   "municipality": "Imatra",
+   "flats1": 687,
+   "flats2": 724,
+   "flats3": 730,
+   "terraced": 798,
+   "sales": 60
+  },
+  "55120": {
+   "name": "Mansikkala-Tuulikallio",
+   "municipality": "Imatra",
+   "flats1": null,
+   "flats2": 378,
+   "flats3": null,
+   "terraced": 937,
+   "sales": 26
+  },
+  "57100": {
+   "name": "Heikinpohja-Piispanmäki",
+   "municipality": "Savonlinna",
+   "flats1": 1391,
+   "flats2": 1402,
+   "flats3": 1637,
+   "terraced": null,
+   "sales": 106
+  },
+  "57130": {
+   "name": "Savonlinna Keskus",
+   "municipality": "Savonlinna",
+   "flats1": 1473,
+   "flats2": 1626,
+   "flats3": 1929,
+   "terraced": null,
+   "sales": 52
+  },
+  "57170": {
+   "name": "Sortteerinlahti-Talvisalo",
+   "municipality": "Savonlinna",
+   "flats1": 713,
+   "flats2": 798,
+   "flats3": 962,
+   "terraced": null,
+   "sales": 28
+  },
+  "57200": {
+   "name": "Miekonniemi-Venäjänniemi",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 554,
+   "terraced": 1126,
+   "sales": 26
+  },
+  "57210": {
+   "name": "Nojanmaa",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": 554,
+   "flats3": null,
+   "terraced": null,
+   "sales": 17
+  },
+  "57230": {
+   "name": "Inkerinkylä",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 720,
+   "sales": 16
+  },
+  "57710": {
+   "name": "Kellarpelto-Rantakoivikko",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 791,
+   "sales": 17
+  },
+  "58200": {
+   "name": "Kerimäki Keskus",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 452,
+   "sales": 17
+  },
+  "58500": {
+   "name": "Punkasalmi",
+   "municipality": "Savonlinna",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 453,
+   "sales": 13
+  },
+  "58700": {
+   "name": "Sulkava Keskus",
+   "municipality": "Sulkava",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 428,
+   "sales": 9
+  },
+  "58900": {
+   "name": "Rantasalmi Keskus",
+   "municipality": "Rantasalmi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 556,
+   "sales": 16
+  },
+  "59100": {
+   "name": "Parikkala Keskus",
+   "municipality": "Parikkala",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 561,
+   "sales": 15
+  },
+  "59800": {
+   "name": "Kesälahti Keskus",
+   "municipality": "Kitee",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 356,
+   "sales": 12
+  },
+  "60100": {
+   "name": "Seinäjoki Keskus",
+   "municipality": "Seinäjoki",
+   "flats1": 2870,
+   "flats2": 2222,
+   "flats3": 1930,
+   "terraced": 1785,
+   "sales": 257
+  },
+  "60120": {
+   "name": "Pohja",
+   "municipality": "Seinäjoki",
+   "flats1": 2552,
+   "flats2": 2365,
+   "flats3": null,
+   "terraced": 1572,
+   "sales": 29
+  },
+  "60150": {
+   "name": "Kasperi",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": 1139,
+   "flats3": 676,
+   "terraced": 1690,
+   "sales": 47
+  },
+  "60200": {
+   "name": "Törnävä",
+   "municipality": "Seinäjoki",
+   "flats1": 2726,
+   "flats2": 2142,
+   "flats3": 1950,
+   "terraced": 2088,
+   "sales": 143
+  },
+  "60220": {
+   "name": "Huhtala",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": 1345,
+   "flats3": null,
+   "terraced": 1427,
+   "sales": 31
+  },
+  "60320": {
+   "name": "Alakylä-Jouppi",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1843,
+   "sales": 73
+  },
+  "60510": {
+   "name": "Hyllykallio",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": 2017,
+   "flats3": 2229,
+   "terraced": 2071,
+   "sales": 159
+  },
+  "60550": {
+   "name": "Nurmo Keskus",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2101,
+   "sales": 19
+  },
+  "60720": {
+   "name": "Tuomikylä",
+   "municipality": "Ilmajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2353,
+   "sales": 13
+  },
+  "60800": {
+   "name": "Ilmajoki Keskus",
+   "municipality": "Ilmajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1425,
+   "sales": 36
+  },
+  "61100": {
+   "name": "Peräseinäjoki Keskus",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 977,
+   "sales": 14
+  },
+  "61300": {
+   "name": "Kurikka Keskus",
+   "municipality": "Kurikka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1102,
+   "sales": 38
+  },
+  "61400": {
+   "name": "Ylistaro Keskus",
+   "municipality": "Seinäjoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 995,
+   "sales": 10
+  },
+  "61500": {
+   "name": "Isokyrö Keskus",
+   "municipality": "Isokyrö",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1040,
+   "sales": 12
+  },
+  "61600": {
+   "name": "Jalasjärvi Keskus",
+   "municipality": "Kurikka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 893,
+   "sales": 28
+  },
+  "61800": {
+   "name": "Kauhajoki Keskus",
+   "municipality": "Kauhajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1034,
+   "sales": 37
+  },
+  "62100": {
+   "name": "Lapua Keskus",
+   "municipality": "Lapua",
+   "flats1": null,
+   "flats2": 1115,
+   "flats3": 1220,
+   "terraced": 1488,
+   "sales": 62
+  },
+  "62200": {
+   "name": "Kauhava Keskus",
+   "municipality": "Kauhava",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1101,
+   "sales": 24
+  },
+  "62900": {
+   "name": "Alajärvi Keskus",
+   "municipality": "Alajärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1571,
+   "sales": 18
+  },
+  "63100": {
+   "name": "Kuortane Keskus",
+   "municipality": "Kuortane",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 851,
+   "sales": 6
+  },
+  "63300": {
+   "name": "Alavus Keskus",
+   "municipality": "Alavus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1070,
+   "sales": 30
+  },
+  "63700": {
+   "name": "Ähtäri Keskus",
+   "municipality": "Ähtäri",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 940,
+   "sales": 24
+  },
+  "64100": {
+   "name": "Kristiinankaupunki keskus",
+   "municipality": "Kristinestad",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 721,
+   "sales": 22
+  },
+  "64200": {
+   "name": "Närpiö Keskus",
+   "municipality": "Närpes",
+   "flats1": 1240,
+   "flats2": 1100,
+   "flats3": 1506,
+   "terraced": null,
+   "sales": 34
+  },
+  "64260": {
+   "name": "Kaskinen",
+   "municipality": "Kaskinen",
+   "flats1": null,
+   "flats2": 527,
+   "flats3": null,
+   "terraced": null,
+   "sales": 18
+  },
+  "65100": {
+   "name": "Vaasa Keskus",
+   "municipality": "Vaasa",
+   "flats1": 2986,
+   "flats2": 2463,
+   "flats3": 2329,
+   "terraced": 2025,
+   "sales": 519
+  },
+  "65200": {
+   "name": "Palosaari",
+   "municipality": "Vaasa",
+   "flats1": 2425,
+   "flats2": 1865,
+   "flats3": 1736,
+   "terraced": null,
+   "sales": 121
+  },
+  "65230": {
+   "name": "Vetokannas",
+   "municipality": "Vaasa",
+   "flats1": null,
+   "flats2": 1146,
+   "flats3": 1455,
+   "terraced": 1673,
+   "sales": 43
+  },
+  "65280": {
+   "name": "Gerby",
+   "municipality": "Vaasa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1819,
+   "sales": 62
+  },
+  "65300": {
+   "name": "Asevelikylä",
+   "municipality": "Vaasa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2430,
+   "sales": 41
+  },
+  "65320": {
+   "name": "Huutoniemi",
+   "municipality": "Vaasa",
+   "flats1": 1391,
+   "flats2": 1268,
+   "flats3": 1058,
+   "terraced": 1596,
+   "sales": 95
+  },
+  "65350": {
+   "name": "Suvilahti",
+   "municipality": "Vaasa",
+   "flats1": 1796,
+   "flats2": 1039,
+   "flats3": 1087,
+   "terraced": null,
+   "sales": 59
+  },
+  "65370": {
+   "name": "Ristinummi",
+   "municipality": "Vaasa",
+   "flats1": 934,
+   "flats2": 727,
+   "flats3": 739,
+   "terraced": 749,
+   "sales": 130
+  },
+  "65380": {
+   "name": "Vanha Vaasa",
+   "municipality": "Vaasa",
+   "flats1": 1043,
+   "flats2": 935,
+   "flats3": 1057,
+   "terraced": 1458,
+   "sales": 34
+  },
+  "65410": {
+   "name": "Sundom",
+   "municipality": "Vaasa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2253,
+   "sales": 9
+  },
+  "65450": {
+   "name": "Sulva",
+   "municipality": "Korsholm",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1670,
+   "sales": 6
+  },
+  "65520": {
+   "name": "Helsingby",
+   "municipality": "Korsholm",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1801,
+   "sales": 6
+  },
+  "65610": {
+   "name": "Mustasaari Keskus",
+   "municipality": "Korsholm",
+   "flats1": null,
+   "flats2": 1325,
+   "flats3": 1982,
+   "terraced": 1825,
+   "sales": 86
+  },
+  "65630": {
+   "name": "Karperö",
+   "municipality": "Korsholm",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1781,
+   "sales": 9
+  },
+  "66100": {
+   "name": "Maalahti",
+   "municipality": "Malax",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1749,
+   "sales": 11
+  },
+  "66400": {
+   "name": "Laihia Keskus",
+   "municipality": "Laihia",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1414,
+   "sales": 39
+  },
+  "66900": {
+   "name": "Uusikaarlepyy Keskus",
+   "municipality": "Nykarleby",
+   "flats1": 812,
+   "flats2": 1351,
+   "flats3": 1685,
+   "terraced": 1542,
+   "sales": 28
+  },
+  "67100": {
+   "name": "Kokkola Keskus",
+   "municipality": "Kokkola",
+   "flats1": 2493,
+   "flats2": 1704,
+   "flats3": 1942,
+   "terraced": 1622,
+   "sales": 208
+  },
+  "67200": {
+   "name": "Kiviniitty-Tullimäki",
+   "municipality": "Kokkola",
+   "flats1": 2419,
+   "flats2": 1706,
+   "flats3": 1660,
+   "terraced": 1892,
+   "sales": 73
+  },
+  "67300": {
+   "name": "Halkokari",
+   "municipality": "Kokkola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2354,
+   "sales": 47
+  },
+  "67400": {
+   "name": "Rytimäki",
+   "municipality": "Kokkola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2116,
+   "sales": 24
+  },
+  "67700": {
+   "name": "Kirkonmäki-Isokylä",
+   "municipality": "Kokkola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1899,
+   "sales": 26
+  },
+  "67800": {
+   "name": "Koivuhaka",
+   "municipality": "Kokkola",
+   "flats1": null,
+   "flats2": 793,
+   "flats3": 706,
+   "terraced": 1143,
+   "sales": 28
+  },
+  "68300": {
+   "name": "Kälviä Keskus",
+   "municipality": "Kokkola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1189,
+   "sales": 14
+  },
+  "68570": {
+   "name": "Luoto",
+   "municipality": "Larsmo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2086,
+   "sales": 8
+  },
+  "68600": {
+   "name": "Pietarsaari Keskus",
+   "municipality": "Jakobstad",
+   "flats1": 1354,
+   "flats2": 1525,
+   "flats3": 1362,
+   "terraced": 1045,
+   "sales": 91
+  },
+  "68620": {
+   "name": "Skutnäs-Västermalm",
+   "municipality": "Jakobstad",
+   "flats1": null,
+   "flats2": 1035,
+   "flats3": 996,
+   "terraced": 1489,
+   "sales": 41
+  },
+  "68630": {
+   "name": "Kyrkostrand",
+   "municipality": "Jakobstad",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1348,
+   "sales": 16
+  },
+  "68660": {
+   "name": "Östermalm-Björnholmen",
+   "municipality": "Jakobstad",
+   "flats1": 834,
+   "flats2": 694,
+   "flats3": 763,
+   "terraced": null,
+   "sales": 31
+  },
+  "69100": {
+   "name": "Kannus Keskus",
+   "municipality": "Kannus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 989,
+   "sales": 28
+  },
+  "69600": {
+   "name": "Kaustinen Keskus",
+   "municipality": "Kaustinen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 921,
+   "sales": 11
+  },
+  "70100": {
+   "name": "Kuopio Keskus",
+   "municipality": "Kuopio",
+   "flats1": 2974,
+   "flats2": 2513,
+   "flats3": 2698,
+   "terraced": 2769,
+   "sales": 279
+  },
+  "70110": {
+   "name": "Etu-Niirala",
+   "municipality": "Kuopio",
+   "flats1": 3130,
+   "flats2": 2557,
+   "flats3": 2466,
+   "terraced": null,
+   "sales": 135
+  },
+  "70150": {
+   "name": "Neulamäki",
+   "municipality": "Kuopio",
+   "flats1": 1271,
+   "flats2": 1057,
+   "flats3": 1231,
+   "terraced": 1613,
+   "sales": 56
+  },
+  "70200": {
+   "name": "Puijonlaakso",
+   "municipality": "Kuopio",
+   "flats1": 2880,
+   "flats2": 2267,
+   "flats3": 1748,
+   "terraced": 1540,
+   "sales": 142
+  },
+  "70260": {
+   "name": "Julkula",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1582,
+   "sales": 44
+  },
+  "70280": {
+   "name": "Länsi-Puijo",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1392,
+   "sales": 20
+  },
+  "70340": {
+   "name": "Inkilänmäki",
+   "municipality": "Kuopio",
+   "flats1": 2700,
+   "flats2": 1917,
+   "flats3": 1475,
+   "terraced": 1983,
+   "sales": 60
+  },
+  "70420": {
+   "name": "Päiväranta",
+   "municipality": "Kuopio",
+   "flats1": 1490,
+   "flats2": 1266,
+   "flats3": 1255,
+   "terraced": 1622,
+   "sales": 53
+  },
+  "70460": {
+   "name": "Saarijärvi",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": 769,
+   "flats3": 650,
+   "terraced": 1288,
+   "sales": 41
+  },
+  "70500": {
+   "name": "Männistö",
+   "municipality": "Kuopio",
+   "flats1": 1266,
+   "flats2": 1689,
+   "flats3": 1955,
+   "terraced": null,
+   "sales": 364
+  },
+  "70600": {
+   "name": "Niirala-Huuhanmäki",
+   "municipality": "Kuopio",
+   "flats1": 3259,
+   "flats2": 2384,
+   "flats3": 2544,
+   "terraced": null,
+   "sales": 52
+  },
+  "70620": {
+   "name": "Haapaniemi",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": 1620,
+   "flats3": null,
+   "terraced": null,
+   "sales": 22
+  },
+  "70700": {
+   "name": "Särkiniemi",
+   "municipality": "Kuopio",
+   "flats1": 3154,
+   "flats2": 1628,
+   "flats3": 1467,
+   "terraced": null,
+   "sales": 60
+  },
+  "70780": {
+   "name": "Jynkkä",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1616,
+   "sales": 56
+  },
+  "70800": {
+   "name": "Pitkälahti",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2137,
+   "sales": 23
+  },
+  "70820": {
+   "name": "Litmanen",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": 1508,
+   "flats3": 1551,
+   "terraced": 2263,
+   "sales": 228
+  },
+  "70840": {
+   "name": "Jynkänmäki",
+   "municipality": "Kuopio",
+   "flats1": 3102,
+   "flats2": 2624,
+   "flats3": 2873,
+   "terraced": 2699,
+   "sales": 210
+  },
+  "70870": {
+   "name": "Hiltulanlahti",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2769,
+   "sales": 7
+  },
+  "70900": {
+   "name": "Toivala",
+   "municipality": "Siilinjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1940,
+   "sales": 16
+  },
+  "70910": {
+   "name": "Vuorela",
+   "municipality": "Siilinjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2491,
+   "terraced": 1526,
+   "sales": 39
+  },
+  "71160": {
+   "name": "Riistavesi",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 697,
+   "sales": 7
+  },
+  "71800": {
+   "name": "Siilinjärvi Keskus",
+   "municipality": "Siilinjärvi",
+   "flats1": 875,
+   "flats2": 1294,
+   "flats3": 1288,
+   "terraced": 1459,
+   "sales": 102
+  },
+  "71850": {
+   "name": "Leppäkaarre",
+   "municipality": "Siilinjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1283,
+   "sales": 22
+  },
+  "72400": {
+   "name": "Pielavesi Keskus-Jylänki",
+   "municipality": "Pielavesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 586,
+   "sales": 32
+  },
+  "73100": {
+   "name": "Lapinlahti Keskus",
+   "municipality": "Lapinlahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 811,
+   "sales": 33
+  },
+  "73300": {
+   "name": "Nilsiä Keskus",
+   "municipality": "Kuopio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 951,
+   "sales": 30
+  },
+  "74100": {
+   "name": "Iisalmi Keskus, Eteläinen",
+   "municipality": "Iisalmi",
+   "flats1": 1116,
+   "flats2": 1058,
+   "flats3": 1578,
+   "terraced": null,
+   "sales": 89
+  },
+  "74120": {
+   "name": "Iisalmi Keskus Pohjoinen",
+   "municipality": "Iisalmi",
+   "flats1": null,
+   "flats2": 655,
+   "flats3": 975,
+   "terraced": 1264,
+   "sales": 56
+  },
+  "74130": {
+   "name": "Kihmula",
+   "municipality": "Iisalmi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1272,
+   "sales": 29
+  },
+  "74700": {
+   "name": "Kiuruvesi Keskus",
+   "municipality": "Kiuruvesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 525,
+   "sales": 42
+  },
+  "75500": {
+   "name": "Nurmes Keskus",
+   "municipality": "Nurmes",
+   "flats1": 579,
+   "flats2": 588,
+   "flats3": null,
+   "terraced": null,
+   "sales": 31
+  },
+  "75530": {
+   "name": "Porokylä",
+   "municipality": "Nurmes",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 585,
+   "sales": 26
+  },
+  "76100": {
+   "name": "Pieksämäki Keskus",
+   "municipality": "Pieksämäki",
+   "flats1": 651,
+   "flats2": 454,
+   "flats3": 560,
+   "terraced": 644,
+   "sales": 80
+  },
+  "76150": {
+   "name": "Länsirinne",
+   "municipality": "Pieksämäki",
+   "flats1": 385,
+   "flats2": 321,
+   "flats3": null,
+   "terraced": 765,
+   "sales": 41
+  },
+  "76850": {
+   "name": "Naarajärvi",
+   "municipality": "Pieksämäki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 554,
+   "sales": 16
+  },
+  "77600": {
+   "name": "Suonenjoki Keskus",
+   "municipality": "Suonenjoki",
+   "flats1": 435,
+   "flats2": 852,
+   "flats3": 1111,
+   "terraced": null,
+   "sales": 36
+  },
+  "78200": {
+   "name": "Varkaus Keskus",
+   "municipality": "Varkaus",
+   "flats1": 476,
+   "flats2": 705,
+   "flats3": 509,
+   "terraced": null,
+   "sales": 83
+  },
+  "78210": {
+   "name": "Kuoppakangas",
+   "municipality": "Varkaus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 593,
+   "sales": 14
+  },
+  "78250": {
+   "name": "Päiviönsaari",
+   "municipality": "Varkaus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 672,
+   "terraced": null,
+   "sales": 24
+  },
+  "78500": {
+   "name": "Pitkälänniemi-Könönpelto",
+   "municipality": "Varkaus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 632,
+   "sales": 8
+  },
+  "78850": {
+   "name": "Käpykangas",
+   "municipality": "Varkaus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 700,
+   "sales": 23
+  },
+  "78870": {
+   "name": "Kaura-Aho",
+   "municipality": "Varkaus",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 710,
+   "sales": 14
+  },
+  "79100": {
+   "name": "Leppävirta Keskus",
+   "municipality": "Leppävirta",
+   "flats1": null,
+   "flats2": 441,
+   "flats3": null,
+   "terraced": 764,
+   "sales": 55
+  },
+  "79600": {
+   "name": "Joroinen Keskus",
+   "municipality": "Joroinen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 464,
+   "sales": 24
+  },
+  "80100": {
+   "name": "Joensuu Keskus, Pohjoinen",
+   "municipality": "Joensuu",
+   "flats1": 2756,
+   "flats2": 2046,
+   "flats3": 1813,
+   "terraced": 1709,
+   "sales": 241
+  },
+  "80110": {
+   "name": "Joensuu Keskus Eteläinen",
+   "municipality": "Joensuu",
+   "flats1": 2485,
+   "flats2": 1835,
+   "flats3": 1961,
+   "terraced": null,
+   "sales": 128
+  },
+  "80130": {
+   "name": "Kanervala",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1697,
+   "sales": 15
+  },
+  "80140": {
+   "name": "Noljakka",
+   "municipality": "Joensuu",
+   "flats1": 2936,
+   "flats2": 1543,
+   "flats3": 1523,
+   "terraced": 1645,
+   "sales": 117
+  },
+  "80160": {
+   "name": "Rantakylä-Latola",
+   "municipality": "Joensuu",
+   "flats1": 1841,
+   "flats2": 1523,
+   "flats3": 1085,
+   "terraced": 1101,
+   "sales": 117
+  },
+  "80170": {
+   "name": "Utra",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1559,
+   "sales": 34
+  },
+  "80200": {
+   "name": "Niinivaara",
+   "municipality": "Joensuu",
+   "flats1": 1984,
+   "flats2": 2178,
+   "flats3": 1930,
+   "terraced": 1443,
+   "sales": 81
+  },
+  "80220": {
+   "name": "Penttilä",
+   "municipality": "Joensuu",
+   "flats1": 3612,
+   "flats2": 3023,
+   "flats3": 2947,
+   "terraced": 2269,
+   "sales": 95
+  },
+  "80230": {
+   "name": "Hukanhauta",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1855,
+   "sales": 67
+  },
+  "80260": {
+   "name": "Kettuvaara",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": 1381,
+   "flats3": 1142,
+   "terraced": 1183,
+   "sales": 42
+  },
+  "80330": {
+   "name": "Reijola",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1500,
+   "sales": 21
+  },
+  "80400": {
+   "name": "Ylämylly",
+   "municipality": "Liperi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1682,
+   "sales": 17
+  },
+  "80710": {
+   "name": "Lehmo",
+   "municipality": "Kontiolahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1943,
+   "sales": 52
+  },
+  "81100": {
+   "name": "Kontiolahti",
+   "municipality": "Kontiolahti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 846,
+   "sales": 27
+  },
+  "81700": {
+   "name": "Lieksa Keskus",
+   "municipality": "Lieksa",
+   "flats1": null,
+   "flats2": 394,
+   "flats3": null,
+   "terraced": 430,
+   "sales": 34
+  },
+  "82200": {
+   "name": "Hammaslahti",
+   "municipality": "Joensuu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 706,
+   "sales": 14
+  },
+  "82500": {
+   "name": "Kitee Keskus",
+   "municipality": "Kitee",
+   "flats1": null,
+   "flats2": 518,
+   "flats3": null,
+   "terraced": 556,
+   "sales": 52
+  },
+  "82600": {
+   "name": "Tohmajärvi Keskus",
+   "municipality": "Tohmajärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 360,
+   "sales": 13
+  },
+  "82900": {
+   "name": "Ilomantsi Keskus",
+   "municipality": "Ilomantsi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 296,
+   "sales": 47
+  },
+  "83100": {
+   "name": "Liperi Keskus",
+   "municipality": "Liperi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 405,
+   "sales": 17
+  },
+  "83500": {
+   "name": "Outokumpu Keskus",
+   "municipality": "Outokumpu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 341,
+   "sales": 61
+  },
+  "83700": {
+   "name": "Polvijärvi Keskus",
+   "municipality": "Polvijärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 333,
+   "sales": 18
+  },
+  "84100": {
+   "name": "Ylivieska Keskus",
+   "municipality": "Ylivieska",
+   "flats1": 1556,
+   "flats2": 1204,
+   "flats3": 1214,
+   "terraced": 1403,
+   "sales": 146
+  },
+  "85100": {
+   "name": "Kalajoki Keskus",
+   "municipality": "Kalajoki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1427,
+   "sales": 24
+  },
+  "85500": {
+   "name": "Nivala Keskus",
+   "municipality": "Nivala",
+   "flats1": null,
+   "flats2": 1211,
+   "flats3": 1506,
+   "terraced": 1000,
+   "sales": 43
+  },
+  "85800": {
+   "name": "Haapajärvi Keskus",
+   "municipality": "Haapajärvi",
+   "flats1": 596,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1202,
+   "sales": 30
+  },
+  "85900": {
+   "name": "Reisjärvi Keskus",
+   "municipality": "Reisjärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 894,
+   "sales": 21
+  },
+  "86300": {
+   "name": "Oulainen Keskus",
+   "municipality": "Oulainen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 781,
+   "sales": 30
+  },
+  "86600": {
+   "name": "Haapavesi Keskus",
+   "municipality": "Haapavesi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 777,
+   "sales": 14
+  },
+  "87100": {
+   "name": "Kajaani Keskus",
+   "municipality": "Kajaani",
+   "flats1": 1346,
+   "flats2": 1327,
+   "flats3": 1545,
+   "terraced": 1159,
+   "sales": 150
+  },
+  "87200": {
+   "name": "Teppana",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": 1084,
+   "flats3": 1447,
+   "terraced": 1642,
+   "sales": 54
+  },
+  "87250": {
+   "name": "Kättö-Kätönlahti",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1375,
+   "sales": 23
+  },
+  "87300": {
+   "name": "Palokangas",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 790,
+   "terraced": null,
+   "sales": 17
+  },
+  "87400": {
+   "name": "Petäisenniska",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": 964,
+   "flats3": null,
+   "terraced": 1011,
+   "sales": 28
+  },
+  "87500": {
+   "name": "Lehtikangas",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": 694,
+   "flats3": 647,
+   "terraced": 1309,
+   "sales": 76
+  },
+  "87700": {
+   "name": "Lohtaja-Kettu",
+   "municipality": "Kajaani",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 976,
+   "sales": 24
+  },
+  "88600": {
+   "name": "Sotkamo Keskus",
+   "municipality": "Sotkamo",
+   "flats1": 1325,
+   "flats2": 1376,
+   "flats3": 1802,
+   "terraced": 1330,
+   "sales": 60
+  },
+  "88610": {
+   "name": "Vuokatti",
+   "municipality": "Sotkamo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1561,
+   "sales": 22
+  },
+  "88900": {
+   "name": "Kuhmo Keskus",
+   "municipality": "Kuhmo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 592,
+   "sales": 35
+  },
+  "90100": {
+   "name": "Oulu Keskus",
+   "municipality": "Oulu",
+   "flats1": 3638,
+   "flats2": 2787,
+   "flats3": 2681,
+   "terraced": null,
+   "sales": 227
+  },
+  "90120": {
+   "name": "Heinäpää",
+   "municipality": "Oulu",
+   "flats1": 2536,
+   "flats2": 2297,
+   "flats3": 2371,
+   "terraced": null,
+   "sales": 178
+  },
+  "90130": {
+   "name": "Raksila",
+   "municipality": "Oulu",
+   "flats1": 2416,
+   "flats2": 2421,
+   "flats3": 2458,
+   "terraced": null,
+   "sales": 132
+  },
+  "90140": {
+   "name": "Karjasilta",
+   "municipality": "Oulu",
+   "flats1": 2890,
+   "flats2": 2673,
+   "flats3": 2592,
+   "terraced": null,
+   "sales": 73
+  },
+  "90150": {
+   "name": "Höyhtyä",
+   "municipality": "Oulu",
+   "flats1": 1507,
+   "flats2": 1279,
+   "flats3": 1564,
+   "terraced": 1898,
+   "sales": 109
+  },
+  "90220": {
+   "name": "Kontinkangas",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 1314,
+   "flats3": null,
+   "terraced": null,
+   "sales": 43
+  },
+  "90230": {
+   "name": "Värttö-Maikkula",
+   "municipality": "Oulu",
+   "flats1": 2578,
+   "flats2": 2380,
+   "flats3": 2357,
+   "terraced": 2349,
+   "sales": 104
+  },
+  "90240": {
+   "name": "Iinatti",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 1576,
+   "flats3": 1400,
+   "terraced": 1839,
+   "sales": 65
+  },
+  "90250": {
+   "name": "Kaukovainio",
+   "municipality": "Oulu",
+   "flats1": 1952,
+   "flats2": 1544,
+   "flats3": 1334,
+   "terraced": 2016,
+   "sales": 132
+  },
+  "90310": {
+   "name": "Madekoski",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1592,
+   "sales": 12
+  },
+  "90400": {
+   "name": "Äimärautio",
+   "municipality": "Oulu",
+   "flats1": 3810,
+   "flats2": 3312,
+   "flats3": 3007,
+   "terraced": null,
+   "sales": 117
+  },
+  "90410": {
+   "name": "Kaakkuri",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1941,
+   "sales": 37
+  },
+  "90420": {
+   "name": "Metsokangas",
+   "municipality": "Oulu",
+   "flats1": 2459,
+   "flats2": 1979,
+   "flats3": 2036,
+   "terraced": 2265,
+   "sales": 155
+  },
+  "90440": {
+   "name": "Kempele Keskus",
+   "municipality": "Kempele",
+   "flats1": 2554,
+   "flats2": 2168,
+   "flats3": 2233,
+   "terraced": 1840,
+   "sales": 115
+  },
+  "90450": {
+   "name": "Honkanen",
+   "municipality": "Kempele",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2190,
+   "terraced": 2219,
+   "sales": 86
+  },
+  "90460": {
+   "name": "Oulunsalo Keskus",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 1549,
+   "terraced": 1770,
+   "sales": 95
+  },
+  "90500": {
+   "name": "Tuira",
+   "municipality": "Oulu",
+   "flats1": 2252,
+   "flats2": 2072,
+   "flats3": 1731,
+   "terraced": null,
+   "sales": 193
+  },
+  "90510": {
+   "name": "Hietasaari",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 2657,
+   "flats3": 3139,
+   "terraced": null,
+   "sales": 37
+  },
+  "90520": {
+   "name": "Taskila-Toppila",
+   "municipality": "Oulu",
+   "flats1": 3194,
+   "flats2": 2860,
+   "flats3": 2994,
+   "terraced": 1455,
+   "sales": 121
+  },
+  "90530": {
+   "name": "Välivainio",
+   "municipality": "Oulu",
+   "flats1": 2167,
+   "flats2": 2015,
+   "flats3": 2117,
+   "terraced": 1458,
+   "sales": 96
+  },
+  "90540": {
+   "name": "Kuivasjärvi",
+   "municipality": "Oulu",
+   "flats1": 3291,
+   "flats2": 2527,
+   "flats3": 2111,
+   "terraced": 2090,
+   "sales": 161
+  },
+  "90550": {
+   "name": "Pyykösjärvi-Puolivälinkangas",
+   "municipality": "Oulu",
+   "flats1": 1457,
+   "flats2": 1191,
+   "flats3": 942,
+   "terraced": 1410,
+   "sales": 135
+  },
+  "90560": {
+   "name": "Koskela-Oulu",
+   "municipality": "Oulu",
+   "flats1": 1293,
+   "flats2": 1106,
+   "flats3": 1033,
+   "terraced": 1577,
+   "sales": 94
+  },
+  "90570": {
+   "name": "Kaijonharju-Linnanmaa",
+   "municipality": "Oulu",
+   "flats1": 2514,
+   "flats2": 1401,
+   "flats3": 1262,
+   "terraced": 1502,
+   "sales": 143
+  },
+  "90580": {
+   "name": "Rajakylä",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 918,
+   "flats3": null,
+   "terraced": 1109,
+   "sales": 58
+  },
+  "90630": {
+   "name": "Korvensuora",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 2381,
+   "flats3": 2213,
+   "terraced": 2027,
+   "sales": 108
+  },
+  "90650": {
+   "name": "Haapalehto",
+   "municipality": "Oulu",
+   "flats1": 1685,
+   "flats2": 1606,
+   "flats3": 1743,
+   "terraced": 1862,
+   "sales": 125
+  },
+  "90670": {
+   "name": "Hiukkavaara",
+   "municipality": "Oulu",
+   "flats1": 2962,
+   "flats2": 2197,
+   "flats3": 1978,
+   "terraced": 2790,
+   "sales": 165
+  },
+  "90800": {
+   "name": "Pateniemi",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": 2825,
+   "flats3": null,
+   "terraced": 1637,
+   "sales": 53
+  },
+  "90810": {
+   "name": "Kiviniemi",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1766,
+   "sales": 20
+  },
+  "90830": {
+   "name": "Haukipudas Keskus",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1639,
+   "sales": 76
+  },
+  "90840": {
+   "name": "Haukipudas Asemanseutu",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1807,
+   "sales": 6
+  },
+  "90900": {
+   "name": "Kiiminki Keskus",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1396,
+   "sales": 39
+  },
+  "90940": {
+   "name": "Jääli",
+   "municipality": "Oulu",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1482,
+   "sales": 49
+  },
+  "91100": {
+   "name": "Ii Keskus",
+   "municipality": "Ii",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 967,
+   "sales": 36
+  },
+  "91500": {
+   "name": "Muhos Keskus",
+   "municipality": "Muhos",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1106,
+   "sales": 44
+  },
+  "91600": {
+   "name": "Utajärvi Keskus",
+   "municipality": "Utajärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 827,
+   "sales": 9
+  },
+  "91800": {
+   "name": "Tyrnävä",
+   "municipality": "Tyrnävä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1122,
+   "sales": 14
+  },
+  "91900": {
+   "name": "Liminka Keskus",
+   "municipality": "Liminka",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1445,
+   "sales": 27
+  },
+  "92100": {
+   "name": "Raahe Keskus",
+   "municipality": "Raahe",
+   "flats1": 1334,
+   "flats2": 1432,
+   "flats3": 1549,
+   "terraced": 1746,
+   "sales": 67
+  },
+  "92130": {
+   "name": "Isoholmi-Antinkangas",
+   "municipality": "Raahe",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 916,
+   "sales": 25
+  },
+  "92140": {
+   "name": "Pattijoki Keskus",
+   "municipality": "Raahe",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1075,
+   "sales": 19
+  },
+  "93100": {
+   "name": "Pudasjärvi Keskus",
+   "municipality": "Pudasjärvi",
+   "flats1": 455,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 686,
+   "sales": 27
+  },
+  "93400": {
+   "name": "Taivalkoski Keskus",
+   "municipality": "Taivalkoski",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 883,
+   "sales": 15
+  },
+  "93600": {
+   "name": "Kuusamo",
+   "municipality": "Kuusamo",
+   "flats1": 1618,
+   "flats2": 1272,
+   "flats3": null,
+   "terraced": 1313,
+   "sales": 164
+  },
+  "94100": {
+   "name": "Kemi Keskus",
+   "municipality": "Kemi",
+   "flats1": 732,
+   "flats2": 959,
+   "flats3": 1027,
+   "terraced": 800,
+   "sales": 111
+  },
+  "94400": {
+   "name": "Keminmaa Keskus",
+   "municipality": "Keminmaa",
+   "flats1": null,
+   "flats2": 478,
+   "flats3": null,
+   "terraced": 669,
+   "sales": 28
+  },
+  "94450": {
+   "name": "Lassila-Jokisuu",
+   "municipality": "Keminmaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1065,
+   "sales": 15
+  },
+  "94720": {
+   "name": "Peurasaari",
+   "municipality": "Kemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 970,
+   "sales": 16
+  },
+  "95400": {
+   "name": "Tornio Keskus",
+   "municipality": "Tornio",
+   "flats1": 1806,
+   "flats2": 1463,
+   "flats3": 1956,
+   "terraced": null,
+   "sales": 49
+  },
+  "95410": {
+   "name": "Kiviranta",
+   "municipality": "Tornio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1267,
+   "sales": 16
+  },
+  "95420": {
+   "name": "Miukki-Palosaari-Luotomäki",
+   "municipality": "Tornio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1123,
+   "sales": 32
+  },
+  "95430": {
+   "name": "Suensaari",
+   "municipality": "Tornio",
+   "flats1": 1228,
+   "flats2": 1093,
+   "flats3": 1117,
+   "terraced": null,
+   "sales": 23
+  },
+  "95450": {
+   "name": "Kirkonmäki",
+   "municipality": "Tornio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1572,
+   "sales": 19
+  },
+  "96100": {
+   "name": "Rovaniemi Keskus",
+   "municipality": "Rovaniemi",
+   "flats1": 2637,
+   "flats2": 2338,
+   "flats3": 2283,
+   "terraced": 1684,
+   "sales": 404
+  },
+  "96190": {
+   "name": "Lapinrinne-Ahokangas",
+   "municipality": "Rovaniemi",
+   "flats1": 3331,
+   "flats2": 2890,
+   "flats3": 2049,
+   "terraced": 2015,
+   "sales": 60
+  },
+  "96200": {
+   "name": "Sahanperä-Ratantaus",
+   "municipality": "Rovaniemi",
+   "flats1": 2366,
+   "flats2": 2095,
+   "flats3": 1939,
+   "terraced": 1940,
+   "sales": 177
+  },
+  "96300": {
+   "name": "Niemelänkangas-Korvanniemi",
+   "municipality": "Rovaniemi",
+   "flats1": 3240,
+   "flats2": 2042,
+   "flats3": 1566,
+   "terraced": 2012,
+   "sales": 131
+  },
+  "96400": {
+   "name": "Pullinranta-Kiiruna",
+   "municipality": "Rovaniemi",
+   "flats1": 2293,
+   "flats2": 2258,
+   "flats3": 1816,
+   "terraced": 1858,
+   "sales": 65
+  },
+  "96440": {
+   "name": "Ounasrinne",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": 818,
+   "flats3": 779,
+   "terraced": 1053,
+   "sales": 49
+  },
+  "96460": {
+   "name": "Pöykkölä",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2043,
+   "sales": 34
+  },
+  "96500": {
+   "name": "Korkalovaara",
+   "municipality": "Rovaniemi",
+   "flats1": 901,
+   "flats2": 733,
+   "flats3": 778,
+   "terraced": 1427,
+   "sales": 103
+  },
+  "96600": {
+   "name": "Koskenkylä",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1411,
+   "sales": 11
+  },
+  "96800": {
+   "name": "Ylikylä-Patosaari",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2403,
+   "sales": 12
+  },
+  "96900": {
+   "name": "Saarenkylä",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2375,
+   "sales": 72
+  },
+  "96910": {
+   "name": "Syväsenvaara",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": 1046,
+   "flats3": 910,
+   "terraced": 1763,
+   "sales": 42
+  },
+  "96960": {
+   "name": "Someroharju",
+   "municipality": "Rovaniemi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 928,
+   "sales": 8
+  },
+  "97700": {
+   "name": "Ranua Keskus",
+   "municipality": "Ranua",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 744,
+   "sales": 9
+  },
+  "98100": {
+   "name": "Kemijärvi Keskus",
+   "municipality": "Kemijärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 669,
+   "sales": 30
+  },
+  "98120": {
+   "name": "Särkikangas",
+   "municipality": "Kemijärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 486,
+   "sales": 24
+  },
+  "98900": {
+   "name": "Salla Keskus",
+   "municipality": "Salla",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 817,
+   "sales": 9
+  },
+  "99130": {
+   "name": "Sirkka-Rauhala",
+   "municipality": "Kittilä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2660,
+   "sales": 16
+  },
+  "99600": {
+   "name": "Sodankylä Keskus",
+   "municipality": "Sodankylä",
+   "flats1": null,
+   "flats2": 988,
+   "flats3": null,
+   "terraced": 1154,
+   "sales": 37
+  },
+  "99800": {
+   "name": "Ivalo",
+   "municipality": "Inari",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1529,
+   "sales": 26
+  },
+  "99830": {
+   "name": "Saariselkä",
+   "municipality": "Inari",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2299,
+   "sales": 14
+  },
+  "00100": {
+   "name": "Helsinki keskusta - Etu-Töölö",
+   "municipality": "Helsinki",
+   "flats1": 7371,
+   "flats2": 7254,
+   "flats3": 7353,
+   "terraced": null,
+   "sales": 420
+  },
+  "00120": {
+   "name": "Punavuori - Bulevardi",
+   "municipality": "Helsinki",
+   "flats1": 7851,
+   "flats2": 8066,
+   "flats3": 8886,
+   "terraced": null,
+   "sales": 199
+  },
+  "00130": {
+   "name": "Kaartinkaupunki",
+   "municipality": "Helsinki",
+   "flats1": 7877,
+   "flats2": 7546,
+   "flats3": 7684,
+   "terraced": null,
+   "sales": 52
+  },
+  "00140": {
+   "name": "Kaivopuisto - Ullanlinna",
+   "municipality": "Helsinki",
+   "flats1": 8002,
+   "flats2": 8129,
+   "flats3": 9653,
+   "terraced": null,
+   "sales": 217
+  },
+  "00150": {
+   "name": "Punavuori - Eira - Hernesaari",
+   "municipality": "Helsinki",
+   "flats1": 7796,
+   "flats2": 8047,
+   "flats3": 8852,
+   "terraced": null,
+   "sales": 269
+  },
+  "00160": {
+   "name": "Katajanokka",
+   "municipality": "Helsinki",
+   "flats1": 7497,
+   "flats2": 7425,
+   "flats3": 7288,
+   "terraced": null,
+   "sales": 122
+  },
+  "00170": {
+   "name": "Kruununhaka",
+   "municipality": "Helsinki",
+   "flats1": 7344,
+   "flats2": 7399,
+   "flats3": 7149,
+   "terraced": null,
+   "sales": 162
+  },
+  "00180": {
+   "name": "Kamppi - Ruoholahti",
+   "municipality": "Helsinki",
+   "flats1": 7157,
+   "flats2": 6493,
+   "flats3": 6655,
+   "terraced": null,
+   "sales": 354
+  },
+  "00200": {
+   "name": "Pohjois-Lauttasaari",
+   "municipality": "Helsinki",
+   "flats1": 6449,
+   "flats2": 6017,
+   "flats3": 6444,
+   "terraced": 7948,
+   "sales": 444
+  },
+  "00210": {
+   "name": "Vattuniemi",
+   "municipality": "Helsinki",
+   "flats1": 5981,
+   "flats2": 5918,
+   "flats3": 6664,
+   "terraced": null,
+   "sales": 277
+  },
+  "00220": {
+   "name": "Jätkäsaari",
+   "municipality": "Helsinki",
+   "flats1": 7090,
+   "flats2": 7549,
+   "flats3": 7077,
+   "terraced": null,
+   "sales": 130
+  },
+  "00240": {
+   "name": "Länsi-Pasila",
+   "municipality": "Helsinki",
+   "flats1": 5011,
+   "flats2": 4514,
+   "flats3": 4051,
+   "terraced": null,
+   "sales": 127
+  },
+  "00250": {
+   "name": "Taka-Töölö",
+   "municipality": "Helsinki",
+   "flats1": 6758,
+   "flats2": 6207,
+   "flats3": 6250,
+   "terraced": null,
+   "sales": 302
+  },
+  "00260": {
+   "name": "Keski-Töölö",
+   "municipality": "Helsinki",
+   "flats1": 6638,
+   "flats2": 7062,
+   "flats3": 7486,
+   "terraced": null,
+   "sales": 165
+  },
+  "00270": {
+   "name": "Pohjois-Meilahti",
+   "municipality": "Helsinki",
+   "flats1": 5811,
+   "flats2": 5546,
+   "flats3": 5653,
+   "terraced": null,
+   "sales": 144
+  },
+  "00280": {
+   "name": "Ruskeasuo",
+   "municipality": "Helsinki",
+   "flats1": 5490,
+   "flats2": 5299,
+   "flats3": 4864,
+   "terraced": null,
+   "sales": 57
+  },
+  "00300": {
+   "name": "Pikku Huopalahti",
+   "municipality": "Helsinki",
+   "flats1": 4745,
+   "flats2": 4490,
+   "flats3": 4468,
+   "terraced": null,
+   "sales": 105
+  },
+  "00310": {
+   "name": "Kivihaka",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 3982,
+   "terraced": null,
+   "sales": 20
+  },
+  "00320": {
+   "name": "Etelä-Haaga",
+   "municipality": "Helsinki",
+   "flats1": 5004,
+   "flats2": 4948,
+   "flats3": 5029,
+   "terraced": null,
+   "sales": 232
+  },
+  "00330": {
+   "name": "Munkkiniemi",
+   "municipality": "Helsinki",
+   "flats1": 6752,
+   "flats2": 6111,
+   "flats3": 6358,
+   "terraced": null,
+   "sales": 222
+  },
+  "00340": {
+   "name": "Kuusisaari - Lehtisaari",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 3520,
+   "flats3": 3173,
+   "terraced": 4805,
+   "sales": 31
+  },
+  "00350": {
+   "name": "Munkkivuori - Niemenmäki",
+   "municipality": "Helsinki",
+   "flats1": 4668,
+   "flats2": 4475,
+   "flats3": 4748,
+   "terraced": null,
+   "sales": 175
+  },
+  "00360": {
+   "name": "Pajamäki",
+   "municipality": "Helsinki",
+   "flats1": 4183,
+   "flats2": 3966,
+   "flats3": 3664,
+   "terraced": null,
+   "sales": 32
+  },
+  "00370": {
+   "name": "Reimarla",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 3257,
+   "flats3": 3311,
+   "terraced": 3241,
+   "sales": 55
+  },
+  "00380": {
+   "name": "Pitäjänmäen yritysalue",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 4377,
+   "flats3": 4733,
+   "terraced": null,
+   "sales": 47
+  },
+  "00390": {
+   "name": "Konala",
+   "municipality": "Helsinki",
+   "flats1": 3434,
+   "flats2": 3120,
+   "flats3": 3470,
+   "terraced": 2824,
+   "sales": 84
+  },
+  "00400": {
+   "name": "Pohjois-Haaga",
+   "municipality": "Helsinki",
+   "flats1": 4662,
+   "flats2": 4167,
+   "flats3": 3872,
+   "terraced": null,
+   "sales": 144
+  },
+  "00410": {
+   "name": "Malminkartano",
+   "municipality": "Helsinki",
+   "flats1": 2907,
+   "flats2": 2085,
+   "flats3": 2229,
+   "terraced": 3243,
+   "sales": 62
+  },
+  "00420": {
+   "name": "Kannelmäki",
+   "municipality": "Helsinki",
+   "flats1": 3763,
+   "flats2": 2985,
+   "flats3": 2681,
+   "terraced": 2775,
+   "sales": 164
+  },
+  "00430": {
+   "name": "Maununneva - Kuninkaantammi",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 4074,
+   "flats3": 3780,
+   "terraced": 3358,
+   "sales": 67
+  },
+  "00440": {
+   "name": "Lassila",
+   "municipality": "Helsinki",
+   "flats1": 3820,
+   "flats2": 3405,
+   "flats3": 3043,
+   "terraced": null,
+   "sales": 52
+  },
+  "00500": {
+   "name": "Sörnäinen - Harju",
+   "municipality": "Helsinki",
+   "flats1": 5302,
+   "flats2": 5173,
+   "flats3": 5032,
+   "terraced": null,
+   "sales": 258
+  },
+  "00510": {
+   "name": "Alppila - Vallila",
+   "municipality": "Helsinki",
+   "flats1": 5490,
+   "flats2": 5369,
+   "flats3": 5676,
+   "terraced": null,
+   "sales": 232
+  },
+  "00520": {
+   "name": "Itä- ja Keski-Pasila",
+   "municipality": "Helsinki",
+   "flats1": 6210,
+   "flats2": 5651,
+   "flats3": 5190,
+   "terraced": null,
+   "sales": 190
+  },
+  "00530": {
+   "name": "Kallio",
+   "municipality": "Helsinki",
+   "flats1": 5743,
+   "flats2": 5470,
+   "flats3": 5817,
+   "terraced": null,
+   "sales": 408
+  },
+  "00540": {
+   "name": "Kalasatama - Sompasaari",
+   "municipality": "Helsinki",
+   "flats1": 9156,
+   "flats2": 7966,
+   "flats3": 7160,
+   "terraced": null,
+   "sales": 83
+  },
+  "00550": {
+   "name": "Vallila - Hermanni",
+   "municipality": "Helsinki",
+   "flats1": 5525,
+   "flats2": 5148,
+   "flats3": 5333,
+   "terraced": null,
+   "sales": 143
+  },
+  "00560": {
+   "name": "Toukola - Kumpula - Vanhakaupunki",
+   "municipality": "Helsinki",
+   "flats1": 5584,
+   "flats2": 5387,
+   "flats3": 5354,
+   "terraced": null,
+   "sales": 196
+  },
+  "00570": {
+   "name": "Kulosaari",
+   "municipality": "Helsinki",
+   "flats1": 5747,
+   "flats2": 5380,
+   "flats3": 5209,
+   "terraced": 5744,
+   "sales": 81
+  },
+  "00580": {
+   "name": "Kalasatama - Kyläsaari",
+   "municipality": "Helsinki",
+   "flats1": 7939,
+   "flats2": 7066,
+   "flats3": 7455,
+   "terraced": null,
+   "sales": 120
+  },
+  "00590": {
+   "name": "Kruunuvuorenranta",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 5199,
+   "terraced": null,
+   "sales": 49
+  },
+  "00600": {
+   "name": "Koskela",
+   "municipality": "Helsinki",
+   "flats1": 4140,
+   "flats2": 3586,
+   "flats3": 2803,
+   "terraced": null,
+   "sales": 40
+  },
+  "00610": {
+   "name": "Käpylä",
+   "municipality": "Helsinki",
+   "flats1": 4665,
+   "flats2": 4879,
+   "flats3": 5085,
+   "terraced": 6665,
+   "sales": 153
+  },
+  "00620": {
+   "name": "Metsälä - Etelä-Oulunkylä",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 3717,
+   "flats3": 3820,
+   "terraced": 4013,
+   "sales": 62
+  },
+  "00630": {
+   "name": "Maunula",
+   "municipality": "Helsinki",
+   "flats1": 3995,
+   "flats2": 3499,
+   "flats3": 3036,
+   "terraced": 4283,
+   "sales": 61
+  },
+  "00640": {
+   "name": "Oulunkylä - Patola",
+   "municipality": "Helsinki",
+   "flats1": 4485,
+   "flats2": 3461,
+   "flats3": 3597,
+   "terraced": 3966,
+   "sales": 138
+  },
+  "00650": {
+   "name": "Veräjämäki",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 4072,
+   "flats3": 4319,
+   "terraced": 3980,
+   "sales": 73
+  },
+  "00660": {
+   "name": "Länsi-Pakila",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4161,
+   "sales": 95
+  },
+  "00670": {
+   "name": "Paloheinä",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3746,
+   "sales": 80
+  },
+  "00680": {
+   "name": "Itä-Pakila",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3498,
+   "sales": 49
+  },
+  "00690": {
+   "name": "Torpparinmäki",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3434,
+   "sales": 16
+  },
+  "00700": {
+   "name": "Malmi",
+   "municipality": "Helsinki",
+   "flats1": 3590,
+   "flats2": 2819,
+   "flats3": 2642,
+   "terraced": 3290,
+   "sales": 116
+  },
+  "00710": {
+   "name": "Pihlajamäki - Viikinmäki",
+   "municipality": "Helsinki",
+   "flats1": 3087,
+   "flats2": 2411,
+   "flats3": 2252,
+   "terraced": 3206,
+   "sales": 194
+  },
+  "00720": {
+   "name": "Pukinmäki",
+   "municipality": "Helsinki",
+   "flats1": 3533,
+   "flats2": 2481,
+   "flats3": 2621,
+   "terraced": 2810,
+   "sales": 90
+  },
+  "00730": {
+   "name": "Tapanila",
+   "municipality": "Helsinki",
+   "flats1": 4338,
+   "flats2": 3997,
+   "flats3": 3409,
+   "terraced": 3241,
+   "sales": 181
+  },
+  "00740": {
+   "name": "Siltamäki",
+   "municipality": "Helsinki",
+   "flats1": 2510,
+   "flats2": 1798,
+   "flats3": 1737,
+   "terraced": 3033,
+   "sales": 116
+  },
+  "00750": {
+   "name": "Tapulikaupunki",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 1962,
+   "flats3": 2250,
+   "terraced": 2973,
+   "sales": 49
+  },
+  "00760": {
+   "name": "Puistola - Heikinlaakso",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3019,
+   "sales": 60
+  },
+  "00770": {
+   "name": "Jakomäki - Alppikylä",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2222,
+   "terraced": 3212,
+   "sales": 43
+  },
+  "00780": {
+   "name": "Tapaninvainio",
+   "municipality": "Helsinki",
+   "flats1": 3273,
+   "flats2": 2879,
+   "flats3": 2354,
+   "terraced": 3062,
+   "sales": 94
+  },
+  "00790": {
+   "name": "Viikki",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 4491,
+   "flats3": 3989,
+   "terraced": 4096,
+   "sales": 115
+  },
+  "00800": {
+   "name": "Länsi-Herttoniemi",
+   "municipality": "Helsinki",
+   "flats1": 4756,
+   "flats2": 4681,
+   "flats3": 4741,
+   "terraced": null,
+   "sales": 98
+  },
+  "00810": {
+   "name": "Herttoniemenranta",
+   "municipality": "Helsinki",
+   "flats1": 5379,
+   "flats2": 5123,
+   "flats3": 4971,
+   "terraced": null,
+   "sales": 213
+  },
+  "00820": {
+   "name": "Roihuvuori",
+   "municipality": "Helsinki",
+   "flats1": 4096,
+   "flats2": 3825,
+   "flats3": 3722,
+   "terraced": null,
+   "sales": 154
+  },
+  "00830": {
+   "name": "Tammisalo",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4540,
+   "sales": 37
+  },
+  "00840": {
+   "name": "Yliskylä",
+   "municipality": "Helsinki",
+   "flats1": 4074,
+   "flats2": 3500,
+   "flats3": 3524,
+   "terraced": 3850,
+   "sales": 176
+  },
+  "00850": {
+   "name": "Jollas",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4188,
+   "sales": 27
+  },
+  "00870": {
+   "name": "Gunillanmäki - Hevossalmi",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 2875,
+   "flats3": 2722,
+   "terraced": 3905,
+   "sales": 47
+  },
+  "00900": {
+   "name": "Puotinharju",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 2315,
+   "flats3": 2183,
+   "terraced": null,
+   "sales": 51
+  },
+  "00910": {
+   "name": "Puotila",
+   "municipality": "Helsinki",
+   "flats1": 3413,
+   "flats2": 3154,
+   "flats3": 3128,
+   "terraced": null,
+   "sales": 99
+  },
+  "00920": {
+   "name": "Myllypuro",
+   "municipality": "Helsinki",
+   "flats1": 2931,
+   "flats2": 2651,
+   "flats3": 2589,
+   "terraced": 3325,
+   "sales": 168
+  },
+  "00930": {
+   "name": "Itäkeskus - Marjaniemi",
+   "municipality": "Helsinki",
+   "flats1": 2329,
+   "flats2": 2332,
+   "flats3": 2163,
+   "terraced": 3516,
+   "sales": 56
+  },
+  "00940": {
+   "name": "Kontula - Vesala - Kivikko",
+   "municipality": "Helsinki",
+   "flats1": 3073,
+   "flats2": 2152,
+   "flats3": 2000,
+   "terraced": 2510,
+   "sales": 219
+  },
+  "00950": {
+   "name": "Vartioharju",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 3073,
+   "flats3": 3037,
+   "terraced": 3165,
+   "sales": 56
+  },
+  "00960": {
+   "name": "Pohjois-Vuosaari",
+   "municipality": "Helsinki",
+   "flats1": 2752,
+   "flats2": 2243,
+   "flats3": 2322,
+   "terraced": 2833,
+   "sales": 92
+  },
+  "00970": {
+   "name": "Mellunmäki",
+   "municipality": "Helsinki",
+   "flats1": 2700,
+   "flats2": 1949,
+   "flats3": 1812,
+   "terraced": 2787,
+   "sales": 102
+  },
+  "00980": {
+   "name": "Etelä-Vuosaari",
+   "municipality": "Helsinki",
+   "flats1": 3244,
+   "flats2": 2759,
+   "flats3": 2707,
+   "terraced": 3233,
+   "sales": 201
+  },
+  "00990": {
+   "name": "Aurinkolahti",
+   "municipality": "Helsinki",
+   "flats1": null,
+   "flats2": 4381,
+   "flats3": 4494,
+   "terraced": 4345,
+   "sales": 116
+  },
+  "01150": {
+   "name": "Söderkulla",
+   "municipality": "Sipoo",
+   "flats1": null,
+   "flats2": 2979,
+   "flats3": 2734,
+   "terraced": 2494,
+   "sales": 70
+  },
+  "01200": {
+   "name": "Hakunila",
+   "municipality": "Vantaa",
+   "flats1": 1962,
+   "flats2": 1966,
+   "flats3": 1975,
+   "terraced": 2313,
+   "sales": 96
+  },
+  "01230": {
+   "name": "Vaarala",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 1982,
+   "flats3": null,
+   "terraced": 2834,
+   "sales": 47
+  },
+  "01260": {
+   "name": "Itä-Hakkila",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3050,
+   "sales": 26
+  },
+  "01280": {
+   "name": "Länsimäki",
+   "municipality": "Vantaa",
+   "flats1": 2480,
+   "flats2": 1742,
+   "flats3": 1197,
+   "terraced": 2661,
+   "sales": 111
+  },
+  "01300": {
+   "name": "Tikkurila",
+   "municipality": "Vantaa",
+   "flats1": 4142,
+   "flats2": 3625,
+   "flats3": 3195,
+   "terraced": 3022,
+   "sales": 490
+  },
+  "01340": {
+   "name": "Leinelä",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 3703,
+   "flats3": 3627,
+   "terraced": null,
+   "sales": 45
+  },
+  "01350": {
+   "name": "Hiekkaharju",
+   "municipality": "Vantaa",
+   "flats1": 3221,
+   "flats2": 2765,
+   "flats3": 2182,
+   "terraced": 2814,
+   "sales": 175
+  },
+  "01360": {
+   "name": "Koivukylä-Havukoski",
+   "municipality": "Vantaa",
+   "flats1": 1582,
+   "flats2": 1371,
+   "flats3": 1444,
+   "terraced": 2493,
+   "sales": 115
+  },
+  "01370": {
+   "name": "Jokiniemi",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 3063,
+   "flats3": 2888,
+   "terraced": 3351,
+   "sales": 46
+  },
+  "01380": {
+   "name": "Kuusikko-Hakkila",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3542,
+   "sales": 10
+  },
+  "01390": {
+   "name": "Ruskeasanta-Ilola",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2245,
+   "terraced": 3168,
+   "sales": 58
+  },
+  "01400": {
+   "name": "Rekola",
+   "municipality": "Vantaa",
+   "flats1": 4098,
+   "flats2": 3269,
+   "flats3": 3037,
+   "terraced": 2752,
+   "sales": 66
+  },
+  "01450": {
+   "name": "Korso",
+   "municipality": "Vantaa",
+   "flats1": 2347,
+   "flats2": 1799,
+   "flats3": 1859,
+   "terraced": 2606,
+   "sales": 148
+  },
+  "01480": {
+   "name": "Mikkola",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 1278,
+   "flats3": 1450,
+   "terraced": 2703,
+   "sales": 56
+  },
+  "01490": {
+   "name": "Nikinmäki",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3418,
+   "sales": 25
+  },
+  "01510": {
+   "name": "Kirkonkylä-Veromäki",
+   "municipality": "Vantaa",
+   "flats1": 4550,
+   "flats2": 3964,
+   "flats3": 3663,
+   "terraced": 3959,
+   "sales": 135
+  },
+  "01520": {
+   "name": "Tammisto",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 3814,
+   "flats3": 3543,
+   "terraced": 4245,
+   "sales": 71
+  },
+  "01600": {
+   "name": "Myyrmäki",
+   "municipality": "Vantaa",
+   "flats1": 3304,
+   "flats2": 2188,
+   "flats3": 2027,
+   "terraced": null,
+   "sales": 288
+  },
+  "01610": {
+   "name": "Kaivoksela",
+   "municipality": "Vantaa",
+   "flats1": 3693,
+   "flats2": 2236,
+   "flats3": 2650,
+   "terraced": 2650,
+   "sales": 80
+  },
+  "01620": {
+   "name": "Martinlaakso",
+   "municipality": "Vantaa",
+   "flats1": 2826,
+   "flats2": 2530,
+   "flats3": 2052,
+   "terraced": 2459,
+   "sales": 178
+  },
+  "01630": {
+   "name": "Hämeenkylä",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2584,
+   "sales": 31
+  },
+  "01640": {
+   "name": "Hämevaara",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 3003,
+   "terraced": null,
+   "sales": 18
+  },
+  "01650": {
+   "name": "Vapaala",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 1638,
+   "flats3": 1653,
+   "terraced": 2211,
+   "sales": 43
+  },
+  "01660": {
+   "name": "Varisto",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2789,
+   "sales": 30
+  },
+  "01670": {
+   "name": "Vantaanlaakso",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2852,
+   "terraced": 2909,
+   "sales": 44
+  },
+  "01680": {
+   "name": "Askisto",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2041,
+   "sales": 7
+  },
+  "01690": {
+   "name": "Ylästö",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3816,
+   "sales": 47
+  },
+  "01700": {
+   "name": "Kivistö",
+   "municipality": "Vantaa",
+   "flats1": 4134,
+   "flats2": 3778,
+   "flats3": 3336,
+   "terraced": 3286,
+   "sales": 170
+  },
+  "01710": {
+   "name": "Pähkinärinne",
+   "municipality": "Vantaa",
+   "flats1": 2470,
+   "flats2": 2077,
+   "flats3": 2159,
+   "terraced": 3006,
+   "sales": 85
+  },
+  "01730": {
+   "name": "Vantaanpuisto",
+   "municipality": "Vantaa",
+   "flats1": null,
+   "flats2": 1788,
+   "flats3": null,
+   "terraced": 3487,
+   "sales": 23
+  },
+  "01800": {
+   "name": "Klaukkala Keskus",
+   "municipality": "Nurmijärvi",
+   "flats1": 2643,
+   "flats2": 2186,
+   "flats3": 2252,
+   "terraced": 2243,
+   "sales": 135
+  },
+  "01820": {
+   "name": "Haikala",
+   "municipality": "Nurmijärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2153,
+   "sales": 38
+  },
+  "01840": {
+   "name": "Klaukkala",
+   "municipality": "Nurmijärvi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2114,
+   "sales": 26
+  },
+  "01900": {
+   "name": "Nurmijärvi Keskus",
+   "municipality": "Nurmijärvi",
+   "flats1": 1558,
+   "flats2": 1740,
+   "flats3": 2135,
+   "terraced": 2216,
+   "sales": 92
+  },
+  "02100": {
+   "name": "Tapiola",
+   "municipality": "Espoo",
+   "flats1": 5702,
+   "flats2": 5773,
+   "flats3": 5647,
+   "terraced": 4972,
+   "sales": 214
+  },
+  "02110": {
+   "name": "Otsolahti",
+   "municipality": "Espoo",
+   "flats1": 5189,
+   "flats2": 5058,
+   "flats3": 4892,
+   "terraced": 5182,
+   "sales": 81
+  },
+  "02120": {
+   "name": "Länsikorkee-Suvikumpu",
+   "municipality": "Espoo",
+   "flats1": 5691,
+   "flats2": 4690,
+   "flats3": 4988,
+   "terraced": 5015,
+   "sales": 93
+  },
+  "02130": {
+   "name": "Pohjois-Tapiola",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 4609,
+   "flats3": 4576,
+   "terraced": 4222,
+   "sales": 232
+  },
+  "02140": {
+   "name": "Laajalahti",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4032,
+   "sales": 69
+  },
+  "02150": {
+   "name": "Otaniemi",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 4405,
+   "terraced": null,
+   "sales": 11
+  },
+  "02160": {
+   "name": "Westend",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4809,
+   "sales": 43
+  },
+  "02170": {
+   "name": "Haukilahti",
+   "municipality": "Espoo",
+   "flats1": 4614,
+   "flats2": 4411,
+   "flats3": 4097,
+   "terraced": 4507,
+   "sales": 127
+  },
+  "02180": {
+   "name": "Mankkaa",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3988,
+   "sales": 91
+  },
+  "02200": {
+   "name": "Niittykumpu",
+   "municipality": "Espoo",
+   "flats1": 5777,
+   "flats2": 4843,
+   "flats3": 4975,
+   "terraced": 4045,
+   "sales": 243
+  },
+  "02210": {
+   "name": "Olari",
+   "municipality": "Espoo",
+   "flats1": 3594,
+   "flats2": 3109,
+   "flats3": 2982,
+   "terraced": 3146,
+   "sales": 217
+  },
+  "02230": {
+   "name": "Matinkylä",
+   "municipality": "Espoo",
+   "flats1": 4668,
+   "flats2": 3938,
+   "flats3": 3869,
+   "terraced": 4426,
+   "sales": 380
+  },
+  "02240": {
+   "name": "Friisilä",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3935,
+   "sales": 28
+  },
+  "02250": {
+   "name": "Henttaa",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 4413,
+   "flats3": 4054,
+   "terraced": null,
+   "sales": 33
+  },
+  "02260": {
+   "name": "Kaitaa",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 3179,
+   "flats3": 3399,
+   "terraced": 4116,
+   "sales": 52
+  },
+  "02270": {
+   "name": "Finnoo-Eestinmalmi",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3528,
+   "sales": 29
+  },
+  "02280": {
+   "name": "Malminmäki-Eestinlaakso",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3445,
+   "sales": 38
+  },
+  "02300": {
+   "name": "Nöykkiönpuro",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3332,
+   "sales": 14
+  },
+  "02320": {
+   "name": "Espoonlahti",
+   "municipality": "Espoo",
+   "flats1": 3336,
+   "flats2": 3417,
+   "flats3": 3094,
+   "terraced": 3403,
+   "sales": 265
+  },
+  "02330": {
+   "name": "Saunalahti-Kattilalaakso",
+   "municipality": "Espoo",
+   "flats1": 4580,
+   "flats2": 3850,
+   "flats3": 4105,
+   "terraced": 3863,
+   "sales": 104
+  },
+  "02340": {
+   "name": "Latokaski",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3218,
+   "sales": 72
+  },
+  "02360": {
+   "name": "Soukka",
+   "municipality": "Espoo",
+   "flats1": 3247,
+   "flats2": 2400,
+   "flats3": 2478,
+   "terraced": 3720,
+   "sales": 140
+  },
+  "02390": {
+   "name": "Sarvvik",
+   "municipality": "Kirkkonummi",
+   "flats1": 3839,
+   "flats2": 3991,
+   "flats3": null,
+   "terraced": null,
+   "sales": 28
+  },
+  "02400": {
+   "name": "Kirkkonummi Keskus",
+   "municipality": "Kirkkonummi",
+   "flats1": 1920,
+   "flats2": 2276,
+   "flats3": 1753,
+   "terraced": 2717,
+   "sales": 156
+  },
+  "02410": {
+   "name": "Gesterby",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": 766,
+   "flats3": 895,
+   "terraced": 1985,
+   "sales": 31
+  },
+  "02430": {
+   "name": "Masala",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2266,
+   "sales": 53
+  },
+  "02450": {
+   "name": "Sundsberg",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3828,
+   "sales": 64
+  },
+  "02460": {
+   "name": "Kantvik",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1934,
+   "sales": 20
+  },
+  "02480": {
+   "name": "Porkkala",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2734,
+   "sales": 41
+  },
+  "02580": {
+   "name": "Siuntio Asemanseutu",
+   "municipality": "Siuntio",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1375,
+   "sales": 13
+  },
+  "02600": {
+   "name": "Etelä-Leppävaara",
+   "municipality": "Espoo",
+   "flats1": 4081,
+   "flats2": 4097,
+   "flats3": 4227,
+   "terraced": 3929,
+   "sales": 270
+  },
+  "02610": {
+   "name": "Kilo",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 4136,
+   "flats3": 3717,
+   "terraced": 3952,
+   "sales": 46
+  },
+  "02620": {
+   "name": "Karakallio",
+   "municipality": "Espoo",
+   "flats1": 3057,
+   "flats2": 2952,
+   "flats3": 2748,
+   "terraced": 3247,
+   "sales": 102
+  },
+  "02630": {
+   "name": "Nihtisilta",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 2792,
+   "flats3": 2375,
+   "terraced": 3538,
+   "sales": 43
+  },
+  "02650": {
+   "name": "Pohjois-Leppävaara",
+   "municipality": "Espoo",
+   "flats1": 4027,
+   "flats2": 3897,
+   "flats3": 3538,
+   "terraced": 3556,
+   "sales": 184
+  },
+  "02660": {
+   "name": "Lintuvaara",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 4060,
+   "sales": 26
+  },
+  "02680": {
+   "name": "Uusmäki",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 4196,
+   "terraced": 4334,
+   "sales": 53
+  },
+  "02700": {
+   "name": "Kauniainen",
+   "municipality": "Kauniainen",
+   "flats1": 4699,
+   "flats2": 4341,
+   "flats3": 4331,
+   "terraced": 3940,
+   "sales": 185
+  },
+  "02710": {
+   "name": "Viherlaakso",
+   "municipality": "Espoo",
+   "flats1": 3455,
+   "flats2": 2652,
+   "flats3": 2431,
+   "terraced": 3050,
+   "sales": 101
+  },
+  "02720": {
+   "name": "Lähderanta",
+   "municipality": "Espoo",
+   "flats1": 3111,
+   "flats2": 2783,
+   "flats3": 2765,
+   "terraced": 3438,
+   "sales": 62
+  },
+  "02730": {
+   "name": "Jupperi",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3584,
+   "sales": 36
+  },
+  "02740": {
+   "name": "Bemböle-Pakankylä",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3341,
+   "sales": 17
+  },
+  "02750": {
+   "name": "Sepänkylä-Kuurinniitty",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 3586,
+   "flats3": 3292,
+   "terraced": 3834,
+   "sales": 59
+  },
+  "02760": {
+   "name": "Tuomarila-Suvela",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 2809,
+   "flats3": 2664,
+   "terraced": 2964,
+   "sales": 148
+  },
+  "02770": {
+   "name": "Espoon Keskus",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 2262,
+   "flats3": 2451,
+   "terraced": 3307,
+   "sales": 65
+  },
+  "02780": {
+   "name": "Kauklahti",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": 3275,
+   "flats3": 2612,
+   "terraced": 3921,
+   "sales": 114
+  },
+  "02810": {
+   "name": "Gumböle-Karhusuo",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3295,
+   "sales": 15
+  },
+  "02820": {
+   "name": "Nupuri-Nuuksio",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3839,
+   "sales": 10
+  },
+  "02880": {
+   "name": "Veikkola",
+   "municipality": "Kirkkonummi",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2435,
+   "sales": 36
+  },
+  "02920": {
+   "name": "Niipperi",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 3367,
+   "sales": 43
+  },
+  "02940": {
+   "name": "Lippajärvi-Järvenperä",
+   "municipality": "Espoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 2735,
+   "terraced": 3063,
+   "sales": 114
+  },
+  "03100": {
+   "name": "Nummela",
+   "municipality": "Vihti",
+   "flats1": 2406,
+   "flats2": 2052,
+   "flats3": 2069,
+   "terraced": 2001,
+   "sales": 257
+  },
+  "03250": {
+   "name": "Ojakkala",
+   "municipality": "Vihti",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1716,
+   "sales": 10
+  },
+  "03400": {
+   "name": "Vihti Kirkonkylä",
+   "municipality": "Vihti",
+   "flats1": null,
+   "flats2": 1253,
+   "flats3": null,
+   "terraced": 1427,
+   "sales": 50
+  },
+  "03600": {
+   "name": "Karkkila Keskus",
+   "municipality": "Karkkila",
+   "flats1": 1197,
+   "flats2": 1072,
+   "flats3": 1258,
+   "terraced": 1311,
+   "sales": 50
+  },
+  "03620": {
+   "name": "Polari",
+   "municipality": "Karkkila",
+   "flats1": null,
+   "flats2": 968,
+   "flats3": null,
+   "terraced": null,
+   "sales": 24
+  },
+  "03850": {
+   "name": "Pusula",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 815,
+   "sales": 7
+  },
+  "04130": {
+   "name": "Sipoo",
+   "municipality": "Sipoo",
+   "flats1": 2156,
+   "flats2": 2335,
+   "flats3": 2627,
+   "terraced": 2360,
+   "sales": 71
+  },
+  "04200": {
+   "name": "Kerava Keskus",
+   "municipality": "Kerava",
+   "flats1": 2611,
+   "flats2": 2178,
+   "flats3": 2306,
+   "terraced": 2197,
+   "sales": 176
+  },
+  "04220": {
+   "name": "Ahjo-Kaskela",
+   "municipality": "Kerava",
+   "flats1": null,
+   "flats2": 2335,
+   "flats3": 2294,
+   "terraced": 2175,
+   "sales": 32
+  },
+  "04230": {
+   "name": "Pihkaniitty",
+   "municipality": "Kerava",
+   "flats1": 2110,
+   "flats2": 1894,
+   "flats3": 1952,
+   "terraced": 2139,
+   "sales": 81
+  },
+  "04250": {
+   "name": "Alikerava",
+   "municipality": "Kerava",
+   "flats1": 3707,
+   "flats2": 2404,
+   "flats3": 2333,
+   "terraced": 1948,
+   "sales": 52
+  },
+  "04260": {
+   "name": "Savio",
+   "municipality": "Kerava",
+   "flats1": 1858,
+   "flats2": 1589,
+   "flats3": 1344,
+   "terraced": 2215,
+   "sales": 52
+  },
+  "04300": {
+   "name": "Hyrylä",
+   "municipality": "Tuusula",
+   "flats1": 2468,
+   "flats2": 2299,
+   "flats3": 2576,
+   "terraced": 2655,
+   "sales": 142
+  },
+  "04310": {
+   "name": "Tuusula Keskus",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2630,
+   "sales": 14
+  },
+  "04320": {
+   "name": "Riihikallio",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": 1840,
+   "flats3": 1487,
+   "terraced": 2283,
+   "sales": 70
+  },
+  "04330": {
+   "name": "Lahela",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2392,
+   "sales": 11
+  },
+  "04340": {
+   "name": "Mattila",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2233,
+   "sales": 15
+  },
+  "04400": {
+   "name": "Loutti",
+   "municipality": "Järvenpää",
+   "flats1": 2805,
+   "flats2": 2382,
+   "flats3": 2164,
+   "terraced": 2790,
+   "sales": 190
+  },
+  "04410": {
+   "name": "Järvenpää Keskus",
+   "municipality": "Järvenpää",
+   "flats1": 2856,
+   "flats2": 2105,
+   "flats3": 2069,
+   "terraced": 2587,
+   "sales": 150
+  },
+  "04420": {
+   "name": "Kyrölä",
+   "municipality": "Järvenpää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2844,
+   "sales": 59
+  },
+  "04430": {
+   "name": "Kinnari-Mikonkorpi",
+   "municipality": "Järvenpää",
+   "flats1": null,
+   "flats2": 2410,
+   "flats3": null,
+   "terraced": 2736,
+   "sales": 107
+  },
+  "04440": {
+   "name": "Jamppa",
+   "municipality": "Järvenpää",
+   "flats1": null,
+   "flats2": 997,
+   "flats3": null,
+   "terraced": 2166,
+   "sales": 40
+  },
+  "04460": {
+   "name": "Nummenkylä",
+   "municipality": "Järvenpää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2517,
+   "sales": 12
+  },
+  "04500": {
+   "name": "Kellokoski",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2004,
+   "sales": 20
+  },
+  "04600": {
+   "name": "Mäntsälä Keskus",
+   "municipality": "Mäntsälä",
+   "flats1": 2237,
+   "flats2": 1523,
+   "flats3": 1653,
+   "terraced": 1678,
+   "sales": 146
+  },
+  "04620": {
+   "name": "Kaunismäki",
+   "municipality": "Mäntsälä",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1784,
+   "sales": 12
+  },
+  "05200": {
+   "name": "Rajamäki",
+   "municipality": "Nurmijärvi",
+   "flats1": null,
+   "flats2": 1474,
+   "flats3": null,
+   "terraced": 2119,
+   "sales": 38
+  },
+  "05400": {
+   "name": "Jokela",
+   "municipality": "Tuusula",
+   "flats1": null,
+   "flats2": 1798,
+   "flats3": null,
+   "terraced": 2299,
+   "sales": 34
+  },
+  "05460": {
+   "name": "Hakalanmäki-Hakala",
+   "municipality": "Hyvinkää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1748,
+   "sales": 34
+  },
+  "05620": {
+   "name": "Noppo",
+   "municipality": "Hyvinkää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2145,
+   "sales": 9
+  },
+  "05800": {
+   "name": "Hyvinkää Keskus",
+   "municipality": "Hyvinkää",
+   "flats1": 1809,
+   "flats2": 1996,
+   "flats3": 2246,
+   "terraced": 2158,
+   "sales": 187
+  },
+  "05810": {
+   "name": "Martti",
+   "municipality": "Hyvinkää",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2375,
+   "sales": 50
+  },
+  "05820": {
+   "name": "Mustamännistö",
+   "municipality": "Hyvinkää",
+   "flats1": null,
+   "flats2": 1104,
+   "flats3": null,
+   "terraced": 2438,
+   "sales": 36
+  },
+  "05830": {
+   "name": "Kirjavatolppa-Kruununpuisto",
+   "municipality": "Hyvinkää",
+   "flats1": 1814,
+   "flats2": 1638,
+   "flats3": 1636,
+   "terraced": 1778,
+   "sales": 85
+  },
+  "05840": {
+   "name": "Hyvinkäänkylä-Vehkoja",
+   "municipality": "Hyvinkää",
+   "flats1": null,
+   "flats2": 1052,
+   "flats3": null,
+   "terraced": 1790,
+   "sales": 30
+  },
+  "05880": {
+   "name": "Paavola-Vaivero",
+   "municipality": "Hyvinkää",
+   "flats1": 894,
+   "flats2": 823,
+   "flats3": 839,
+   "terraced": 1506,
+   "sales": 48
+  },
+  "05900": {
+   "name": "Vieremä",
+   "municipality": "Hyvinkää",
+   "flats1": 1773,
+   "flats2": 1721,
+   "flats3": 2193,
+   "terraced": 2299,
+   "sales": 63
+  },
+  "06100": {
+   "name": "Porvoo Keskus",
+   "municipality": "Porvoo",
+   "flats1": 2916,
+   "flats2": 2808,
+   "flats3": 2945,
+   "terraced": 2837,
+   "sales": 270
+  },
+  "06150": {
+   "name": "Kevätkumpu",
+   "municipality": "Porvoo",
+   "flats1": 1820,
+   "flats2": 1763,
+   "flats3": null,
+   "terraced": 2043,
+   "sales": 74
+  },
+  "06400": {
+   "name": "Gammelbacka",
+   "municipality": "Porvoo",
+   "flats1": 1615,
+   "flats2": 1633,
+   "flats3": null,
+   "terraced": 2373,
+   "sales": 60
+  },
+  "06450": {
+   "name": "Eestinmäki-Ernestas",
+   "municipality": "Porvoo",
+   "flats1": 2095,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2250,
+   "sales": 20
+  },
+  "06650": {
+   "name": "Hamari",
+   "municipality": "Porvoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2268,
+   "sales": 17
+  },
+  "06750": {
+   "name": "Tolkkinen",
+   "municipality": "Porvoo",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2220,
+   "sales": 8
+  },
+  "07170": {
+   "name": "Keski-Pornainen",
+   "municipality": "Pornainen",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2164,
+   "sales": 9
+  },
+  "07230": {
+   "name": "Monninkylä",
+   "municipality": "Askola",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1374,
+   "sales": 6
+  },
+  "07900": {
+   "name": "Loviisa Keskus",
+   "municipality": "Loviisa",
+   "flats1": 1394,
+   "flats2": 1469,
+   "flats3": 1168,
+   "terraced": 1408,
+   "sales": 39
+  },
+  "07920": {
+   "name": "Etelä-Harju",
+   "municipality": "Loviisa",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1215,
+   "sales": 9
+  },
+  "08100": {
+   "name": "Lohja Keskus",
+   "municipality": "Lohja",
+   "flats1": 2423,
+   "flats2": 2319,
+   "flats3": 2600,
+   "terraced": 2566,
+   "sales": 161
+  },
+  "08150": {
+   "name": "Keskilohja",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2286,
+   "sales": 30
+  },
+  "08200": {
+   "name": "Ojamo",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": 977,
+   "flats3": 1032,
+   "terraced": 1998,
+   "sales": 56
+  },
+  "08350": {
+   "name": "Routio",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": 1228,
+   "terraced": 1976,
+   "sales": 30
+  },
+  "08500": {
+   "name": "Ventelä-Millola",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1742,
+   "sales": 113
+  },
+  "08680": {
+   "name": "Muijala",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 2200,
+   "sales": 9
+  },
+  "08700": {
+   "name": "Virkkala",
+   "municipality": "Lohja",
+   "flats1": 926,
+   "flats2": 1029,
+   "flats3": null,
+   "terraced": 1807,
+   "sales": 54
+  },
+  "09430": {
+   "name": "Saukkola",
+   "municipality": "Lohja",
+   "flats1": null,
+   "flats2": null,
+   "flats3": null,
+   "terraced": 1306,
+   "sales": 6
+  }
+ }
+}

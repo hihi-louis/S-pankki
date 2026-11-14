@@ -9,7 +9,6 @@
     "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
     "dev:frontend": "npm run dev --workspace=frontend",
     "dev:backend": "npm run dev --workspace=backend",
-    "db:build": "npm run db:build --workspace=backend",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "devDependencies": {

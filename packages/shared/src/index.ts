@@ -42,6 +42,88 @@ export interface SafeToSpendCard {
   currency: "EUR";
 }
 
+/** "How much can I put aside right now?" — money not needed before payday, plus how many months of essentials the balance covers. */
+export interface SafeToSaveCard {
+  type: "safe_to_save";
+  amount: number;
+  /** Next payday, ISO date. */
+  until: string;
+  /** Balance divided by monthly essentials; null if unknown. */
+  monthsCovered: number | null;
+  currency: "EUR";
+}
+
+/** A spending plan the customer can save: monthly caps per basket plus a monthly saving target. */
+export interface PlanDraft {
+  goalType: "home" | "savings";
+  goalLabel: string;
+  goalAmount: number | null;
+  /** Months to reach the goal, or null when no deadline was given. */
+  months: number | null;
+  monthlySaving: number;
+  capEssentials: number;
+  capUnexpected: number;
+  capEveryday: number;
+}
+
+/** One thing the customer is saving for. A customer can have several. */
+export interface Goal {
+  id: number;
+  name: string;
+  kind: "home" | "savings";
+  targetAmount: number | null;
+  /** Months the customer gave to reach it, or null. */
+  months: number | null;
+  monthlyAmount: number;
+  /** Months to reach the target at the monthly amount, counted from today; null without a target. */
+  monthsAtThisPace: number | null;
+  createdAt: string;
+}
+
+/** What the customer may spend each week on everyday things (restaurants, fun, shopping, taxis). One per customer. */
+export interface WeeklyLimit {
+  amount: number;
+  /** Spent in the last 7 days. */
+  spent: number;
+  remaining: number;
+  pct: number;
+  from: string;
+  to: string;
+}
+
+/** The customer's plans: goals, one weekly limit, and how this month is going. */
+export interface PlansOverview {
+  asOf: string;
+  goals: Goal[];
+  weeklyLimit: WeeklyLimit | null;
+  /** A weekly limit that matches what the customer usually spends (shown when none is set). */
+  suggestedWeeklyLimit: number;
+  /** Set aside this month (from "invest deposit" transactions) against the sum of the monthly goal amounts. */
+  setAside: { thisMonth: number; target: number };
+  status: "none" | "on_track" | "watch" | "over";
+  message: string;
+}
+
+/** What happened when a coach plan was saved or applied: said in plain words, never silent. */
+export interface PlanChangeResult {
+  message: string;
+  overview: PlansOverview;
+}
+
+/**
+ * A small table of ready-to-show facts (mortgage answers, plans). The backend formats the values, so every
+ * number on the card comes from code. `tone` colours a row: good = positive, warn = needs attention.
+ */
+export interface FactsCard {
+  type: "facts";
+  title: string;
+  headline?: { label: string; value: string };
+  rows: { label: string; value: string; tone?: "good" | "warn" }[];
+  note?: string;
+  /** A button under the table. `save_plan` saves `draft` through PUT /plan (the model never writes to the database); `ask` sends `question` to the chat as if the customer typed it. */
+  action?: { kind: "save_plan"; draft: PlanDraft } | { kind: "ask"; label: string; question: string };
+}
+
 /** What-if slider. Frontend recalculates savings locally as the user drags. */
 export interface WhatIfCard {
   type: "what_if";
@@ -58,10 +140,23 @@ export interface BenchmarkCard {
   you: number;
   peers: number;
   peerGroup: string;
+  /** Where the peer figure comes from, e.g. "Statistics Finland, 2022". */
+  source?: string;
   currency: "EUR";
 }
 
-export type Card = AmountCard | SafeToSpendCard | WhatIfCard | BenchmarkCard;
+export type Card = AmountCard | SafeToSpendCard | SafeToSaveCard | FactsCard | WhatIfCard | BenchmarkCard;
+
+/** How a figure was obtained: shown under an answer so the customer can check it ("How I calculated this"). */
+export interface Provenance {
+  title: string;
+  /** Plain-language formula or rule. */
+  how: string;
+  /** What data it used, e.g. "15 transactions, 1 Aug - 31 Aug". */
+  data?: string;
+  source: string;
+  sourceUrl?: string;
+}
 
 export interface ChatResponse {
   answer: string;
@@ -70,6 +165,10 @@ export interface ChatResponse {
   sources: SourceTx[];
   sourcesTotal?: number;
   suggestions: string[];
+  /** How the numbers were calculated, one entry per tool the assistant used. */
+  provenance?: Provenance[];
+  /** true = every amount and percentage in `answer` was checked against the data; false = the check failed and a safe answer was used. */
+  verified?: boolean | null;
 }
 
 export interface Basket {
@@ -87,8 +186,150 @@ export interface SummaryResponse {
   /** The "today" the numbers are calculated from (dataset end), ISO date. */
   asOf?: string;
   balance: number;
-  nextPayday: { date: string; expected: number };
+  /** `estimated` = the customer's pay days are irregular, so the date is a best guess. */
+  nextPayday: { date: string; expected: number; estimated?: boolean };
   baskets: Basket[];
+}
+
+/** A proactive observation the app shows on the Overview, before the customer asks anything. */
+export interface Insight {
+  id: string;
+  /** alert = needs attention, tip = something to consider, good = positive, info = neutral. */
+  tone: "alert" | "tip" | "good" | "info";
+  title: string;
+  body: string;
+  /** Question sent to the chat when the customer taps the insight. */
+  ask: string;
+}
+
+/** One step of an insight story: a sentence, optional rows and an optional chart. */
+export interface StoryStep {
+  title: string;
+  text: string;
+  rows?: { label: string; value: string; tone?: "good" | "warn" }[];
+  chart?: Chart;
+}
+
+/** Something the customer can do next. `apply` lowers a basket cap in the saved plan (the customer taps the button). */
+export interface StoryAction {
+  id: string;
+  label: string;
+  detail: string;
+  savingPerMonth?: number;
+  apply?: { basket: 1 | 2 | 3; reduceBy: number };
+  /** Opens another screen instead of changing the plan. */
+  link?: "forecast" | "plan";
+}
+
+/** What happened, why, what it means, what to do: the story behind one insight card. */
+export interface InsightStory {
+  id: string;
+  tone: Insight["tone"];
+  title: string;
+  happened: StoryStep;
+  why: StoryStep;
+  means: StoryStep;
+  next: { text: string; actions: StoryAction[] };
+  /** Question for the chat ("Ask AI about this"). */
+  askAI: string;
+}
+
+export interface CategoryRow {
+  category: string;
+  basket: 1 | 2 | 3;
+  now: number;
+  usual: number;
+  /** Percent above (+) or below (-) the 6-month average; null when there is no usual spending. */
+  diffPct: number | null;
+}
+
+/** The month at a glance. */
+export interface Snapshot {
+  month: string;
+  asOf: string;
+  income: number;
+  spent: number;
+  /** income - spent (income can arrive late in the month). */
+  net: number;
+  usualSpent: number;
+  vsUsualPct: number | null;
+  message: string;
+  categories: CategoryRow[];
+}
+
+/** One category in depth: trend, where the money went, the biggest purchases, and peers when comparable. */
+export interface CategoryDive {
+  category: string;
+  basket: 1 | 2 | 3;
+  basketName: string;
+  now: number;
+  usual: number;
+  diffPct: number | null;
+  trend: { label: string; value: number }[];
+  merchants: { label: string; spent: number; sharePct: number; count: number }[];
+  biggest: { date: string; amount: number; label: string }[];
+  peers: { you: number; peers: number; peerGroup: string; source: string } | null;
+}
+
+export interface ForecastPoint {
+  date: string;
+  /** Balance if the customer keeps spending as usual. */
+  usual: number;
+  /** Balance if the saved plan's caps are followed (null without a saved plan). */
+  plan: number | null;
+  /** Balance if the customer spends exactly the safe amount per day. */
+  safe: number;
+}
+
+/** Estimated balance until the next payday (from averages and regular bills, not from future transactions). */
+export interface ForecastResponse {
+  asOf: string;
+  balance: number;
+  nextPayday: { date: string; expected: number; estimated: boolean };
+  daysLeft: number;
+  points: ForecastPoint[];
+  bills: { date: string; label: string; amount: number }[];
+  safePerDay: number;
+  /** > 0 when, even with no everyday spending, the balance may fall short before payday. */
+  shortfall: number;
+  usualPerDay: number;
+  planPerDay: number | null;
+  endUsual: number;
+  endPlan: number | null;
+  /** First day the balance would go below zero at the usual pace, if any. */
+  runsOutOn: string | null;
+  note: string;
+}
+
+/** One card in the Overview carousel ("Recommendations"): a headline in plain English and a button that opens the full story. */
+export interface Recommendation {
+  id: string;
+  /** Which kind of card this is (each kind appears at most once). */
+  type: "heads_up" | "loan" | "week" | "pattern" | "opportunity" | "good" | "peer" | "start";
+  /** Small label above the headline, e.g. "This week". */
+  eyebrow: string;
+  tone: Insight["tone"];
+  headline: string;
+  body: string;
+  cta: string;
+  target: { kind: "forecast" } | { kind: "insight"; id: string } | { kind: "ask"; text: string };
+}
+
+export interface RecommendationsResponse {
+  asOf: string;
+  items: Recommendation[];
+}
+
+export interface InsightsResponse {
+  asOf: string;
+  insights: Insight[];
+}
+
+/** Who is signed in. The dataset has no names, so the app shows the customer ID. */
+export interface CustomerProfile {
+  customerId: string;
+  age: number | null;
+  postalCode: string | null;
 }
 
 export interface Persona {
@@ -96,4 +337,40 @@ export interface Persona {
   name: string;
   age: number;
   description: string;
+}
+
+/** The purchases behind one slice of the pie (this month): grouped by category, biggest category first. */
+export interface BasketTransactions {
+  basket: 1 | 2 | 3;
+  basketName: string;
+  month: string;
+  total: number;
+  count: number;
+  /** true when some purchases are not listed */
+  truncated: boolean;
+  categories: {
+    category: string;
+    total: number;
+    count: number;
+    /** newest first */
+    items: { date: string; amount: number; label: string }[];
+  }[];
+}
+
+/** The customer's home-loan situation, for the Overview strip. `context` is null when there is nothing to say today. */
+export interface LoanStatusResponse {
+  hasApplication: boolean;
+  context: {
+    state: "in_progress" | "recent";
+    decision: "approved" | "rejected" | null;
+    reason: string | null;
+    startedOn: string;
+    decidedOn: string | null;
+    daysSinceDecision: number | null;
+    loan: number;
+    estimatedMonthlyPayment: number;
+    typicalBuyingCosts: number;
+  } | null;
+  /** Held back from safe-to-spend for the loan (first payment + usual buying costs); 0 after a rejection. */
+  reserve: number;
 }

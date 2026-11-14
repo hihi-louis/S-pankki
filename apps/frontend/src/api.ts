@@ -1,67 +1,168 @@
-import type { ChatRequest, ChatResponse, Persona, SummaryResponse } from "@sbank/shared";
-import chatMock from "./mock/chat.json";
-import summaryMock from "./mock/summary.json";
+import type { LoanStatusResponse, BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanChangeResult, PlanDraft, PlansOverview, Snapshot, SummaryResponse } from "@sbank/shared";
 
-const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-/** Fall back to mock data if the API fails or is slow, so the demo never breaks. */
-const FALLBACK = import.meta.env.VITE_MOCK_FALLBACK !== "false";
-const TIMEOUT_MS = 10_000;
+import { demoLoanOpen } from "./lib/demo";
 
-// Mock data is real numbers for CUST05020 (age 21), Sep 2026.
-const mockChats = chatMock as unknown as Record<string, ChatResponse>;
+// "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
+// localhost, on a teammate's device and through a tunnel with a single port.
+// Set VITE_API_URL only when the API lives somewhere else (e.g. a deployed backend).
+const BASE = import.meta.env.VITE_API_URL ?? "/api";
 
-const mockPersonas: Persona[] = [
-  { customerId: "CUST05020", name: "Aino", age: 21, description: "Student, balance often dips below zero before payday." },
-  { customerId: "CUST05014", name: "Eetu", age: 23, description: "Spends a big share of salary eating out." },
-  { customerId: "CUST04121", name: "Ella", age: 18, description: "First job, wants to start saving." },
-];
+// Chat calls an LLM (several tool rounds), so it gets a longer timeout than plain reads.
+const READ_TIMEOUT_MS = 10_000;
+const CHAT_TIMEOUT_MS = 60_000;
 
-function mockChat(message: string): ChatResponse {
-  const m = message.toLowerCase();
-  if (/safe|afford|this week|left/.test(m)) return mockChats.safe;
-  if (/kind|spender|type of/.test(m)) return mockChats.spender;
-  if (/save|cut|what if|reduce/.test(m)) return mockChats.save;
-  return mockChats.where;
-}
+/** Demo switch from the account menu (see lib/demo.ts). */
+const demoHeaders = (): Record<string, string> => (demoLoanOpen() ? { "x-demo-loan-open": "1" } : {});
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(path: string, init?: RequestInit, timeoutMs = READ_TIMEOUT_MS): Promise<T> {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(`${BASE}${path}`, {
       ...init,
       signal: ctrl.signal,
-      headers: { "Content-Type": "application/json", ...init?.headers },
+      headers: { "Content-Type": "application/json", ...demoHeaders(), ...init?.headers },
     });
-    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+    if (!res.ok) throw new Error(await errorMessage(res));
     return (await res.json()) as T;
+  } catch (err) {
+    if ((err as Error).name === "AbortError") throw new Error("The server took too long to answer.");
+    throw err;
   } finally {
     clearTimeout(timer);
   }
 }
 
-async function withFallback<T>(call: () => Promise<T>, mock: () => T): Promise<T> {
-  if (USE_MOCK) return mock();
+/** Backend errors are `{ error: string }`; fall back to the status code. */
+async function errorMessage(res: Response): Promise<string> {
   try {
-    return await call();
+    const body = (await res.json()) as { error?: string };
+    if (body.error) return body.error;
+  } catch {
+    // not JSON
+  }
+  return `Request failed (${res.status})`;
+}
+
+export const getPersonas = () => request<Persona[]>("/personas");
+
+export const chat = (req: ChatRequest) =>
+  request<ChatResponse>("/chat", { method: "POST", body: JSON.stringify(req) }, CHAT_TIMEOUT_MS);
+
+export const getSummary = (customerId: string) =>
+  request<SummaryResponse>(`/summary?customerId=${encodeURIComponent(customerId)}`);
+
+export const getInsights = (customerId: string) =>
+  request<InsightsResponse>(`/insights?customerId=${encodeURIComponent(customerId)}`);
+
+export interface ChatStreamHandlers {
+  /** What the assistant is doing right now, e.g. "Comparing the periods…". */
+  onStatus?: (text: string) => void;
+  /** A piece of the answer as it is written. */
+  onDelta?: (text: string) => void;
+  /** Discard the text received so far. */
+  onReset?: () => void;
+}
+
+type StreamEvent =
+  | { type: "status"; text: string }
+  | { type: "delta"; text: string }
+  | { type: "reset" }
+  | { type: "final"; response: ChatResponse }
+  | { type: "error"; message: string };
+
+/** Chat over Server-Sent Events: the answer appears word by word. Resolves with the full response. */
+export async function chatStream(req: ChatRequest, handlers: ChatStreamHandlers = {}): Promise<ChatResponse> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), CHAT_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${BASE}/chat/stream`, {
+      method: "POST",
+      signal: ctrl.signal,
+      headers: { "Content-Type": "application/json", ...demoHeaders() },
+      body: JSON.stringify(req),
+    });
+    if (!res.ok || !res.body) throw new Error(await errorMessage(res));
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let final: ChatResponse | null = null;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      // Events are separated by a blank line
+      let sep: number;
+      while ((sep = buffer.indexOf("\n\n")) >= 0) {
+        const line = buffer.slice(0, sep).trim();
+        buffer = buffer.slice(sep + 2);
+        if (!line.startsWith("data:")) continue;
+        const event = JSON.parse(line.slice(5)) as StreamEvent;
+        if (event.type === "status") handlers.onStatus?.(event.text);
+        else if (event.type === "delta") handlers.onDelta?.(event.text);
+        else if (event.type === "reset") handlers.onReset?.();
+        else if (event.type === "final") final = event.response;
+        else if (event.type === "error") throw new Error(event.message);
+      }
+    }
+    if (!final) throw new Error("The connection closed before the answer was complete.");
+    return final;
   } catch (err) {
-    if (!FALLBACK) throw err;
-    console.warn("[api] falling back to mock:", err);
-    return mock();
+    if ((err as Error).name === "AbortError") throw new Error("The server took too long to answer.");
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
-export const getPersonas = () => withFallback(() => request<Persona[]>("/personas"), () => mockPersonas);
+/** The "login": checks that the customer ID exists. Rejects with a readable message if not. */
+export const getCustomer = (customerId: string) =>
+  request<CustomerProfile>(`/customers/${encodeURIComponent(customerId)}`);
 
-export const chat = (req: ChatRequest) =>
-  withFallback(
-    () => request<ChatResponse>("/chat", { method: "POST", body: JSON.stringify(req) }),
-    () => mockChat(req.message),
-  );
+const json = (method: string, body: unknown): RequestInit => ({ method, body: JSON.stringify(body) });
 
-export const getSummary = (customerId: string) =>
-  withFallback(
-    () => request<SummaryResponse>(`/summary?customerId=${encodeURIComponent(customerId)}`),
-    () => summaryMock as SummaryResponse,
-  );
+/** The customer's plans: goals, the weekly limit and how it is going. */
+export const getPlans = (customerId: string) => request<PlansOverview>(`/plan?customerId=${encodeURIComponent(customerId)}`);
+
+/** Adds a coach plan to the customer's plans. Only the customer's button press calls this: the assistant never saves anything. */
+export const savePlan = (customerId: string, plan: PlanDraft) => request<PlanChangeResult>("/plan", json("PUT", { customerId, plan }));
+
+export interface GoalInput {
+  name: string;
+  kind?: "home" | "savings";
+  targetAmount: number | null;
+  months: number | null;
+  monthlyAmount: number;
+}
+export const addGoal = (customerId: string, goal: GoalInput) => request<PlansOverview>("/plan/goals", json("POST", { customerId, ...goal }));
+export const updateGoal = (customerId: string, id: number, fields: Partial<GoalInput>) =>
+  request<PlansOverview>(`/plan/goals/${id}`, json("PATCH", { customerId, ...fields }));
+export const deleteGoal = (customerId: string, id: number) =>
+  request<PlansOverview>(`/plan/goals/${id}?customerId=${encodeURIComponent(customerId)}`, { method: "DELETE" });
+export const setWeeklyLimit = (customerId: string, amount: number) => request<PlansOverview>("/plan/weekly-limit", json("PUT", { customerId, amount }));
+export const deleteWeeklyLimit = (customerId: string) =>
+  request<PlansOverview>(`/plan/weekly-limit?customerId=${encodeURIComponent(customerId)}`, { method: "DELETE" });
+
+const q = encodeURIComponent;
+
+export const getSnapshot = (customerId: string) => request<Snapshot>(`/snapshot?customerId=${q(customerId)}`);
+
+export const getCategory = (customerId: string, category: string) =>
+  request<CategoryDive>(`/category?customerId=${q(customerId)}&category=${q(category)}`);
+
+export const getInsightStory = (customerId: string, id: string) =>
+  request<InsightStory>(`/insights/${q(id)}?customerId=${q(customerId)}`);
+
+export const getForecast = (customerId: string) => request<ForecastResponse>(`/coach/forecast?customerId=${q(customerId)}`);
+
+export const applyPlanCap = (customerId: string, basket: 1 | 2 | 3, reduceBy: number) =>
+  request<PlanChangeResult>("/plan/apply", { method: "POST", body: JSON.stringify({ customerId, basket, reduceBy }) });
+
+export const getRecommendations = (customerId: string) =>
+  request<RecommendationsResponse>(`/recommendations?customerId=${encodeURIComponent(customerId)}`);
+
+export const getBasketTransactions = (customerId: string, basket: number) =>
+  request<BasketTransactions>(`/basket-transactions?customerId=${q(customerId)}&basket=${basket}`);
+
+export const getLoanStatus = (customerId: string) => request<LoanStatusResponse>(`/loan-context?customerId=${q(customerId)}`);
