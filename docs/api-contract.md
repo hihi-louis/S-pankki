@@ -166,3 +166,12 @@ The purchases behind one slice of the Overview pie, this month, grouped by categ
 `categories[]` = `{ category, total, count, items[{ date, amount (positive), label }] }`, items newest first.
 Merchant names are not in the data, so `label` is "Pharmacy #13" style (shop type from the MCC code plus the shop number).
 `truncated` is true when more than 500 purchases exist (not expected for one month).
+
+## Home loan context
+
+`GET /loan-context?customerId=` returns `LoanStatusResponse` (`hasApplication`, `context`, `reserve`). `context` is not null when the customer's application is
+open (no `loan_decision` yet) or was decided in the last 45 days. `reserve` = estimated first payment + usual buying costs (0 after a rejection).
+Safe-to-spend (recommendation card, chat tool `safe_to_spend`, fast path) then also returns `loanContext`, `loanReserve`, `safeAfterLoan` and `safeAfterLoanPerDay`,
+and the amount shown is the one after the reserve. The reserve is an estimate from public averages, not the bank's rule.
+
+Demo switch: any request with the header `x-demo-loan-open: 1` shows the customer's loan as if it were still open (the middle day of the application). The app sets it from the account menu.

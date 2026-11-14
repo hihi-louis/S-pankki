@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { config } from "./config.js";
 import { errorHandler } from "./lib/errors.js";
+import { requestContext } from "./lib/request-context.js";
 import { router } from "./routes.js";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(requestContext);
 app.use(router);
 app.use(errorHandler);
 

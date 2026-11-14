@@ -1,4 +1,6 @@
-import type { BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
+import type { LoanStatusResponse, BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
+
+import { demoLoanOpen } from "./lib/demo";
 
 // "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
 // localhost, on a teammate's device and through a tunnel with a single port.
@@ -9,6 +11,9 @@ const BASE = import.meta.env.VITE_API_URL ?? "/api";
 const READ_TIMEOUT_MS = 10_000;
 const CHAT_TIMEOUT_MS = 60_000;
 
+/** Demo switch from the account menu (see lib/demo.ts). */
+const demoHeaders = (): Record<string, string> => (demoLoanOpen() ? { "x-demo-loan-open": "1" } : {});
+
 async function request<T>(path: string, init?: RequestInit, timeoutMs = READ_TIMEOUT_MS): Promise<T> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
@@ -16,7 +21,7 @@ async function request<T>(path: string, init?: RequestInit, timeoutMs = READ_TIM
     const res = await fetch(`${BASE}${path}`, {
       ...init,
       signal: ctrl.signal,
-      headers: { "Content-Type": "application/json", ...init?.headers },
+      headers: { "Content-Type": "application/json", ...demoHeaders(), ...init?.headers },
     });
     if (!res.ok) throw new Error(await errorMessage(res));
     return (await res.json()) as T;
@@ -74,7 +79,7 @@ export async function chatStream(req: ChatRequest, handlers: ChatStreamHandlers 
     const res = await fetch(`${BASE}/chat/stream`, {
       method: "POST",
       signal: ctrl.signal,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...demoHeaders() },
       body: JSON.stringify(req),
     });
     if (!res.ok || !res.body) throw new Error(await errorMessage(res));
@@ -150,3 +155,5 @@ export const getRecommendations = (customerId: string) =>
 
 export const getBasketTransactions = (customerId: string, basket: number) =>
   request<BasketTransactions>(`/basket-transactions?customerId=${q(customerId)}&basket=${basket}`);
+
+export const getLoanStatus = (customerId: string) => request<LoanStatusResponse>(`/loan-context?customerId=${q(customerId)}`);

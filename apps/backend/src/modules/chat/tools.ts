@@ -8,6 +8,7 @@ import { exploreService } from "../explore/explore.service.js";
 import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.schema.js";
 import { planService } from "../plan/plan.service.js";
 import { proposeQuerySchema } from "../plan/plan.schema.js";
+import { moneyContext } from "../context/context.service.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
 import { affordabilityQuerySchema, housingPriceQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
@@ -170,11 +171,16 @@ const defs: ToolDef[] = [
     name: "safe_to_spend",
     description:
       "How much the customer can safely spend until the next payday after reserving the expected essentials, " +
-      "plus the per-day amount. May include loanContext: a home loan application that is open or was decided recently.",
+      "plus the per-day amount. If the customer has a home loan application that is open or was decided recently, the result also has loanContext, loanReserve (held back for the first payment and buying costs), safeAfterLoan and safeAfterLoanPerDay: use those as the amount to spend.",
     schema: noInput,
     run: async (_input, customerId) => {
-      const [r, loanContext] = await Promise.all([coachService.safeToSpend(customerId), mortgageService.loanContext(customerId)]);
-      return loanContext ? { ...r, loanContext } : r;
+      const r = await moneyContext.safeToSpend(customerId);
+      // Without a loan the answer stays exactly as before
+      if (!r.loanContext) {
+        const { loanContext: _l, loanReserve: _r, safeAfterLoan: _a, safeAfterLoanPerDay: _p, ...plain } = r;
+        return plain;
+      }
+      return r;
     },
   },
   {

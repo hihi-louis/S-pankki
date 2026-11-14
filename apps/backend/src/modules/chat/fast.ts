@@ -4,6 +4,7 @@ import { basketsService } from "../baskets/baskets.service.js";
 import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { exploreService } from "../explore/explore.service.js";
+import { moneyContext } from "../context/context.service.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
 import { planService } from "../plan/plan.service.js";
 import { spendingService } from "../spending/spending.service.js";
@@ -36,9 +37,13 @@ const RULES: { re: RegExp; run: Run }[] = [
   {
     re: /^what can i (?:safely )?spend (?:this week|until payday|until my next payday)$/,
     run: async (id, c) => {
-      const r = await coachService.safeToSpend(id);
+      const r = await moneyContext.safeToSpend(id);
       c.add("safe_to_spend", r);
       const guess = r.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
+      if (r.loanContext && r.loanReserve > 0 && r.shortfall <= 0) {
+        const open = r.loanContext.state === "in_progress" ? " Your home loan is still open, so you may want to spend even less." : "";
+        return `You can safely spend ${m2(r.safeAfterLoan)} until payday on ${shortDate(r.nextPayday.date)}, about ${m2(r.safeAfterLoanPerDay)} a day. Your cash flow alone allows ${m2(r.safeToSpend)}, but I kept back ${m2(r.loanReserve)} for your home loan (the first payment and usual buying costs, an estimate).${open}${guess}`;
+      }
       if (r.shortfall > 0)
         return `Your bills and basics until payday on ${shortDate(r.nextPayday.date)} come to about ${m2(r.reservedEssentials)}, so you could be ${m2(r.shortfall)} short.${guess} Try to hold off on extras until then.`;
       return `You can safely spend ${m2(r.safeToSpend)} until payday on ${shortDate(r.nextPayday.date)}. That is about ${m2(r.perDay)} a day. About ${m2(r.reservedEssentials)} is set aside for your bills and basics.${guess} Stay under that each day and your bills are covered.`;

@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 import { pickRecommendations, type RecInputs } from "./recommendations.js";
 
 const base = (over: Partial<RecInputs> = {}): RecInputs => ({
-  safe: { safeToSpend: 400, perDay: 40, shortfall: 0, reservedEssentials: 900, nextPayday: { date: "2026-10-15" }, paydayIsEstimate: false },
+  safe: { safeToSpend: 400, perDay: 40, shortfall: 0, reservedEssentials: 900, nextPayday: { date: "2026-10-15" }, paydayIsEstimate: false, loanReserve: 0, safeAfterLoan: 400, safeAfterLoanPerDay: 40 },
   runsOutOn: null,
   daysShort: 0,
   shortDate: (d) => d,
@@ -83,7 +83,7 @@ describe("pickRecommendations", () => {
 
   it("warns about an open home loan application right after any heads-up and softens the safe amount", () => {
     const loan = { state: "in_progress" as const, decision: null, reason: null, daysSinceDecision: null, estimatedMonthlyPayment: 900, typicalBuyingCosts: 8000 };
-    const r = pickRecommendations(base({ loan }));
+    const r = pickRecommendations(base({ loan, safe: { ...base().safe, safeToSpend: 5000, perDay: 500, loanReserve: 900, safeAfterLoan: 4100, safeAfterLoanPerDay: 410 } }));
     assert.deepEqual(r.slice(0, 2).map((c) => c.type), ["loan", "week"]);
     assert.match(r[0].headline, /still open/);
     assert.match(r[1].body, /home loan is still open, so you may want to spend less/);
@@ -103,5 +103,16 @@ describe("pickRecommendations", () => {
     const r = pickRecommendations(base({ loan, peer: { id: "peer-x", headline: "h", body: "b" } }));
     assert.ok(r.length <= 5);
     assert.match(r.find((c) => c.type === "loan")!.headline, /was not approved 5 days ago/);
+  });
+
+  it("holds back the loan costs from the safe amount and says so", () => {
+    const loan = { state: "recent" as const, decision: "approved" as const, reason: null, daysSinceDecision: 3, estimatedMonthlyPayment: 900, typicalBuyingCosts: 6000 };
+    const r = pickRecommendations(base({ loan, safe: { ...base().safe, safeToSpend: 3000, perDay: 300, loanReserve: 6900, safeAfterLoan: 0, safeAfterLoanPerDay: 0 } }));
+    assert.equal(r[0].headline, "Best to hold off on extras");
+    assert.match(r[0].body, /€3,000/);
+    assert.match(r[0].body, /€6,900/);
+    const r2 = pickRecommendations(base({ loan, safe: { ...base().safe, safeToSpend: 9000, perDay: 900, loanReserve: 6900, safeAfterLoan: 2100, safeAfterLoanPerDay: 210 } }));
+    assert.match(r2[0].headline, /safely spend €1,470/);
+    assert.match(r2[0].body, /kept back €6,900 for your home loan/);
   });
 });

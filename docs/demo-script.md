@@ -3,17 +3,24 @@
 Open http://localhost:5173/ (or the tunnel URL). Log in with a customer ID; the chips under "Or try a demo customer" are the demo customers.
 
 ## 0. The first screen (any customer)
-- **Recommendations** carousel: one card at a time (swipe, arrows or dots). The first card is "This week: you can safely spend ...", then what stands out. Press the button on a card to see how it was worked out.
-- **What would you like to know?**: four tap-to-ask questions (answered instantly, no AI tokens).
-- **Ask the coach** button (bottom right) opens the chat; the avatar (top right) switches customer.
+- **Recommendations** carousel: up to 5 cards, each rests 3 seconds and slides on by itself (touch or hover pauses it). Cards come from rules in code: a heads-up if money may run out before payday, **This week: you can safely spend ...**, a pattern (a weekday or category that stands out), an idea ("trim X by 20% could free about ... a year"), good news, and how you compare with people your age. Each button opens the story behind the card.
+- **Know your money**: the current balance and a pie of this month's spending in the three baskets. Tap a basket: its categories with totals first, then the purchases in each category.
+- A **Home loan** strip appears when a loan application is open or was decided recently.
+- **Ask the coach** (bottom right) opens the chat; the avatar (top right) switches customer.
 - All text is plain English: "bills and basics", "a normal month", "if rates rise to 6%".
 
-## 1. The month as a story (CUST04488)
-The Overview follows one narrative: **what happened, why, what it means, what to do next**.
-- **September at a glance:** spent 4,819 € against a usual 3,151 €; the category list shows groceries x6 and restaurants x61 vs usual.
-- Tap **Restaurants**: category deep dive with the 7-month trend, where the money went, the largest purchases and how peers compare.
-- Back, tap the **For you** card "Groceries is 1,961 € above usual": the four-step story. Step 2 lists the main drivers (shops and largest purchases), step 3 puts it in context (share of income, peers), step 4 offers limits with **Apply to my plan**. Press it: the plan is created and the saving goes up.
-- **Looking ahead:** the safe spending forecast draws the balance day by day until payday, with the rent landing on its usual day. Say that the safe line and the safe-to-spend number come from the same calculation.
+## 1. The month as a story (CUST04121 has all five cards)
+Every card opens the same narrative: **what happened, why, what it means, what to do next**.
+- Tap the **Pattern** card: the four-step story with a chart; step 4 offers limits with **Apply to my plan**.
+- Tap the **Idea** card ("Try it"): what a 10, 20 or 30% trim is worth; pick one and the plan gets a lower cap and a higher saving.
+- Tap the **Heads up** card ("Make a plan"): the balance may reach zero before payday; the story links to the forecast, which draws the balance day by day (the safe line and the safe-to-spend number come from the same calculation).
+- Pie: tap **Everyday spending**, then a purchase to open its category deep dive (7-month trend, shops, largest purchases, peers).
+
+## 1b. Context beyond transactions: the home loan (mentor's point) (CUST01265)
+Cash flow can look fine while the customer is in the middle of a loan decision, so spending more may not be wise.
+- Normal view: this customer's loan was approved 8 Sep. The **This week** card says "Best to hold off on extras": cash flow leaves about 4,600 euros, but the first payment and buying costs (about 7,000 euros) are coming. The Home loan strip shows the payment and costs.
+- Open the avatar menu and turn on **Demo: home loan still open** (the data has no open applications today, so this shows the same customer as if the bank had not decided yet). The first card becomes "Your home loan application is still open" and the chat answers "Can I buy a 900 euro phone?" with a caution.
+- Say: the held-back amount is an estimate from public averages (first payment at 3.17%, usual buying costs from real S-Pankki cases), not the bank's rule, and the app never predicts the decision.
 
 ## 2. Free-form chat that explains itself (CUST05020)
 - Ask: "Which shops do I spend the most at?" and "Am I spending more this month than last month?".
@@ -23,7 +30,7 @@ The Overview follows one narrative: **what happened, why, what it means, what to
 ## 3. Spending plan and a home goal (CUST05020)
 - Ask: "Make me a plan to buy a 250000 euro home in 5 years".
 - The coach works out the cash needed (down payment plus typical costs from real S-Pankki cases), then proposes a monthly plan.
-- Press **Save plan**; go to Overview: **Your plan** shows progress bars. The assistant never saves anything itself.
+- Press **Save plan**. The assistant never saves anything itself; ask 'How am I doing against my plan?' any time to check it.
 - Ask "What if I cut everyday spending by 30%?" and "How much could I borrow for a home?" (income-based estimate, 3.17% rate and 6% stress test with sources).
 
 ## 4. Mortgage questions, honestly (CUST00382, then CUST00922)

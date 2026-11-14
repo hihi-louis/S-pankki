@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { FactsCard } from "@sbank/shared";
 import { daysBetween, TODAY } from "../../lib/dates.js";
+import { demoLoanOpen } from "../../lib/request-context.js";
 import { HttpError } from "../../lib/errors.js";
 import { annuityPayment, eur0, pct1 } from "../../lib/finance.js";
 import { basketsService } from "../baskets/baskets.service.js";
@@ -54,6 +55,12 @@ async function salaryOf(customerId: string) {
   return { salary: customer.avgSalary ?? income.avgMonthlyIncome, totalIncome: income.avgMonthlyIncome };
 }
 
+const addDaysIso = (iso: string, n: number) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+
 /** Applications decided within this many days still shape the budget (first payments, buying costs). */
 const RECENT_DAYS = 45;
 
@@ -73,7 +80,14 @@ export interface LoanContext {
 
 export const mortgageService = {
   /** The home-loan situation that changes how safe it is to spend: an open application, or one decided recently. null otherwise. */
-  async loanContext(customerId: string, asOf = TODAY): Promise<LoanContext | null> {
+  async loanContext(customerId: string, asOfDay?: string): Promise<LoanContext | null> {
+    let asOf = asOfDay ?? TODAY;
+    if (!asOfDay && demoLoanOpen()) {
+      // Demo mode: the middle day of the application, when the bank has not decided yet
+      const whole = await mortgageRepository.stageAt(customerId, "9999-12-31");
+      if (!whole?.decided) return null;
+      asOf = addDaysIso(whole.started, Math.floor(daysBetween(whole.started, whole.decided) / 2));
+    }
     const st = await mortgageRepository.stageAt(customerId, asOf);
     if (!st) return null;
     const daysSince = st.decided ? daysBetween(st.decided, asOf) : null;

@@ -48,7 +48,9 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
   const paused = useRef(false);
   const resumeAt = useRef(0);
   const idx = useRef(0);
-  idx.current = index;
+  useEffect(() => {
+    idx.current = index;
+  }, [index]);
 
   useEffect(() => {
     if (items.length < 2 || reduced()) return;

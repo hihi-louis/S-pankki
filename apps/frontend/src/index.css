@@ -506,3 +506,14 @@ html { scroll-behavior: smooth; }
 .tx-head-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
 .tx-head-total { font-family: var(--font-display); font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
 .tx-group .tx-head + .tx-row { border-top: 1px solid var(--line); }
+
+/* Home loan strip */
+.loan-strip { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--green-700); border-radius: 16px; background: var(--surface); text-align: left; font: inherit; color: inherit; transition: background .15s, transform .15s; }
+.loan-strip:active { transform: scale(.99); background: var(--green-100); }
+.loan-strip.open { border-left-color: var(--warning); }
+.loan-strip.rejected { border-left-color: var(--subtle); }
+.loan-strip-icon { font-size: 20px; width: 32px; height: 32px; border-radius: 10px; background: var(--green-100); display: grid; place-items: center; flex: 0 0 auto; }
+.loan-strip-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.loan-strip-title { font-weight: 700; font-size: 14px; }
+.loan-strip-sub { font-size: 12px; color: var(--muted); text-wrap: pretty; }
+.loan-demo { margin-left: 8px; padding: 1px 7px; border-radius: 99px; background: var(--warning-bg); color: var(--warning); font-style: normal; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }

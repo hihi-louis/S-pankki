@@ -1,3 +1,4 @@
+import { demoLoanOpen } from "../../lib/request-context.js";
 import type { ChatResponse } from "@sbank/shared";
 import { newStats, runAgent, type ChatEvent } from "./agent.js";
 import { addTokens, checkBudget } from "./budget.js";
@@ -27,7 +28,7 @@ export const chatService = {
       return fast;
     }
 
-    const key = req.history?.length ? null : `${req.customerId}::${normalize(req.message)}`;
+    const key = req.history?.length ? null : `${req.customerId}${demoLoanOpen() ? "~loan-open" : ""}::${normalize(req.message)}`;
     const hit = key ? cache.get(key) : undefined;
     if (hit) {
       void recordUsage({ customerId: req.customerId, path: "cache", latencyMs: performance.now() - started, verified: hit.verified ?? null });

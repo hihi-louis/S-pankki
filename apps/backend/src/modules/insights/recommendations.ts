@@ -8,7 +8,7 @@ const eur = (n: number) => `€${Math.round(n).toLocaleString("en-IE")}`;
 const human = (category: string) => category.replace("&", "and").toLowerCase();
 
 export interface RecInputs {
-  safe: { safeToSpend: number; perDay: number; shortfall: number; reservedEssentials: number; nextPayday: { date: string }; paydayIsEstimate: boolean };
+  safe: { safeToSpend: number; perDay: number; shortfall: number; reservedEssentials: number; nextPayday: { date: string }; paydayIsEstimate: boolean; loanReserve: number; safeAfterLoan: number; safeAfterLoanPerDay: number };
   /** First day the balance would go below zero at the usual pace, if any. */
   runsOutOn: string | null;
   /** Whole days between that day and payday. */
@@ -90,18 +90,35 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
   }
 
   // 2. This week: what is safe to spend (skipped when the heads-up already says there is no room)
+  const reserve = x.safe.loanReserve;
+  const holdOff = reserve > 0 && x.safe.safeAfterLoan <= 0;
+  const open = L?.state === "in_progress" ? " Your home loan is still open, so you may want to spend less." : "";
   const week: Recommendation | null = short
     ? null
-    : card({
-        id: "this-week-safe",
-        type: "week",
-        eyebrow: "This week",
-        tone: "info",
-        headline: `You can safely spend ${eur(Math.min(x.safe.safeToSpend, x.safe.perDay * 7))}`,
-        body: `That is about ${eur(x.safe.perDay)} a day after your bills and basics, until payday on ${payday}.${L?.state === "in_progress" ? " Your home loan is still open, so you may want to spend less." : ""}${guess}`,
-        cta: "See how I worked this out",
-        target: { kind: "forecast" },
-      });
+    : holdOff
+      ? card({
+          id: "this-week-safe",
+          type: "week",
+          eyebrow: "This week",
+          tone: "tip",
+          headline: "Best to hold off on extras",
+          body: `Your cash flow leaves ${eur(x.safe.safeToSpend)} until payday on ${payday}, but your home loan may need about ${eur(reserve)} (first payment and buying costs).${guess}`,
+          cta: "See how I worked this out",
+          target: { kind: "forecast" },
+        })
+      : card({
+          id: "this-week-safe",
+          type: "week",
+          eyebrow: "This week",
+          tone: "info",
+          headline: `You can safely spend ${eur(Math.min(x.safe.safeAfterLoan, x.safe.safeAfterLoanPerDay * 7))}`,
+          body:
+            reserve > 0
+              ? `That is about ${eur(x.safe.safeAfterLoanPerDay)} a day until payday on ${payday}. Your cash flow alone allows ${eur(x.safe.safeToSpend)}, but I kept back ${eur(reserve)} for your home loan (first payment and buying costs).${open}${guess}`
+              : `That is about ${eur(x.safe.perDay)} a day after your bills and basics, until payday on ${payday}.${guess}`,
+          cta: "See how I worked this out",
+          target: { kind: "forecast" },
+        });
 
   // Not enough history to know what is "usual": keep it simple and honest
   if (x.monthsWithData < 3) {

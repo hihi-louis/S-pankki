@@ -329,3 +329,21 @@ export interface BasketTransactions {
     items: { date: string; amount: number; label: string }[];
   }[];
 }
+
+/** The customer's home-loan situation, for the Overview strip. `context` is null when there is nothing to say today. */
+export interface LoanStatusResponse {
+  hasApplication: boolean;
+  context: {
+    state: "in_progress" | "recent";
+    decision: "approved" | "rejected" | null;
+    reason: string | null;
+    startedOn: string;
+    decidedOn: string | null;
+    daysSinceDecision: number | null;
+    loan: number;
+    estimatedMonthlyPayment: number;
+    typicalBuyingCosts: number;
+  } | null;
+  /** Held back from safe-to-spend for the loan (first payment + usual buying costs); 0 after a rejection. */
+  reserve: number;
+}

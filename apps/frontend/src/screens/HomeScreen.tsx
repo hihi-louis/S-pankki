@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import type { Recommendation, SummaryResponse } from "@sbank/shared";
-import { getRecommendations, getSummary } from "../api";
+import type { LoanStatusResponse, Recommendation, SummaryResponse } from "@sbank/shared";
+import { getLoanStatus, getRecommendations, getSummary } from "../api";
 import { BasketPie } from "../components/BasketPie";
+import { LoanStrip } from "../components/LoanStrip";
 import { RecommendationCarousel } from "../components/RecommendationCarousel";
 import { eur } from "../lib/format";
 import type { Nav } from "../lib/nav";
@@ -28,10 +29,12 @@ const rise = (i: number) => ({ "--i": i }) as CSSProperties;
 export function HomeScreen({ customerId, nav }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
+  const [loan, setLoan] = useState<LoanStatusResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSummary(customerId).then(setData).catch((e: Error) => setError(e.message));
+    getLoanStatus(customerId).then(setLoan).catch(() => setLoan(null));
     getRecommendations(customerId).then((r) => setRecs(r.items)).catch(() => setRecs([]));
   }, [customerId]);
 
@@ -56,6 +59,12 @@ export function HomeScreen({ customerId, nav }: Props) {
           <p className="card-sub">Nothing stands out right now.</p>
         )}
       </section>
+
+      {loan?.context && (
+        <section className="block rise" style={rise(1)}>
+          <LoanStrip status={loan} onOpen={() => nav.ask("What is the status of my mortgage application?")} />
+        </section>
+      )}
 
       <section className="block rise money-block" style={rise(1)}>
         <div className="eyebrow">Insights</div>

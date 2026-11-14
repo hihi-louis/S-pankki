@@ -128,7 +128,7 @@ export class Collector {
         data: r.baskets.map((b: { name: string; spent: number }) => ({ label: b.name, value: b.spent })),
       };
     } else if (name === "safe_to_spend") {
-      push({ type: "safe_to_spend", perDay: r.perDay, total: r.safeToSpend, until: r.nextPayday.date, currency: "EUR" });
+      push({ type: "safe_to_spend", perDay: r.loanContext ? r.safeAfterLoanPerDay : r.perDay, total: r.loanContext ? r.safeAfterLoan : r.safeToSpend, until: r.nextPayday.date, currency: "EUR" });
     } else if (name === "simulate_whatif") {
       const pct = r.baselineMonthly > 0 ? Math.round(((r.monthlySaving / r.baselineMonthly) * 100) / 5) * 5 : 20;
       push({
