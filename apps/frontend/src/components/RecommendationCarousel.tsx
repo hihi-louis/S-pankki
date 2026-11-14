@@ -54,7 +54,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     if (items.length < 2 || reduced()) return;
     const el = track.current;
     if (!el) return;
-    const DWELL = 5000;
+    const DWELL = 3000;
     const SLIDE = 650;
     let frame = 0;
     let timer = 0;
