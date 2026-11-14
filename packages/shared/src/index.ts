@@ -53,6 +53,18 @@ export interface SafeToSaveCard {
   currency: "EUR";
 }
 
+/**
+ * A small table of ready-to-show facts (mortgage answers, plans). The backend formats the values, so every
+ * number on the card comes from code. `tone` colours a row: good = positive, warn = needs attention.
+ */
+export interface FactsCard {
+  type: "facts";
+  title: string;
+  headline?: { label: string; value: string };
+  rows: { label: string; value: string; tone?: "good" | "warn" }[];
+  note?: string;
+}
+
 /** What-if slider. Frontend recalculates savings locally as the user drags. */
 export interface WhatIfCard {
   type: "what_if";
@@ -74,7 +86,7 @@ export interface BenchmarkCard {
   currency: "EUR";
 }
 
-export type Card = AmountCard | SafeToSpendCard | SafeToSaveCard | WhatIfCard | BenchmarkCard;
+export type Card = AmountCard | SafeToSpendCard | SafeToSaveCard | FactsCard | WhatIfCard | BenchmarkCard;
 
 export interface ChatResponse {
   answer: string;

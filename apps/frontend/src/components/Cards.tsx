@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AmountCard, BenchmarkCard, Card, Chart, SafeToSaveCard, SafeToSpendCard, WhatIfCard } from "@sbank/shared";
+import type { AmountCard, BenchmarkCard, Card, Chart, FactsCard, SafeToSaveCard, SafeToSpendCard, WhatIfCard } from "@sbank/shared";
 import { eur, eur0, shortDate } from "../lib/format";
 
 /** Picks the right widget for each card the backend sends. */
@@ -11,6 +11,8 @@ export function CardRenderer({ card }: { card: Card }) {
       return <SafeToSpend card={card} />;
     case "safe_to_save":
       return <SafeToSave card={card} />;
+    case "facts":
+      return <Facts card={card} />;
     case "what_if":
       return <WhatIf card={card} />;
     case "benchmark":
@@ -53,6 +55,29 @@ function SafeToSave({ card }: { card: SafeToSaveCard }) {
         Not needed before payday on {shortDate(card.until)}
         {card.monthsCovered !== null && ` · your balance covers ${card.monthsCovered} months of essentials`}
       </div>
+    </div>
+  );
+}
+
+function Facts({ card }: { card: FactsCard }) {
+  return (
+    <div className="card">
+      <div className="card-label">{card.title}</div>
+      {card.headline && (
+        <>
+          <div className="card-big">{card.headline.value}</div>
+          <div className="card-sub">{card.headline.label}</div>
+        </>
+      )}
+      <dl className="facts">
+        {card.rows.map((r) => (
+          <div key={r.label} className={`facts-row${r.tone ? ` ${r.tone}` : ""}`}>
+            <dt>{r.label}</dt>
+            <dd>{r.value}</dd>
+          </div>
+        ))}
+      </dl>
+      {card.note && <div className="card-sub facts-note">{card.note}</div>}
     </div>
   );
 }

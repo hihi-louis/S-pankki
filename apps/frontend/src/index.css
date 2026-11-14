@@ -224,3 +224,12 @@ h1, h2 { margin: 0; font-family: var(--font-display); letter-spacing: -0.01em; }
 .who .link { padding: 0; min-height: 40px; }
 .greeting { font-weight: 600; background: var(--green-100) !important; border-color: var(--green-border) !important; color: var(--green-900); }
 .greeting-sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+/* ---------- Facts card (mortgage, plan) ---------- */
+.facts { margin: 12px 0 0; display: flex; flex-direction: column; }
+.facts-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.facts-row dt { color: var(--muted); }
+.facts-row dd { margin: 0; font-weight: 600; text-align: right; }
+.facts-row.warn dd { color: var(--error); }
+.facts-row.good dd { color: var(--green-700); }
+.facts-note { margin-top: 10px; }

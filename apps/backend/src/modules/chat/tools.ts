@@ -6,6 +6,8 @@ import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { benchmarkQuerySchema } from "../benchmark/benchmark.schema.js";
 import { exploreService } from "../explore/explore.service.js";
 import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.schema.js";
+import { mortgageService } from "../mortgage/mortgage.service.js";
+import { affordabilityQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
 import { spendingService } from "../spending/spending.service.js";
 
@@ -15,6 +17,8 @@ const whatIfInput = whatIfBaseSchema.omit({ customerId: true });
 const breakdownInput = breakdownQuerySchema.omit({ customerId: true });
 const compareInput = compareQuerySchema.omit({ customerId: true });
 const benchmarkInput = benchmarkQuerySchema.omit({ customerId: true });
+const affordabilityInput = affordabilityQuerySchema.omit({ customerId: true });
+const savingsPlanInput = savingsPlanQuerySchema.omit({ customerId: true });
 const noInput = z.object({});
 
 const toolSchema = (s: z.ZodType) => {
@@ -90,6 +94,38 @@ const defs: ToolDef[] = [
       "budget survey, 2022). Optional topic: total, groceries, housing, transport, restaurants, recreation, health; leave EMPTY for a general 'how do I compare' question so all categories are returned.",
     schema: benchmarkInput,
     run: (input, customerId) => benchmarkService.compare(benchmarkQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "mortgage_affordability",
+    description:
+      "How much the customer could borrow for a home from their salary (rule seen in S-Pankki applications), with monthly payment " +
+      "and a 6% stress check. Optional price: also the down payment and cash needed for that home. An estimate, not a loan decision.",
+    schema: affordabilityInput,
+    run: (input, customerId) => mortgageService.affordability(affordabilityQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "mortgage_status",
+    description:
+      "The customer's own mortgage application if one exists: decision, reason, price, loan, equity, collateral, income check, " +
+      "time taken and similar past applications. Says so if there is no application.",
+    schema: noInput,
+    run: (_input, customerId) => mortgageService.status(customerId),
+  },
+  {
+    name: "mortgage_savings_plan",
+    description:
+      "Saving for a home of a given price: cash needed (down payment plus typical costs), how much can be set aside now, months to reach it at " +
+      "today's pace and with cutPct less everyday spending, and the loan payment.",
+    schema: savingsPlanInput,
+    run: (input, customerId) => mortgageService.savingsPlan(savingsPlanQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "mortgage_process",
+    description:
+      "How mortgage applications typically go at S-Pankki: days to a decision, number of contacts and documents, how often extra collateral " +
+      "is requested, approval rate and rejection reasons. Not specific to the customer.",
+    schema: noInput,
+    run: () => mortgageService.process(),
   },
   {
     name: "get_baskets",

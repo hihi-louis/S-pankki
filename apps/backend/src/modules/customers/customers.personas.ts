@@ -24,4 +24,14 @@ export const PERSONA_DEFS = [
     name: "Mikko",
     description: "Salary ~3,570 €/month, spends ~3,150 €/month, incl. ~590 € on taxis in August.",
   },
+  {
+    customerId: "CUST00382",
+    name: "CUST00382",
+    description: "Mortgage application rejected for not enough collateral (122,000 € covers 80% of a 152,500 € loan). Salary ~2,900 €/month.",
+  },
+  {
+    customerId: "CUST00922",
+    name: "CUST00922",
+    description: "Mortgage application approved for 194,000 €. Salary ~3,300 €/month, balance ~1,500 €.",
+  },
 ] as const;

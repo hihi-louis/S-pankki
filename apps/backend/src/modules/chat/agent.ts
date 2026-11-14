@@ -14,6 +14,10 @@ const MAX_CARDS = 3;
 
 const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Show my spending by basket"];
 const SUGGESTIONS: Record<string, string[]> = {
+  mortgage_affordability: ["How much would I need to save for a 250,000 € home?", "How long does a mortgage application take?"],
+  mortgage_status: ["How long does a mortgage application usually take?", "How much could I borrow?"],
+  mortgage_savings_plan: ["How much could I borrow?", "What if I cut everyday spending by 30%?"],
+  mortgage_process: ["How much could I borrow?", "How much would I need to save for a 250,000 € home?"],
   compare_with_peers: ["How could I save more?", "Where does my money go?"],
   spending_breakdown: ["How does that compare with last month?", "What are my regular monthly payments?"],
   compare_periods: ["Where does my money go?", "What if I cut everyday spending by 20%?"],
@@ -105,6 +109,10 @@ class Collector {
       for (const x of chosen.slice(0, MAX_CARDS)) {
         push({ type: "benchmark", label: `${x.label} per month`, you: x.you, peers: x.peers, peerGroup: r.peerGroup, source: r.source, currency: "EUR" });
       }
+    } else if (name.startsWith("mortgage_")) {
+      // Dịch vụ mortgage tự dựng sẵn thẻ và biểu đồ (giá trị đã định dạng từ code)
+      if (r.card) push(r.card);
+      if (r.chart) this.chart = r.chart;
     } else if (name === "get_baskets") {
       this.chart = {
         type: "donut",
@@ -135,7 +143,14 @@ function safeJson(s: string) {
 }
 
 /** Bỏ danh sách giao dịch khỏi dữ liệu gửi cho LLM (đã lưu riêng trong Collector) để tiết kiệm token. */
-const forLlm = (r: any) =>
+const forLlm = (r: any) => {
+  if (r && (r.card || r.chart)) {
+    const { card: _card, chart: _chart, ...rest } = r; // thẻ và biểu đồ đã hiển thị riêng; không gửi lặp cho LLM
+    return rest;
+  }
+  return forSources(r);
+};
+const forSources = (r: any) =>
   r && Array.isArray(r.sources)
     ? { ...r, sources: undefined, note: "The matching transactions are listed in the app. Tell the customer they can open the list; do not state how many are shown." }
     : r;
