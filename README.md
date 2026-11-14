@@ -1,6 +1,6 @@
-# sbank-coach
+# Sipi (sbank-coach)
 
-AI money-coach web app (hackathon). React mobile-layout frontend + Node/Express backend with PostgreSQL.
+Sipi: an AI money-coach web app (hackathon). React mobile-layout frontend + Node/Express backend with PostgreSQL.
 
 ## Ownership
 

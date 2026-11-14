@@ -23,7 +23,7 @@ export const STARTERS = [
 
 interface Props {
   customerId: string;
-  /** First assistant message, e.g. "Hello, welcome Aino to Personal Economic Trainer". */
+  /** First assistant message, e.g. "Hi, I'm Sipi. Welcome CUST05020!". */
   greeting: string;
   messages: ChatMsg[];
   busy: boolean;

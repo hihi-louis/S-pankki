@@ -567,3 +567,4 @@ html { scroll-behavior: smooth; }
 .brand:active { opacity: .7; }
 .fab { right: auto; left: 50%; translate: -50% 0; padding: 0 24px 0 20px; }
 .home { padding-bottom: 104px; }
+.login-mark { color: var(--green-900); } .login-mark svg { width: 56px; height: 56px; }

@@ -28,7 +28,7 @@ Cash flow can look fine while the customer is in the middle of a loan decision, 
 - Say: the model never produces a number; it only writes sentences around tool results, and every amount and percentage is re-checked before it is shown.
 
 ## 3. Plans: goals and a weekly limit (CUST05020)
-- Ask: "Make me a plan to buy a 250000 euro home in 5 years". The coach works out the cash needed (down payment plus typical costs from real S-Pankki cases) and proposes a monthly amount and a weekly limit.
+- Ask: "Make me a plan to buy a 250000 euro home in 5 years". Sipi works out the cash needed (down payment plus typical costs from real S-Pankki cases) and proposes a monthly amount and a weekly limit.
 - Press **Add to my plans**: the message says what was added or changed. Nothing is overwritten silently, and the assistant never saves anything itself.
 - On the Overview, **Your plan** shows the goals and this week's everyday spending against the limit. Tap it to open **My plans**: change the weekly limit with the + and - buttons, edit or delete a goal (with Undo), add a goal, or ask the coach for a plan.
 - Say: the app only reads transactions to see how you are doing; it never moves money.
