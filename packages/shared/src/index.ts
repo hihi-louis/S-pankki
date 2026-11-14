@@ -120,6 +120,17 @@ export interface BenchmarkCard {
 
 export type Card = AmountCard | SafeToSpendCard | SafeToSaveCard | FactsCard | WhatIfCard | BenchmarkCard;
 
+/** How a figure was obtained: shown under an answer so the customer can check it ("How I calculated this"). */
+export interface Provenance {
+  title: string;
+  /** Plain-language formula or rule. */
+  how: string;
+  /** What data it used, e.g. "15 transactions, 1 Aug - 31 Aug". */
+  data?: string;
+  source: string;
+  sourceUrl?: string;
+}
+
 export interface ChatResponse {
   answer: string;
   cards: Card[];
@@ -127,6 +138,10 @@ export interface ChatResponse {
   sources: SourceTx[];
   sourcesTotal?: number;
   suggestions: string[];
+  /** How the numbers were calculated, one entry per tool the assistant used. */
+  provenance?: Provenance[];
+  /** true = every amount and percentage in `answer` was checked against the data; false = the check failed and a safe answer was used. */
+  verified?: boolean | null;
 }
 
 export interface Basket {

@@ -29,6 +29,7 @@ export async function recordUsage(row: {
         tools: s?.tools ?? [],
         latency_ms: Math.round(row.latencyMs),
         verified: row.verified ?? null,
+        regenerated: s?.regenerated ?? false,
         error: row.error?.slice(0, 300) ?? null,
       })
       .execute();
@@ -47,10 +48,12 @@ export async function usageSummary(since?: string) {
            percentile_disc(0.5) WITHIN GROUP (ORDER BY latency_ms)::int AS p50,
            percentile_disc(0.95) WITHIN GROUP (ORDER BY latency_ms)::int AS p95
     FROM llm_usage ${where} GROUP BY path ORDER BY path`.execute(db);
-  const totals = await sql<{ n: number; promptTokens: number; completionTokens: number; verifiedPct: number | null }>`
+  const totals = await sql<{ n: number; promptTokens: number; completionTokens: number; verifiedPct: number | null; rewritten: number; unverified: number }>`
     SELECT COUNT(*)::int AS n, COALESCE(SUM(prompt_tokens),0)::int AS "promptTokens",
            COALESCE(SUM(completion_tokens),0)::int AS "completionTokens",
-           ROUND(100.0 * COUNT(*) FILTER (WHERE verified) / NULLIF(COUNT(*) FILTER (WHERE verified IS NOT NULL), 0))::int AS "verifiedPct"
+           ROUND(100.0 * COUNT(*) FILTER (WHERE verified) / NULLIF(COUNT(*) FILTER (WHERE verified IS NOT NULL), 0))::int AS "verifiedPct",
+           COUNT(*) FILTER (WHERE regenerated)::int AS rewritten,
+           COUNT(*) FILTER (WHERE verified = false)::int AS unverified
     FROM llm_usage ${where}`.execute(db);
   const recent = await sql`
     SELECT created_at, customer_id, path, prompt_tokens, completion_tokens, cached_tokens, turns, tools, latency_ms, verified

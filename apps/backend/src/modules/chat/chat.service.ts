@@ -24,7 +24,7 @@ export const chatService = {
         if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
         cache.set(key, res);
       }
-      void recordUsage({ customerId: req.customerId, path: "llm", stats, latencyMs: performance.now() - started });
+      void recordUsage({ customerId: req.customerId, path: "llm", stats, latencyMs: performance.now() - started, verified: stats.verified });
       return res;
     } catch (e) {
       void recordUsage({

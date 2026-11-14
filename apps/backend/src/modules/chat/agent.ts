@@ -1,12 +1,14 @@
 import OpenAI from "openai";
-import type { Card, Chart, ChatResponse, SourceTx } from "@sbank/shared";
+import type { Card, Chart, ChatResponse, Provenance, SourceTx } from "@sbank/shared";
 import { config } from "../../config.js";
 import { mccLabel } from "../../lib/mcc.js";
 import { periodLabel } from "../../lib/dates.js";
 import { HttpError } from "../../lib/errors.js";
 import { SYSTEM_PROMPT } from "./prompt.js";
+import { provenanceFor } from "./provenance.js";
 import { selectTools } from "./router.js";
 import { runTool, toolDefinitions } from "./tools.js";
+import { verifyAnswer } from "./verifier.js";
 import type { ChatRequestBody } from "./chat.schema.js";
 
 const MAX_TURNS = 5;
@@ -50,10 +52,13 @@ class Collector {
   sources: SourceTx[] = [];
   sourcesTotal = 0;
   lastTool: string | null = null;
+  provenance: Provenance[] = [];
 
   add(name: string, r: any, args: any = {}) {
     if (!r || r.error) return;
     this.lastTool = name;
+    const why = provenanceFor(name, args, r);
+    if (why && !this.provenance.some((p) => p.title === why.title && p.data === why.data)) this.provenance.push(why);
     const push = (c: Card) => {
       const dup = this.cards.some((x) => x.type === c.type && "label" in x && "label" in c && x.label === c.label);
       if (!dup && this.cards.length < MAX_CARDS) this.cards.push(c);
@@ -185,8 +190,11 @@ export interface RunStats {
   cachedTokens: number;
   turns: number;
   tools: string[];
+  /** true = số liệu đã kiểm chứng; false = kiểm chứng thất bại và đã dùng câu an toàn; null = không áp dụng. */
+  verified: boolean | null;
+  regenerated: boolean;
 }
-export const newStats = (): RunStats => ({ promptTokens: 0, completionTokens: 0, cachedTokens: 0, turns: 0, tools: [] });
+export const newStats = (): RunStats => ({ promptTokens: 0, completionTokens: 0, cachedTokens: 0, turns: 0, tools: [], verified: null, regenerated: false });
 
 interface PendingCall {
   id: string;
@@ -203,8 +211,10 @@ export async function runAgent(
   emit: (e: ChatEvent) => void = () => {},
   signal?: AbortSignal,
   stats: RunStats = newStats(),
+  deps: { llm?: Pick<OpenAI, "chat"> } = {}, // tiêm LLM giả khi kiểm thử
 ): Promise<ChatResponse> {
-  const llm = getClient();
+  const llm = deps.llm ?? getClient();
+  const facts: unknown[] = []; // dữ liệu mà LLM đã thấy: cơ sở để kiểm chứng số liệu
   const collector = new Collector();
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     { role: "system", content: SYSTEM_PROMPT },
@@ -294,9 +304,57 @@ export async function runAgent(
     const results = await Promise.all(list.map((c) => runTool(c.name, c.args, req.customerId)));
     list.forEach((c, i) => {
       collector.add(c.name, results[i], safeJson(c.args));
-      messages.push({ role: "tool", tool_call_id: c.id, content: JSON.stringify(forLlm(results[i])) });
+      const seen = forLlm(results[i]);
+      facts.push(seen);
+      messages.push({ role: "tool", tool_call_id: c.id, content: JSON.stringify(seen) });
     });
     emit({ type: "status", text: "Writing your answer…" });
+  }
+
+  // Kiểm chứng: mọi khoản tiền và phần trăm trong câu trả lời phải có cơ sở trong dữ liệu tool. Sai thì viết lại một lần, vẫn sai thì dùng câu an toàn.
+  if (usedTool && answer) {
+    const context = [req.message, ...(req.history ?? []).map((h) => h.content)];
+    let verdict = verifyAnswer(answer, facts, context);
+    let safeAnswer = false;
+    if (!verdict.ok) {
+      stats.regenerated = true;
+      console.warn(`[verify] unverified in answer: ${verdict.unverified.join(", ")} (tools: ${stats.tools.join(", ")})`);
+      emit({ type: "reset" });
+      emit({ type: "status", text: "Double-checking the numbers…" });
+      try {
+        const fix = await llm.chat.completions.create(
+          {
+            model: config.llmModel,
+            messages: [
+              ...messages,
+              { role: "assistant", content: answer },
+              { role: "user", content: `Some numbers in your answer are not in the tool results: ${verdict.unverified.join(", ")}. Rewrite the answer using only numbers from the tool results. Keep it short.` },
+            ],
+            tools,
+            tool_choice: "none",
+            max_tokens: 600,
+            reasoning_effort: "low",
+          },
+          { signal },
+        );
+        stats.turns++;
+        stats.promptTokens += fix.usage?.prompt_tokens ?? 0;
+        stats.completionTokens += fix.usage?.completion_tokens ?? 0;
+        answer = fix.choices[0]?.message?.content ?? "";
+        if (answer) verdict = verifyAnswer(answer, facts, context);
+      } catch (e) {
+        if (signal?.aborted) throw e;
+        answer = "";
+      }
+      if (!answer || !verdict.ok) {
+        safeAnswer = true;
+        answer = collector.cards.length
+          ? "I could not confirm every number in my answer, so please rely on the exact figures on the card."
+          : "I could not confirm the numbers in my answer, so I will not show them. Could you rephrase the question?";
+      }
+      emit({ type: "delta", text: answer });
+    }
+    stats.verified = !safeAnswer;
   }
 
   return {
@@ -306,5 +364,7 @@ export async function runAgent(
     sources: collector.sources,
     sourcesTotal: collector.sourcesTotal,
     suggestions: SUGGESTIONS[collector.lastTool ?? ""] ?? DEFAULT_SUGGESTIONS,
+    provenance: collector.provenance,
+    verified: stats.verified,
   };
 }

@@ -61,6 +61,9 @@ Invalid input is a normal `400` JSON response before the stream opens.
 | `what_if` | `category, monthlySpend, defaultCutPct` | "How much could I save if…" (slider is computed on the frontend) |
 | `benchmark` | `label, you, peers, peerGroup, source?` | you vs. Finns your age (Statistics Finland) |
 
+`provenance[]` (`title, how, data?, source, sourceUrl?`) explains how each figure was obtained; the app shows it as "How I calculated this".
+`verified` is `true` when every amount and percentage in `answer` was checked against the data the tools returned (a wrong answer is rewritten once, then replaced by a safe sentence and `verified` is `false`).
+
 `chart.type`: `bar` (months), `line`, `donut` (shares, e.g. by basket).
 
 ## `GET /summary?customerId=`

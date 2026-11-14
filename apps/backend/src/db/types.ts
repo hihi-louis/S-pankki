@@ -43,6 +43,7 @@ export interface LlmUsage {
   model: string | null;
   path: string;
   prompt_tokens: Generated<number>;
+  regenerated: Generated<boolean>;
   tools: Generated<string[]>;
   turns: Generated<number>;
   verified: boolean | null;
