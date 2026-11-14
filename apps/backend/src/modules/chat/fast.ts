@@ -7,6 +7,7 @@ import { exploreService } from "../explore/explore.service.js";
 import { moneyContext } from "../context/context.service.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
 import { planService } from "../plan/plan.service.js";
+import { supportService, supportSentence } from "../support/support.service.js";
 import { spendingService } from "../spending/spending.service.js";
 import { Collector, DEFAULT_SUGGESTIONS, MONTH_NAMES, SUGGESTIONS } from "./agent.js";
 import type { ChatRequestBody } from "./chat.schema.js";
@@ -33,6 +34,28 @@ const RULES: { re: RegExp; run: Run }[] = [
     re: /^(?=.*\b(?:bitcoin|btc|crypto|cryptocurrency|ethereum|dogecoin|nft|forex|stocks?|shares|etfs?|index funds?|day trading|options)\b)(?=.*\b(?:should|worth|good idea|recommend|advice|advise|best|safe to|invest in|buy|sell)\b).*$/,
     run: async () =>
       "I cannot advise on investments or products such as crypto, shares or funds. I can help you see how much you could safely set aside each month, or how your own spending looks.",
+  },
+  {
+    // Support the app cannot give (card problems, logging in, complaints, a human): point to S-Pankki customer service, no model needed
+    re: /^(?=.*\b(?:(?:block|freeze|cancel|close|lost|lose|stolen|stole)\b.*\bcard|card\b.*\b(?:lost|stolen|missing|blocked|frozen|not working|swallowed)))/,
+    run: async (_id, c) => {
+      c.add("contact_support", supportService.contact("card"));
+      return supportSentence("card");
+    },
+  },
+  {
+    re: /^(?=.*\b(?:forgot|forgotten|reset|locked|cannot|can't|cant|unable|hacked|compromised|stolen)\b)(?=.*\b(?:password|pin|pin code|bank id|bank ids|online bank|online banking|mobile bank|s-mobile|log in|login|credentials)\b)/,
+    run: async (_id, c) => {
+      c.add("contact_support", supportService.contact("netbank"));
+      return supportSentence("netbank");
+    },
+  },
+  {
+    re: /\b(?:customer service|customer support|help ?desk|contact (?:the |my )?(?:bank|support|s-?pankki)|call (?:the |my )?bank|(?:bank|support)(?:'s)? (?:phone|number|hotline)|phone number|(?:talk|speak|chat) (?:to|with) (?:a |an |the )?(?:human|person|agent|advis[eo]r|someone|employee|banker)|real person|human help|(?:make|file|submit) (?:a )?complaint|complain about|close my account|open (?:a |an )?(?:new )?account|change my (?:address|phone number|name)|chargeback|dispute (?:a |this )?(?:charge|payment|transaction)|unauthori[sz]ed|fraudulent|i (?:was|got|have been|am being) (?:scammed|defrauded)|(?:victim of|report|reporting|suspect|suspected) (?:a |an )?(?:fraud|scam))\b/,
+    run: async (_id, c) => {
+      c.add("contact_support", supportService.contact("general"));
+      return supportSentence("general");
+    },
   },
   {
     re: /^what can i (?:safely )?spend (?:this week|until payday|until my next payday)$/,

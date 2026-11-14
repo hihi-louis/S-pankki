@@ -11,6 +11,7 @@ import { proposeQuerySchema } from "../plan/plan.schema.js";
 import { moneyContext } from "../context/context.service.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
 import { affordabilityQuerySchema, housingPriceQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
+import { supportService } from "../support/support.service.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
 import { spendingService } from "../spending/spending.service.js";
 
@@ -125,6 +126,15 @@ const defs: ToolDef[] = [
       "Then offer or call mortgage_savings_plan with estimatedPrice to show what the customer would need to save.",
     schema: housingPriceInput,
     run: (input, customerId) => mortgageService.housingPrice(housingPriceQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "contact_support",
+    description:
+      "Contact details of S-Pankki customer service. Use when the customer needs something you cannot do or see: a card problem or blocking, " +
+      "logging in or online banking IDs, a complaint, a disputed or unknown charge, changing personal details, opening or closing an account, applying for a loan, or talking to a person. " +
+      "topic = card, netbank or general. Give the number from the result; never invent a number.",
+    schema: z.object({ topic: z.enum(["general", "card", "netbank"]).default("general") }),
+    run: async (input) => supportService.contact((input as { topic?: "general" | "card" | "netbank" }).topic ?? "general"),
   },
   {
     name: "mortgage_affordability",

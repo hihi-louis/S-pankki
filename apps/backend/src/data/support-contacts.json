@@ -1,0 +1,11 @@
+{
+  "source": "S-Pankki, official contact details",
+  "url": "https://www.s-pankki.fi/fi/tiedotteet/2025/s-pankki-kehottaa-asiakaspalveluun-soittavia-tarkistamaan-puhelinnumeron/",
+  "website": "https://www.s-pankki.fi",
+  "checkedOn": "2026-11-14",
+  "customerService": { "finnish": "010 76 5800", "swedish": "010 76 5810", "hours": "Monday to Friday, 9:00 to 16:00" },
+  "cardBlocking": { "number": "020 333", "hours": "24 hours a day" },
+  "onlineBankingBlocking": { "number": "09 6964 6820", "hours": "24 hours a day" },
+  "callCost": "the local network or mobile rate",
+  "warning": "Only use the numbers listed on s-pankki.fi: a fake number starting with 0600 has charged callers several euros a minute."
+}

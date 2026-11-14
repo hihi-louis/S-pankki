@@ -44,3 +44,21 @@ test("free-form questions fall through to the LLM", async () => {
 test("a category with no transactions this month falls through instead of showing an empty answer", async () => {
   assert.equal(await ask("What did I spend on unicorns this month?"), null);
 });
+
+const askFast = (message: string) => tryFast({ customerId: "CUST05020", message } as never);
+
+test("a lost card goes to the card blocking line without the model", async () => {
+  const r = await askFast("I lost my card");
+  assert.match(r?.answer ?? "", /020 333/);
+  assert.equal(r?.cards[0]?.type, "facts");
+});
+
+test("a request for a person gets the customer service number", async () => {
+  const r = await askFast("Can I talk to a real person?");
+  assert.match(r?.answer ?? "", /010 76 5800/);
+});
+
+test("spending questions are not mistaken for support requests", async () => {
+  assert.equal(await askFast("How much did I spend on my card this month?"), null);
+  assert.equal(await askFast("What did I spend on fraud protection?"), null);
+});

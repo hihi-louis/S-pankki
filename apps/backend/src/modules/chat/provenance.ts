@@ -49,6 +49,8 @@ export function provenanceFor(name: string, args: any, r: any): Provenance | nul
       };
     case "mortgage_status":
       return { title: "Your application", how: "Your application record and its event log from the dataset. Similar applications have a loan within 20% and own funds within 3 points of the price. There is no single cut-off in the data.", data: r.hasApplication ? "1 application, event log" : undefined, source: "S-Pankki mortgage data" };
+    case "contact_support":
+      return { title: "S-Pankki contact details", how: "Official S-Pankki customer service numbers, copied from s-pankki.fi. I cannot see or change your accounts, cards or logins.", data: `Checked ${r.checkedOn}`, source: "S-Pankki", sourceUrl: r.sourceUrl };
     case "housing_price":
       return {
         title: "Home price estimate",
