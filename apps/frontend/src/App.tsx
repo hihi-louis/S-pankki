@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CustomerProfile } from "@sbank/shared";
 import { chatStream, getCustomer } from "./api";
-import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
+import { clearCustomerId, saveCustomerId } from "./lib/session";
 import { AvatarMenu } from "./components/AvatarMenu";
 import { IconArrowLeft, IconSparkle } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
@@ -21,8 +21,8 @@ type Tab = "home" | "chat";
 const params = new URLSearchParams(window.location.search);
 const URL_CUSTOMER = params.get("customer");
 const START_TAB: Tab = params.get("tab") === "chat" ? "chat" : "home";
-// URL first, then the last customer on this device
-const START_ID = URL_CUSTOMER ?? loadCustomerId();
+// Only a ?customer= in the URL skips the login screen; a plain link always opens on the login screen.
+const START_ID = URL_CUSTOMER;
 
 export default function App() {
   const [customer, setCustomer] = useState<CustomerProfile | null>(null);
