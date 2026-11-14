@@ -2,12 +2,16 @@ import { z } from "zod";
 import { basketsService } from "../baskets/baskets.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { whatIfBaseSchema, whatIfQuerySchema } from "../coach/coach.schema.js";
+import { exploreService } from "../explore/explore.service.js";
+import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
 import { spendingService } from "../spending/spending.service.js";
 
 /** customerId bị bỏ khỏi input của tool: backend tự gắn từ request, LLM không thể đọc dữ liệu khách khác. */
 const spendingInput = spendingQuerySchema.omit({ customerId: true });
 const whatIfInput = whatIfBaseSchema.omit({ customerId: true });
+const breakdownInput = breakdownQuerySchema.omit({ customerId: true });
+const compareInput = compareQuerySchema.omit({ customerId: true });
 const noInput = z.object({});
 
 const toolSchema = (s: z.ZodType) => {
@@ -35,6 +39,46 @@ const defs: ToolDef[] = [
       CATEGORIES_HINT,
     schema: spendingInput,
     run: (input, customerId) => spendingService.getSpending({ ...spendingInput.parse(input), customerId }),
+  },
+  {
+    name: "spending_breakdown",
+    description:
+      "Break spending in [from, to) down by one dimension: category, month (trend over time), merchant (which shops), " +
+      "basket, or weekday. Optional filters: category, basket, mcc. Use it for 'where does my money go', 'which shops', " +
+      "'how did X change month to month', 'which day do I spend most'. " + CATEGORIES_HINT,
+    schema: breakdownInput,
+    run: (input, customerId) => exploreService.breakdown(breakdownQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "compare_periods",
+    description:
+      "Compare spending in period B with period A (A is the baseline, e.g. last month; B the newer one, e.g. this month). " +
+      "Returns totals, difference, % change and the categories that changed most. Optional filters: category, basket, mcc. " + CATEGORIES_HINT,
+    schema: compareInput,
+    run: (input, customerId) => exploreService.compare(compareQuerySchema.parse({ ...(input as object), customerId })),
+  },
+  {
+    name: "recurring_payments",
+    description:
+      "Regular monthly payments (rent, utilities, subscriptions, regular shops) found in the last 6 months, " +
+      "their monthly total and share of spending.",
+    schema: noInput,
+    run: (_input, customerId) => exploreService.recurring(customerId),
+  },
+  {
+    name: "income_summary",
+    description:
+      "Income over the last 6 months (salary and other income), how steady it is, usual payday, and how much was invested per month.",
+    schema: noInput,
+    run: (_input, customerId) => exploreService.incomeSummary(customerId),
+  },
+  {
+    name: "safe_to_save",
+    description:
+      "How much the customer can move to savings right now without running short before payday, " +
+      "plus how many months of essentials the balance covers and the gap to a 3-month emergency fund.",
+    schema: noInput,
+    run: (_input, customerId) => coachService.safeToSave(customerId),
   },
   {
     name: "get_baskets",

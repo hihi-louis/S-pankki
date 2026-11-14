@@ -1,5 +1,6 @@
 import { HttpError } from "../../lib/errors.js";
 import { daysBetween, lastNMonths, monthStart, TODAY } from "../../lib/dates.js";
+import { exploreService } from "../explore/explore.service.js";
 import { basketsService } from "../baskets/baskets.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { coachRepository } from "./coach.repository.js";
@@ -36,6 +37,40 @@ export const coachService = {
       safeToSpend: round2(Math.max(0, raw)),
       perDay: round2(Math.max(0, raw) / daysLeft),
       shortfall: raw < 0 ? round2(-raw) : 0,
+    };
+  },
+
+  /**
+   * Số tiền có thể chuyển sang tiết kiệm NGAY mà vẫn đủ tiền đến kỳ lương kế tiếp:
+   * số dư − (thiết yếu + chi bất ngờ + chi hằng ngày thường lệ) cho số ngày còn lại; mỗi khoản = trung bình 6 tháng × ngày còn lại / 30.
+   * Kèm bối cảnh: số tháng chi phí thiết yếu mà số dư trang trải được và khoảng cách tới quỹ dự phòng 3 tháng.
+   */
+  async safeToSave(customerId: string) {
+    const [s, income] = await Promise.all([basketsService.getSummary(customerId), exploreService.incomeSummary(customerId)]);
+    const avg = (id: 1 | 2 | 3) => s.baskets.find((b) => b.id === id)!.avg6m;
+    const daysLeft = Math.max(1, daysBetween(TODAY, s.nextPayday.date));
+    const prorate = (monthly: number) => round2((monthly * daysLeft) / DAYS_PER_MONTH);
+    const expected = { essentials: prorate(avg(1)), unexpected: prorate(avg(2)), everyday: prorate(avg(3)) };
+    const raw = s.balance - expected.essentials - expected.unexpected - expected.everyday;
+    const essentialsMonthly = round2(avg(1) + avg(2));
+    const emergencyTarget = round2(essentialsMonthly * 3);
+    const avgSpending = round2(avg(1) + avg(2) + avg(3));
+    return {
+      balance: s.balance,
+      nextPayday: s.nextPayday,
+      daysLeft,
+      expectedUntilPayday: expected,
+      safeToSave: round2(Math.max(0, raw)),
+      shortfall: raw < 0 ? round2(-raw) : 0,
+      avgMonthlyIncome: income.avgMonthlyIncome,
+      incomeStability: income.stability,
+      avgMonthlySpending: avgSpending,
+      avgMonthlySurplus: round2(income.avgMonthlyIncome - avgSpending),
+      alreadyInvestedPerMonth: income.avgInvestedPerMonth,
+      essentialsMonthly,
+      monthsOfEssentialsCovered: essentialsMonthly > 0 ? Math.round((s.balance / essentialsMonthly) * 10) / 10 : null,
+      emergencyFundTarget: emergencyTarget,
+      emergencyFundGap: round2(Math.max(0, emergencyTarget - s.balance)),
     };
   },
 

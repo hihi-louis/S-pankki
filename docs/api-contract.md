@@ -42,6 +42,7 @@ Response:
 |---|---|---|
 | `amount` | `label, value` | any single number |
 | `safe_to_spend` | `perDay, total, until` | "What can I safely spend this week?" |
+| `safe_to_save` | `amount, until, monthsCovered` | "How much can I save right now?" (money not needed before payday) |
 | `what_if` | `category, monthlySpend, defaultCutPct` | "How much could I save if…" (slider is computed on the frontend) |
 | `benchmark` | `label, you, peers, peerGroup` | you vs. Finns your age (Statistics Finland) |
 

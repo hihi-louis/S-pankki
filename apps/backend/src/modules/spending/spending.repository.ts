@@ -2,8 +2,8 @@ import { sql } from "kysely";
 import { db } from "../../db/kysely.js";
 import type { SpendingQuery } from "./spending.schema.js";
 
-/** Điều kiện lọc chung cho total() và sources(). */
-function filtered(f: SpendingQuery) {
+/** Điều kiện lọc chung cho total(), sources() và các truy vấn khám phá. */
+export function filtered(f: SpendingQuery) {
   let q = db
     .selectFrom("transactions")
     .where("customer_id", "=", f.customerId)

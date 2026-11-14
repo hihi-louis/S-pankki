@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD");
+export const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD");
 
 /** Dùng chung cho route và LLM tool. */
 export const spendingQuerySchema = z.object({

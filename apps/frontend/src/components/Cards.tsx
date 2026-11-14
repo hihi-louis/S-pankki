@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AmountCard, BenchmarkCard, Card, Chart, SafeToSpendCard, WhatIfCard } from "@sbank/shared";
+import type { AmountCard, BenchmarkCard, Card, Chart, SafeToSaveCard, SafeToSpendCard, WhatIfCard } from "@sbank/shared";
 import { eur, eur0, shortDate } from "../lib/format";
 
 /** Picks the right widget for each card the backend sends. */
@@ -9,6 +9,8 @@ export function CardRenderer({ card }: { card: Card }) {
       return <Amount card={card} />;
     case "safe_to_spend":
       return <SafeToSpend card={card} />;
+    case "safe_to_save":
+      return <SafeToSave card={card} />;
     case "what_if":
       return <WhatIf card={card} />;
     case "benchmark":
@@ -37,6 +39,19 @@ function SafeToSpend({ card }: { card: SafeToSpendCard }) {
       </div>
       <div className="card-sub">
         {eur(card.total)} until payday on {shortDate(card.until)}
+      </div>
+    </div>
+  );
+}
+
+function SafeToSave({ card }: { card: SafeToSaveCard }) {
+  return (
+    <div className="card card-accent">
+      <div className="card-label">Safe to save now</div>
+      <div className="card-big">{eur(card.amount)}</div>
+      <div className="card-sub">
+        Not needed before payday on {shortDate(card.until)}
+        {card.monthsCovered !== null && ` · your balance covers ${card.monthsCovered} months of essentials`}
       </div>
     </div>
   );

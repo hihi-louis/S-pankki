@@ -42,6 +42,17 @@ export interface SafeToSpendCard {
   currency: "EUR";
 }
 
+/** "How much can I put aside right now?" — money not needed before payday, plus how many months of essentials the balance covers. */
+export interface SafeToSaveCard {
+  type: "safe_to_save";
+  amount: number;
+  /** Next payday, ISO date. */
+  until: string;
+  /** Balance divided by monthly essentials; null if unknown. */
+  monthsCovered: number | null;
+  currency: "EUR";
+}
+
 /** What-if slider. Frontend recalculates savings locally as the user drags. */
 export interface WhatIfCard {
   type: "what_if";
@@ -61,7 +72,7 @@ export interface BenchmarkCard {
   currency: "EUR";
 }
 
-export type Card = AmountCard | SafeToSpendCard | WhatIfCard | BenchmarkCard;
+export type Card = AmountCard | SafeToSpendCard | SafeToSaveCard | WhatIfCard | BenchmarkCard;
 
 export interface ChatResponse {
   answer: string;
