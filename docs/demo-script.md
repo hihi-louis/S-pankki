@@ -6,7 +6,7 @@ Open http://localhost:5173/ (or the tunnel URL). Log in with a customer ID; the 
 - **Recommendations** carousel: up to 5 cards, each rests 3 seconds and slides on by itself (touch or hover pauses it). Cards come from rules in code: a heads-up if money may run out before payday, **This week: you can safely spend ...**, a pattern (a weekday or category that stands out), an idea ("trim X by 20% could free about ... a year"), good news, and how you compare with people your age. Each button opens the story behind the card.
 - **Know your money**: the current balance and a pie of this month's spending in the three baskets. Tap a basket: its categories with totals first, then the purchases in each category.
 - A **Home loan** strip appears when a loan application is open or was decided recently.
-- **Ask the coach** (bottom right) opens the chat; the avatar (top right) switches customer.
+- **Ask Sipi** (bottom centre) opens the chat; the avatar (top right) switches customer.
 - All text is plain English: "bills and basics", "a normal month", "if rates rise to 6%".
 
 ## 1. The month as a story (CUST04121 has all five cards)

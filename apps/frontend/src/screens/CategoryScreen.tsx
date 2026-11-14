@@ -72,7 +72,7 @@ export function CategoryScreen({ customerId, category, nav }: { customerId: stri
           )}
 
           <button className="cta" onClick={() => nav.ask(`What did I spend on ${data.category.replace("&", "and").toLowerCase()} this month?`)}>
-            Ask the coach about this →
+            Ask Sipi about this →
           </button>
         </>
       )}

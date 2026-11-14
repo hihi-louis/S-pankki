@@ -57,7 +57,7 @@ function Action({ action, customerId, nav }: { action: StoryAction; customerId: 
         </button>
       )}
       {action.link === "forecast" && <button className="cta" onClick={() => nav.open({ name: "forecast" })}>See the forecast</button>}
-      {action.link === "plan" && <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with the coach</button>}
+      {action.link === "plan" && <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with Sipi</button>}
       {state === "done" && <div className="card-sub facts-note">{result}{" "}<button className="link-btn" onClick={() => nav.open({ name: "plans" })}>Open My plans</button></div>}
       {state === "error" && <div className="card-sub facts-error" role="alert">Could not update your plans. Try again.</div>}
     </div>
@@ -94,7 +94,7 @@ export function InsightStoryScreen({ customerId, id, nav }: { customerId: string
               ))}
             </div>
           </section>
-          <button className="chip" onClick={() => nav.ask(story.askAI)}>Ask the coach about this</button>
+          <button className="chip" onClick={() => nav.ask(story.askAI)}>Ask Sipi about this</button>
         </>
       )}
     </main>

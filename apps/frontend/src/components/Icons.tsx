@@ -25,3 +25,12 @@ export const IconChat = () => (
 export const IconBars = () => (
   <svg {...base} width={16} height={16}><path d="M5 18V9M10 18V5M15 18v-7M20 18V8" /></svg>
 );
+
+/** Home: back to the Overview. */
+export const IconHome = () => (
+  <svg {...base} width={22} height={22}><path d="M4 11l8-7 8 7M6 10v9h12v-9M10 19v-5h4v5" /></svg>
+);
+/** Sipi: a big and a small sparkle. */
+export const IconSparkle = () => (
+  <svg {...base} width={22} height={22}><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8L11 3zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" /></svg>
+);

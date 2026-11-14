@@ -74,8 +74,8 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
           )}
 
           <p className="card-sub">{data.note}</p>
-          <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with the coach →</button>
-          <button className="chip" onClick={() => nav.ask("What can I safely spend this week?")}>Ask the coach about this</button>
+          <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with Sipi →</button>
+          <button className="chip" onClick={() => nav.ask("What can I safely spend this week?")}>Ask Sipi about this</button>
         </>
       )}
     </main>

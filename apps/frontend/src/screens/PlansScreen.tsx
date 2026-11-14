@@ -53,7 +53,7 @@ function GoalForm({ initial, onSave, onCancel, busy }: { initial?: Goal; onSave:
   );
 }
 
-/** My plans: every goal and the weekly limit, with edit and delete. The coach only suggests; changes happen here. */
+/** My plans: every goal and the weekly limit, with edit and delete. Sipi only suggests; changes happen here. */
 export function PlansScreen({ customerId, nav }: { customerId: string; nav: Nav }) {
   const [ov, setOv] = useState<PlansOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +87,7 @@ export function PlansScreen({ customerId, nav }: { customerId: string; nav: Nav 
     <main className="home detail screen-enter">
       <button className="back" onClick={nav.back}>← Overview</button>
       <h2 className="detail-title">My plans</h2>
-      <p className="card-sub">The coach only suggests. You decide what to keep. I read your transactions to see how you are doing, and I never move money.</p>
+      <p className="card-sub">Sipi only suggests. You decide what to keep. I read your transactions to see how you are doing, and I never move money.</p>
       {error && <p className="empty" role="alert">{error}</p>}
       {!ov && !error && <div className="skeleton" />}
       {ov && (
@@ -122,7 +122,7 @@ export function PlansScreen({ customerId, nav }: { customerId: string; nav: Nav 
 
           <section className="block">
             <div className="eyebrow">Goals</div>
-            {ov.goals.length === 0 && editing !== "new" && <p className="card-sub">No goals yet. Add one, or ask the coach to make a plan for you.</p>}
+            {ov.goals.length === 0 && editing !== "new" && <p className="card-sub">No goals yet. Add one, or ask Sipi to make a plan for you.</p>}
             {ov.goals.map((g) => (
               <div key={g.id} className="card goal-card">
                 {editing === g.id ? (
@@ -166,7 +166,7 @@ export function PlansScreen({ customerId, nav }: { customerId: string; nav: Nav 
             )}
           </section>
 
-          <button className="cta ghost" onClick={() => nav.ask("Make me a spending plan")}>Ask the coach for a plan</button>
+          <button className="cta ghost" onClick={() => nav.ask("Make me a spending plan")}>Ask Sipi for a plan</button>
         </>
       )}
     </main>

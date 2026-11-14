@@ -3,7 +3,7 @@ import type { CustomerProfile } from "@sbank/shared";
 import { chatStream, getCustomer } from "./api";
 import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
 import { AvatarMenu } from "./components/AvatarMenu";
-import { IconArrowLeft, IconChat } from "./components/Icons";
+import { IconArrowLeft, IconHome, IconSparkle } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { BasketScreen } from "./screens/BasketScreen";
@@ -124,10 +124,13 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
             <button className="back-btn" aria-label="Back to overview" onClick={() => setTab("home")}>
               <IconArrowLeft />
             </button>
-            <span className="header-title">Ask your coach</span>
+            <span className="header-title">Ask Sipi</span>
           </>
         ) : (
-          <span className="brand">S-Pankki</span>
+          <button className="brand" aria-label="Sipi, back to overview" onClick={() => { setScreen({ name: "home" }); setTab("home"); }}>
+            <IconHome />
+            Sipi
+          </button>
         )}
         <AvatarMenu customerId={customerId} onLogout={onLogout} />
       </header>
@@ -156,8 +159,8 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
       )}
       {tab === "home" && (
         <button className="fab" onClick={() => setTab("chat")}>
-          <IconChat />
-          Ask the coach
+          <IconSparkle />
+          Ask Sipi
         </button>
       )}
     </div>
