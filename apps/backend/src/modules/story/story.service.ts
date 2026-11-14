@@ -1,4 +1,4 @@
-import type { CategoryDive, CategoryRow, InsightStory, Snapshot, StoryAction } from "@sbank/shared";
+import type { BasketTransactions, CategoryDive, CategoryRow, InsightStory, Snapshot, StoryAction } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
 import { lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
 import { eur0 } from "../../lib/finance.js";
@@ -9,6 +9,7 @@ import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { exploreExtras, exploreRepository } from "../explore/explore.repository.js";
+import { spendingRepository } from "../spending/spending.repository.js";
 import { exploreService } from "../explore/explore.service.js";
 
 const MONTHS = 6;
@@ -56,7 +57,7 @@ async function trendOf(customerId: string, category: string) {
 /** "MRC-RES-0049" becomes "Fast food & café #49": the real merchant names are not in the data. */
 const shopNo = (merchantId: string) => `#${Number(merchantId.split("-").pop()) || merchantId}`;
 const shopLabel = (mcc: number | null, merchantId: string | null, category: string) =>
-  merchantId ? `${mccLabel(mcc) ?? category} ${shopNo(merchantId)}` : `${category} (rent, bills or other)`;
+  merchantId ? `${mccLabel(mcc) ?? category} ${shopNo(merchantId)}` : `${category} payment`;
 
 export const storyService = {
   /** Tháng ở một cái nhìn: tổng chi so với thường lệ, thu nhập, và các danh mục. */
@@ -104,6 +105,28 @@ export const storyService = {
       merchants: shops.rows.map((s) => ({ label: s.label, spent: s.spent, sharePct: s.sharePct, count: s.count })),
       biggest: biggest.map((b) => ({ date: b.date, amount: Math.abs(b.amount), label: shopLabel(b.mcc, b.merchantId, category) })),
       peers: peer && peers ? { you: peer.you, peers: peer.peers, peerGroup: peers.peerGroup, source: peers.source } : null,
+    };
+  },
+
+  /** The purchases behind one basket this month, newest first (up to 100). */
+  async basketTransactions(customerId: string, basket: 1 | 2 | 3): Promise<BasketTransactions> {
+    await ensureCustomer(customerId);
+    const f = { customerId, from: monthStart(0), to: monthStart(1), basket, category: undefined, mcc: undefined };
+    const LIMIT = 100;
+    const [sum, rows] = await Promise.all([spendingRepository.total(f), spendingRepository.sources(f, LIMIT)]);
+    return {
+      basket,
+      basketName: BASKET_NAMES[basket],
+      month: monthStart(0).slice(0, 7),
+      total: Math.round(sum.total * 100) / 100,
+      count: sum.count,
+      truncated: sum.count > rows.length,
+      items: rows.map((r) => ({
+        date: String(r.date).slice(0, 10),
+        amount: Math.abs(Number(r.amount)),
+        category: r.category,
+        label: shopLabel(r.mcc ? Number(r.mcc) : null, r.merchantId, r.category),
+      })),
     };
   },
 

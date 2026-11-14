@@ -142,3 +142,8 @@ then up to three things that stand out. `target` says what the button opens: the
 ```
 
 `query_spending` results also carry `perDay`, `perWeek` and `averagePerTransaction`, so the assistant can say "about 39 € a ride" without doing its own arithmetic (numbers it makes up are rejected by the number check).
+
+## `GET /basket-transactions?customerId=&basket=1|2|3`
+
+The purchases behind one slice of the Overview pie: this month, newest first, up to 100 (`truncated` is true when there are more).
+`items[]` = `{ date, amount (positive), category, label }`. Merchant names are not in the data, so `label` is "Pharmacy #13" style.

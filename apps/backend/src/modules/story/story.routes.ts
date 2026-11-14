@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { insightsQuerySchema } from "../insights/insights.schema.js";
-import { categoryQuerySchema, snapshotQuerySchema, storyParamsSchema } from "./story.schema.js";
+import { basketTxQuerySchema, categoryQuerySchema, snapshotQuerySchema, storyParamsSchema } from "./story.schema.js";
 import { storyService } from "./story.service.js";
 
 /** Gắn tại gốc: /snapshot, /category, /insights/:id */
@@ -29,6 +29,15 @@ storyRouter.get("/insights/:id", async (req, res, next) => {
     const { customerId } = insightsQuerySchema.parse(req.query);
     const { id } = storyParamsSchema.parse(req.params);
     res.json(await storyService.insightStory(customerId, id));
+  } catch (e) {
+    next(e);
+  }
+});
+
+storyRouter.get("/basket-transactions", async (req, res, next) => {
+  try {
+    const { customerId, basket } = basketTxQuerySchema.parse(req.query);
+    res.json(await storyService.basketTransactions(customerId, basket as 1 | 2 | 3));
   } catch (e) {
     next(e);
   }

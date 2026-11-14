@@ -73,7 +73,7 @@ export function HomeScreen({ customerId, nav }: Props) {
               </div>
             </div>
             <div className="card-sub pie-title">Current monthly spending</div>
-            <BasketPie baskets={data.baskets} />
+            <BasketPie baskets={data.baskets} onPick={(basket) => nav.open({ name: "basket", basket })} />
           </div>
         )}
       </section>

@@ -309,3 +309,15 @@ export interface Persona {
   age: number;
   description: string;
 }
+
+/** The purchases behind one slice of the pie (this month, newest first). */
+export interface BasketTransactions {
+  basket: 1 | 2 | 3;
+  basketName: string;
+  month: string;
+  total: number;
+  count: number;
+  /** true when `items` is shorter than `count` */
+  truncated: boolean;
+  items: { date: string; amount: number; category: string; label: string }[];
+}

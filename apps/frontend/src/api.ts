@@ -1,4 +1,4 @@
-import type { CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
+import type { BasketTransactions, CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
 
 // "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
 // localhost, on a teammate's device and through a tunnel with a single port.
@@ -147,3 +147,6 @@ export const applyPlanCap = (customerId: string, basket: 1 | 2 | 3, reduceBy: nu
 
 export const getRecommendations = (customerId: string) =>
   request<RecommendationsResponse>(`/recommendations?customerId=${encodeURIComponent(customerId)}`);
+
+export const getBasketTransactions = (customerId: string, basket: number) =>
+  request<BasketTransactions>(`/basket-transactions?customerId=${q(customerId)}&basket=${basket}`);

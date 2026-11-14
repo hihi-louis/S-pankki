@@ -482,3 +482,21 @@ html { scroll-behavior: smooth; }
 .pie-amt { grid-column: 2; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
 .pie-amt small { font-weight: 500; color: var(--muted); font-size: 12px; }
 .pie-title { margin-top: 2px; } 
+
+/* Pie: tappable groups, and the purchase list */
+.pie-seg { cursor: pointer; }
+.pie-legend li { display: block; }
+.pie-item { display: grid; grid-template-columns: 10px 1fr 16px; column-gap: 8px; align-items: center; width: 100%; padding: 6px 4px; margin: -6px -4px; border: 0; border-radius: 12px; background: none; text-align: left; font: inherit; color: inherit; transition: background .15s; }
+.pie-item:hover, .pie-item:active { background: var(--green-100); }
+.pie-item svg { grid-row: 1 / span 2; grid-column: 3; width: 14px; height: 14px; color: var(--muted); }
+.pie-item .pie-amt { grid-column: 2; }
+.tx-card { padding: 6px 16px; }
+.tx-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 8px 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; font: inherit; color: inherit; }
+.tx-row:first-child { border-top: 0; }
+.tx-row:active { background: var(--green-100); }
+.tx-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tx-label { font-weight: 600; font-size: 14px; }
+.tx-sub { font-size: 12px; color: var(--muted); }
+.tx-amt { font-weight: 700; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tx-more { padding: 8px 0; }
+.detail { padding-bottom: 96px; }
