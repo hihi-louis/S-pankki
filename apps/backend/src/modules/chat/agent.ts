@@ -117,7 +117,7 @@ export class Collector {
       for (const x of chosen.slice(0, MAX_CARDS)) {
         push({ type: "benchmark", label: `${x.label} per month`, you: x.you, peers: x.peers, peerGroup: r.peerGroup, source: r.source, currency: "EUR" });
       }
-    } else if (name.startsWith("mortgage_") || name === "propose_plan" || name === "plan_progress") {
+    } else if (name.startsWith("mortgage_") || name === "housing_price" || name === "propose_plan" || name === "plan_progress") {
       // Dịch vụ mortgage tự dựng sẵn thẻ và biểu đồ (giá trị đã định dạng từ code)
       if (r.card) push(r.card);
       if (r.chart) this.chart = r.chart;
