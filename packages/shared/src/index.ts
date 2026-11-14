@@ -277,6 +277,8 @@ export interface ForecastResponse {
 /** One card in the Overview carousel ("Recommendations"): a headline in plain English and a button that opens the full story. */
 export interface Recommendation {
   id: string;
+  /** Which kind of card this is (each kind appears at most once). */
+  type: "heads_up" | "week" | "pattern" | "opportunity" | "good" | "peer" | "start";
   /** Small label above the headline, e.g. "This week". */
   eyebrow: string;
   tone: Insight["tone"];

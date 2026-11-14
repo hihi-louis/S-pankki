@@ -1,11 +1,12 @@
 import type { BasketTransactions, CategoryDive, CategoryRow, InsightStory, Snapshot, StoryAction } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
-import { lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
+import { daysBetween, lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
 import { eur0 } from "../../lib/finance.js";
 import { mccLabel } from "../../lib/mcc.js";
 import { basketsService } from "../baskets/baskets.service.js";
 import { benchmarkRepository } from "../benchmark/benchmark.repository.js";
 import { benchmarkService } from "../benchmark/benchmark.service.js";
+import { categoryHistory } from "../insights/usual.js";
 import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { exploreExtras, exploreRepository } from "../explore/explore.repository.js";
@@ -29,18 +30,14 @@ async function ensureCustomer(customerId: string) {
   return c;
 }
 
-/** Chi tiêu từng danh mục: tháng này, trung bình 6 tháng, và giỏ của nó. */
+/** Chi tiêu từng danh mục: tháng này, mức thường lệ (trung vị 3 tháng đầy đủ gần nhất), và giỏ của nó. */
 async function categoryRows(customerId: string): Promise<CategoryRow[]> {
   const months = lastNMonths(MONTHS);
-  const [now, past, baskets] = await Promise.all([
-    benchmarkRepository.spentByCategory(customerId, monthStart(0), monthStart(1)),
-    benchmarkRepository.spentByCategory(customerId, months[0], monthStart(0)),
-    exploreExtras.basketByCategory(customerId, months[0], monthStart(1)),
-  ]);
-  return [...new Set([...now.keys(), ...past.keys()])]
+  const [hist, baskets] = await Promise.all([categoryHistory(customerId), exploreExtras.basketByCategory(customerId, months[0], monthStart(1))]);
+  return [...new Set([...hist.now.keys(), ...hist.usual.keys()])]
     .map((category) => {
-      const n = now.get(category) ?? 0;
-      const usual = (past.get(category) ?? 0) / MONTHS;
+      const n = hist.now.get(category) ?? 0;
+      const usual = hist.usual.get(category) ?? 0;
       return { category, basket: baskets.get(category) ?? 3, now: Math.round(n * 100) / 100, usual: Math.round(usual * 100) / 100, diffPct: pct(n - usual, usual) } satisfies CategoryRow;
     })
     .sort((a, b) => b.now - a.now);
@@ -146,6 +143,9 @@ export const storyService = {
     if (id === "saving-habit") return this.savingStory(customerId);
     if (id.startsWith("peer-")) return this.peerStory(customerId, id.slice(5));
     if (id === "fixed-costs") return this.fixedStory(customerId);
+    if (id.startsWith("trim-")) return this.trimStory(customerId, id.slice(5));
+    if (id.startsWith("weekday-")) return this.weekdayStory(customerId, id.slice(8));
+    if (id === "last-month") return this.lastMonthStory(customerId);
     throw new HttpError(404, `Unknown insight ${id}`);
   },
 
@@ -171,7 +171,7 @@ export const storyService = {
         text: `You spent ${eur0(dive.now)} on ${name} in ${monthName(monthStart(0).slice(0, 7))}. In a normal month it is about ${eur0(dive.usual)}.`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
-          { label: "A normal month (average of the last 6)", value: eur0(dive.usual) },
+          { label: "A normal month (typical of the last 3)", value: eur0(dive.usual) },
           { label: "Difference", value: `${signed(diff)}${dive.diffPct !== null ? ` (${dive.diffPct >= 0 ? "+" : ""}${dive.diffPct}%)` : ""}`, tone: "warn" },
         ],
         chart: { type: "bar", title: `${dive.category} by month (€)`, data: dive.trend },
@@ -224,7 +224,12 @@ export const storyService = {
       },
       why: {
         title: "Why it happened",
-        text: dive.biggest.length ? "The largest purchases this month are below. They show how the month was made up, not why." : "There were very few purchases in this category this month.",
+        text:
+          dive.biggest.length === 0
+            ? "There were very few purchases in this category this month."
+            : dive.biggest[0].amount < Math.max(50, dive.usual * 0.35)
+              ? "No big one-off costs this month. The largest purchases are below."
+              : "The largest purchases this month are below. They show how the month was made up, not why.",
         rows: dive.biggest.slice(0, 3).map((b) => ({ label: `${b.label}, ${shortDate(b.date)}`, value: eur0(b.amount) })),
       },
       means: { title: "What it means", text: `If every month were like this, you would keep about ${eur0(saved * 12)} a year. One light month can also just be timing, so look at the chart before changing habits.` },
@@ -233,15 +238,112 @@ export const storyService = {
     };
   },
 
+  /** "Try it": what a 10, 20 or 30% trim of one flexible category is worth, with buttons that add the limit to the plan. */
+  async trimStory(customerId: string, categoryInput: string): Promise<InsightStory> {
+    const dive = await this.categoryDive(customerId, categoryInput);
+    const name = human(dive.category);
+    const cutOf = (p: number) => Math.round(dive.usual * (p / 100));
+    const actions: StoryAction[] = [10, 20, 30].map((p) => ({
+      id: `trim-${p}`,
+      label: `Spend ${p}% less on ${name}`,
+      detail: `${eur0(cutOf(p))} a month, about ${eur0(cutOf(p) * 12)} a year. Lowers your monthly limit for ${BASKET_NAMES[dive.basket].toLowerCase()} and adds it to what you save.`,
+      savingPerMonth: cutOf(p),
+      apply: { basket: dive.basket, reduceBy: cutOf(p) },
+    }));
+    return {
+      id: `trim-${dive.category}`,
+      tone: "info",
+      title: `Trimming ${name} by 20% could free about ${eur0(cutOf(20) * 12)} a year`,
+      happened: {
+        title: "What happened",
+        text: `${dive.category} is your biggest flexible cost. In a normal month you spend about ${eur0(dive.usual)} on it.`,
+        rows: [
+          { label: "A normal month", value: eur0(dive.usual) },
+          { label: "This month", value: eur0(dive.now) },
+        ],
+        chart: { type: "bar", title: `${dive.category} by month (€)`, data: dive.trend },
+      },
+      why: {
+        title: "Why this one",
+        text: "It is the largest spending you can change without touching bills or health costs. These are the places the money goes.",
+        rows: dive.merchants.slice(0, 3).map((m) => ({ label: m.label, value: `${eur0(m.spent)} (${m.sharePct}%)` })),
+      },
+      means: {
+        title: "What it means",
+        text: `Spending 20% less is ${eur0(cutOf(20))} a month, or about ${eur0(cutOf(20) * 12)} a year. It is a small change, not a promise: your own months will vary.`,
+        rows: [10, 20, 30].map((p) => ({ label: `${p}% less`, value: `${eur0(cutOf(p))} a month` })),
+      },
+      next: { text: "Pick a limit and I will add it to your plan.", actions },
+      askAI: `What if I cut ${name} by 20%?`,
+    };
+  },
+
+  /** "Show me why" for a weekday pattern: spending by day of the week in everyday spending, last 3 full months. */
+  async weekdayStory(customerId: string, day: string): Promise<InsightStory> {
+    const r = await exploreService.breakdown({ customerId, from: lastNMonths(3)[0], to: monthStart(0), groupBy: "weekday", basket: 3, category: undefined, mcc: undefined, limit: 7 });
+    const row = r.rows.find((x) => x.key.toLowerCase() === day.toLowerCase());
+    if (!row) throw new HttpError(404, `No spending on ${day}`);
+    const perMonth = row.spent / 3;
+    const cut = Math.round(perMonth * 0.2);
+    const each = row.count > 0 ? row.spent / row.count : 0;
+    const actions: StoryAction[] = cut >= 5 ? [{ id: "trim-weekday", label: `Spend 20% less on ${row.key}s`, detail: `About ${eur0(cut)} a month. Lowers your everyday spending limit and adds it to what you save.`, savingPerMonth: cut, apply: { basket: 3, reduceBy: cut } }] : [];
+    return {
+      id: `weekday-${row.key}`,
+      tone: "tip",
+      title: `${row.key}s cost you the most: ${Math.round(row.sharePct)}% of everyday spending`,
+      happened: {
+        title: "What happened",
+        text: `Over the last 3 months, ${eur0(row.spent)} of your ${eur0(r.total)} everyday spending (restaurants, fun, shopping, taxis) happened on ${row.key}s.`,
+        rows: r.rows.map((x) => ({ label: x.key, value: `${eur0(x.spent)} (${Math.round(x.sharePct)}%)`, tone: x.key === row.key ? ("warn" as const) : undefined })),
+        chart: { type: "bar", title: "Everyday spending by day, last 3 months (€)", data: r.rows.map((x) => ({ label: x.key.slice(0, 3), value: x.spent })) },
+      },
+      why: {
+        title: "Why it happened",
+        text: `You made ${row.count} purchases on ${row.key}s, about ${eur0(each)} each. The data shows when you spend, not why: plans with friends or payday habits are common reasons.`,
+      },
+      means: {
+        title: "What it means",
+        text: `${row.key}s are about ${eur0(perMonth)} of your month. A day with a plan (a limit or a free ${row.key}) is easier than watching every purchase.`,
+        rows: cut >= 5 ? [{ label: `Spending 20% less on ${row.key}s`, value: `${eur0(cut)} a month`, tone: "good" }] : undefined,
+      },
+      next: { text: cut >= 5 ? "Try a small limit for that day." : "Nothing to change right now: watch how it looks next month.", actions },
+      askAI: `Where do I spend money on ${row.key}s?`,
+    };
+  },
+
+  /** For customers with under 3 full months of history: where last month's money went, without inventing a "usual". */
+  async lastMonthStory(customerId: string): Promise<InsightStory> {
+    const from = lastNMonths(1)[0];
+    const by = await benchmarkRepository.spentByCategory(customerId, from, monthStart(0));
+    const rows = [...by.entries()].sort((a, b) => b[1] - a[1]);
+    const total = rows.reduce((s, [, v]) => s + v, 0);
+    return {
+      id: "last-month",
+      tone: "info",
+      title: `You spent ${eur0(total)} last month`,
+      happened: {
+        title: "What happened",
+        text: `Here is where your money went in ${monthName(from.slice(0, 7))}.`,
+        rows: rows.slice(0, 6).map(([c, v]) => ({ label: c, value: `${eur0(v)} (${total > 0 ? Math.round((v / total) * 100) : 0}%)` })),
+      },
+      why: { title: "Why it happened", text: "The list shows where the money went, not why." },
+      means: { title: "What it means", text: "There are not three full months of history yet, so I cannot say what is normal for you. Come back next month for comparisons." },
+      next: { text: "Ask me anything about your spending.", actions: [] },
+      askAI: "Where did my money go last month?",
+    };
+  },
+
   async runwayStory(customerId: string, id: string): Promise<InsightStory> {
-    const [safe, rec, summary] = await Promise.all([coachService.safeToSpend(customerId), exploreService.recurring(customerId), basketsService.getSummary(customerId)]);
+    const [safe, rec, summary, fc] = await Promise.all([coachService.safeToSpend(customerId), exploreService.recurring(customerId), basketsService.getSummary(customerId), coachService.forecast(customerId)]);
     const short = safe.shortfall > 0;
+    // Not short on bills alone, but the usual pace would still empty the account before payday
+    const paceDays = !short && fc.runsOutOn ? daysBetween(fc.runsOutOn, safe.nextPayday.date) : 0;
     const usualPerDay = ((summary.baskets.find((b) => b.id === 2)?.avg6m ?? 0) + (summary.baskets.find((b) => b.id === 3)?.avg6m ?? 0)) / 30;
     const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
     return {
       id,
-      tone: short ? "alert" : "info",
-      title: short ? "You may run short before payday" : `You can spend about ${eur0(safe.perDay)} a day`,
+      tone: short || paceDays > 0 ? "alert" : "info",
+      title: short ? "You may run short before payday" : paceDays > 0 ? `Your money may run out ${paceDays} day${paceDays === 1 ? "" : "s"} before payday` : `You can spend about ${eur0(safe.perDay)} a day`,
       happened: {
         title: "What happened",
         text: `You have ${eur0(safe.balance)} and payday is ${shortDate(safe.nextPayday.date)}, ${safe.daysLeft} days away.${guess}`,
@@ -260,7 +362,9 @@ export const storyService = {
         title: "What it means",
         text: short
           ? `After your bills and basics you could be ${eur0(safe.shortfall)} short, so extras should wait until payday.`
-          : `You can spend about ${eur0(safe.perDay)} a day. Most days you spend about ${eur0(usualPerDay)} on extras and surprises.`,
+          : paceDays > 0
+            ? `At your usual pace the balance could reach zero around ${shortDate(fc.runsOutOn!)}. Staying under ${eur0(safe.perDay)} a day keeps you above zero until payday.`
+            : `You can spend about ${eur0(safe.perDay)} a day. Most days you spend about ${eur0(usualPerDay)} on extras and surprises.`,
         rows: [
           { label: "Safe to spend until payday", value: eur0(safe.safeToSpend), tone: short ? "warn" : "good" },
           { label: "What you usually spend a day on extras", value: eur0(usualPerDay), tone: usualPerDay > safe.perDay ? "warn" : undefined },

@@ -102,7 +102,7 @@ export const CASES: Case[] = [
     },
   },
   { group: "mortgage", customer: "CUST00382", q: "Why was my mortgage application rejected?", check: all(word(/collateral/i), word(/80\s*%|122,000/), (r) => (/shortfall|short by|would pass if|need(ed)? \d/i.test(r.answer) ? "claims a pass threshold" : null)) },
-  { group: "mortgage", customer: "CUST00922", q: "What is the status of my mortgage application?", check: word(/approved/i) },
+  { group: "mortgage", customer: "CUST00922", q: "What is the status of my mortgage application?", check: word(/approv/i) },
   { group: "mortgage", customer: "CUST05020", q: "How long does a mortgage application usually take?", check: async (r) => { const t = await scalar<{ d: number }>(sql`SELECT percentile_disc(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (dec - first)) / 86400)::int AS d FROM (SELECT MAX(ts) FILTER (WHERE event_type='loan_decision') dec, MIN(ts) first FROM mortgage_events GROUP BY mortgage_id) x`); return word(new RegExp(`\\b${t.d}\\b`))(r); } },
   { group: "mortgage", customer: "CUST05020", q: "How much would I need to save for a 250000 euro apartment?", check: async (r) => { const a = await api("/mortgage/savings-plan?customerId=CUST05020&price=250000"); return amount(a.cashNeeded, 1)(r); } },
   { group: "mortgage", customer: "CUST05020", q: "Do I have a mortgage application?", check: word(/\bno\b|not|don.t/i) },

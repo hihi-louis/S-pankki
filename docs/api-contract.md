@@ -127,17 +127,29 @@ The Overview tells the month as: snapshot, what stands out, what is coming, your
 
 `why` lists the biggest items (shops, purchases): they show what the money went to, not the customer's reason.
 `StoryAction.apply` is only ever run by the customer's tap on "Apply to my plan"; `link` opens another screen.
-Insight ids are `spike-<Category>`, `drop-<Category>`, `runway-ok|runway-short`, `income-variable`, `saving-habit`, `peer-<key>`, `fixed-costs`.
+Insight ids are `trim-<Category>`, `weekday-<Day>`, `last-month`, `spike-<Category>`, `drop-<Category>`, `runway-ok|runway-short`, `income-variable`, `saving-habit`, `peer-<key>`, `fixed-costs`.
 
 ## `GET /recommendations?customerId=`
 
-The cards of the Overview carousel, in plain English: the first is "this week" (safe to spend, or a heads-up when money may run short),
-then up to three things that stand out. `target` says what the button opens: the forecast or an insight story.
+The cards of the Overview carousel, in plain English, at most 5, at most one per `type`, most urgent first, then by money impact:
+
+| type | when | button | opens |
+|---|---|---|---|
+| `heads_up` | the balance may reach zero before payday (replaces `week` if the bills alone do not fit) | Make a plan | story `runway-short` |
+| `week` | always (unless `heads_up` replaced it) | See how I worked this out | the forecast |
+| `pattern` | a weekday is 25%+ of everyday spending, or a category is clearly above usual | Show me why | story `weekday-<Day>` or `spike-<Category>` |
+| `opportunity` | the biggest flexible category (everyday spending), a 20% trim | Try it | story `trim-<Category>` (10/20/30% buttons) |
+| `good` | a category clearly below usual, else a steady saving habit | Show me why | story `drop-<Category>` or `saving-habit` |
+| `peer` | a big difference to people the same age (only if there is room) | Show me why | story `peer-<key>` |
+| `start` | under 3 full months of history: only "where last month went", no "usual" | Show me where it went | story `last-month` |
+
+"Usual" is the median of the last 3 full months for that category. A change counts only if it is over 25% and over €30.
+Rules live in `insights/recommendations.ts` (pure function with unit tests). Wording stays neutral ("a lighter month").
 
 ```json
 { "asOf": "2026-09-30", "items": [
-  { "id": "this-week", "eyebrow": "This week", "tone": "info", "headline": "You can safely spend 299 €",
-    "body": "That is about 43 € a day after your bills and basics, until payday on 15 Oct.",
+  { "id": "this-week-safe", "type": "week", "eyebrow": "This week", "tone": "info", "headline": "You can safely spend €2,659",
+    "body": "That is about €380 a day after your bills and basics, until payday on 14 Oct.",
     "cta": "See how I worked this out", "target": { "kind": "forecast" } } ] }
 ```
 

@@ -1,13 +1,15 @@
 import type { Insight, InsightsResponse, Recommendation, RecommendationsResponse } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
-import { lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
+import { daysBetween, lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
 import { benchmarkRepository } from "../benchmark/benchmark.repository.js";
 import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
+import { exploreExtras } from "../explore/explore.repository.js";
 import { exploreService } from "../explore/explore.service.js";
+import { pickRecommendations } from "./recommendations.js";
+import { categoryHistory, isStandout } from "./usual.js";
 
-const MONTHS = 6;
 const MAX_INSIGHTS = 4;
 const FIXED = new Set(["Housing", "Utilities"]); // khoản cố định, không coi là "tăng bất thường"
 
@@ -30,41 +32,42 @@ const EYEBROW: Record<string, string> = {
 
 export const insightsService = {
   /**
-   * Thẻ trong carousel "Recommendations" của màn Overview: thẻ đầu là "tuần này tôi tiêu được bao nhiêu",
-   * sau đó tối đa 3 nhận xét nổi bật nhất. Chữ viết bằng tiếng Anh đơn giản; con số đều từ code.
+   * Thẻ trong carousel "Recommendations" của màn Overview. Quy tắc chọn thẻ nằm ở recommendations.ts (hàm thuần, có test);
+   * ở đây chỉ gom dữ liệu. Chữ viết bằng tiếng Anh đơn giản; con số đều từ code.
    */
   async recommendations(customerId: string): Promise<RecommendationsResponse> {
-    const [safe, all] = await Promise.all([coachService.safeToSpend(customerId), this.forCustomer(customerId)]);
-    const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
-    const week = Math.min(safe.safeToSpend, safe.perDay * 7);
-    const first: Recommendation =
-      safe.shortfall > 0
-        ? {
-            id: "this-week",
-            eyebrow: "Heads up",
-            tone: "alert",
-            headline: "You may run short before payday",
-            body: `Your bills and basics until ${shortDate(safe.nextPayday.date)} come to about ${eur(safe.reservedEssentials)}, so you could be ${eur(safe.shortfall)} short. Hold off on extras if you can.${guess}`,
-            cta: "See how I worked this out",
-            target: { kind: "forecast" },
-          }
-        : {
-            id: "this-week",
-            eyebrow: "This week",
-            tone: "info",
-            headline: `You can safely spend ${eur(week)}`,
-            body: `That is about ${eur(safe.perDay)} a day after your bills and basics, until payday on ${shortDate(safe.nextPayday.date)}.${guess}`,
-            cta: "See how I worked this out",
-            target: { kind: "forecast" },
-          };
-    const rest: Recommendation[] = all.insights
-      .filter((i) => !i.id.startsWith("runway"))
-      .slice(0, 3)
-      .map((i) => {
-        const kind = i.id.startsWith("spike") ? "spike" : i.id.startsWith("drop") ? "drop" : i.id.startsWith("peer") ? "peer" : i.id;
-        return { id: i.id, eyebrow: EYEBROW[kind] ?? "For you", tone: i.tone, headline: i.title, body: i.body, cta: "Show me why", target: { kind: "insight" as const, id: i.id } };
-      });
-    return { asOf: TODAY, items: [first, ...rest] };
+    const lastFull = lastNMonths(1)[0];
+    const [safe, forecast, hist, baskets, income, all, prev, weekday] = await Promise.all([
+      coachService.safeToSpend(customerId),
+      coachService.forecast(customerId),
+      categoryHistory(customerId),
+      exploreExtras.basketByCategory(customerId, lastNMonths(6)[0], monthStart(1)),
+      exploreService.incomeSummary(customerId),
+      this.forCustomer(customerId),
+      benchmarkRepository.spentByCategory(customerId, lastFull, monthStart(0)),
+      exploreService.breakdown({ customerId, from: lastNMonths(3)[0], to: monthStart(0), groupBy: "weekday", basket: 3, category: undefined, mcc: undefined, limit: 7 }),
+    ]);
+    const topDay = [...weekday.rows].sort((a, b) => b.spent - a.spent)[0];
+    const prevTop = [...prev.entries()].sort((a, b) => b[1] - a[1])[0];
+    const peer = all.insights.find((i) => i.id.startsWith("peer-"));
+    const items = pickRecommendations({
+      safe,
+      runsOutOn: forecast.runsOutOn,
+      daysShort: forecast.runsOutOn ? daysBetween(forecast.runsOutOn, safe.nextPayday.date) : 0,
+      shortDate,
+      categories: [...new Set([...hist.now.keys(), ...hist.usual.keys()])].map((category) => ({
+        category,
+        now: hist.now.get(category) ?? 0,
+        usual: hist.usual.get(category) ?? 0,
+        flexible: (baskets.get(category) ?? 3) === 3,
+      })),
+      monthsWithData: hist.monthsWithData,
+      weekday: topDay ? { name: topDay.key, spent: topDay.spent, sharePct: topDay.sharePct, total: weekday.total } : null,
+      invested: income.avgInvestedPerMonth,
+      peer: peer ? { id: peer.id, headline: peer.title, body: peer.body } : null,
+      lastMonth: { total: [...prev.values()].reduce((a, v) => a + v, 0), topCategory: prevTop?.[0] ?? null, topAmount: prevTop?.[1] ?? 0 },
+    });
+    return { asOf: TODAY, items };
   },
 
   /** Vài nhận xét chủ động, tính hoàn toàn từ dữ liệu (không dùng LLM): nhanh và không thể bịa số. */
@@ -72,10 +75,8 @@ export const insightsService = {
     const customer = await customersRepository.findWithStats(customerId);
     if (!customer) throw new HttpError(404, `Customer ${customerId} not found`);
 
-    const months = lastNMonths(MONTHS);
-    const [now, past, safe, recurring, income, peers] = await Promise.all([
-      benchmarkRepository.spentByCategory(customerId, monthStart(0), monthStart(1)),
-      benchmarkRepository.spentByCategory(customerId, months[0], monthStart(0)),
+        const [hist, safe, recurring, income, peers] = await Promise.all([
+      categoryHistory(customerId),
       coachService.safeToSpend(customerId),
       exploreService.recurring(customerId),
       exploreService.incomeSummary(customerId),
@@ -85,12 +86,12 @@ export const insightsService = {
     const out: Candidate[] = [];
 
     // 1. Danh mục tăng/giảm mạnh so với mức thường lệ của chính khách
-    const diffs = [...new Set([...now.keys(), ...past.keys()])]
+    const diffs = [...new Set([...hist.now.keys(), ...hist.usual.keys()])]
       .filter((c) => !FIXED.has(c))
-      .map((c) => ({ category: c, now: now.get(c) ?? 0, usual: (past.get(c) ?? 0) / MONTHS }));
+      .map((c) => ({ category: c, now: hist.now.get(c) ?? 0, usual: hist.usual.get(c) ?? 0 }));
 
     diffs
-      .filter((d) => d.now - d.usual >= 100 && d.now >= 1.5 * d.usual)
+      .filter((d) => d.now > d.usual && isStandout(d.now - d.usual, d.usual) && (d.usual >= 10 || d.now >= 50))
       .sort((a, b) => b.now - b.usual - (a.now - a.usual))
       .slice(0, 2)
       .forEach((d) => {
@@ -109,7 +110,7 @@ export const insightsService = {
       });
 
     const drop = diffs
-      .filter((d) => d.usual - d.now >= 100 && d.now <= 0.6 * d.usual)
+      .filter((d) => d.usual > d.now && isStandout(d.usual - d.now, d.usual))
       .sort((a, b) => b.usual - b.now - (a.usual - a.now))[0];
     if (drop) {
       out.push({
