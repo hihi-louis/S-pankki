@@ -448,3 +448,21 @@ body { font-size: 14px; line-height: 1.4; }
 .rec { box-shadow: 0 14px 18px -12px rgba(0, 70, 40, .35); }
 .rec-alert { box-shadow: 0 14px 18px -12px rgba(183, 0, 0, .35); }
 .rec-tip { box-shadow: 0 14px 18px -12px rgba(136, 86, 0, .35); }
+
+/* Polish: calmer motion, clearer focus of attention */
+.carousel-track { overscroll-behavior-x: contain; touch-action: pan-x pan-y; will-change: scroll-position; }
+.rec { transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); opacity: .78; transform: scale(.975); }
+.rec.is-active { opacity: 1; transform: none; }
+.rec-cta:active { opacity: .7; }
+.rec-cta { transition: opacity .15s; }
+.carousel-count { font-variant-numeric: tabular-nums; }
+.card-big, .snap-num, .cat-amt, .glance-pay-date { font-variant-numeric: tabular-nums; }
+.cat-name { display: flex; flex-direction: column; gap: 5px; }
+.cat-bar { display: block; height: 4px; border-radius: 4px; background: color-mix(in srgb, var(--green-700) 35%, white); width: var(--w, 0); transform-origin: left; animation: grow .7s var(--d, .3s) cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.cat-row:hover { background: var(--green-100); }
+.skeleton-money { display: flex; flex-direction: column; gap: 12px; }
+.sk-line { height: 14px; width: 55%; border-radius: 8px; }
+.sk-wide { width: 80%; }
+.sk-big { height: 34px; width: 45%; border-radius: 10px; }
+html { scroll-behavior: smooth; }

@@ -5,6 +5,13 @@ import { getRecommendations, getSnapshot, getSummary } from "../api";
 import { RecommendationCarousel } from "../components/RecommendationCarousel";
 import { diffLabel, eur, eur0, monthName, shortDate } from "../lib/format";
 import type { Nav } from "../lib/nav";
+import { useCountUp } from "../lib/useCountUp";
+
+/** A euro amount that counts up to its value. */
+function Count({ value, whole = false }: { value: number; whole?: boolean }) {
+  const v = useCountUp(value);
+  return <>{whole ? eur0(v) : eur(v)}</>;
+}
 
 interface Props {
   customerId: string;
@@ -56,14 +63,17 @@ export function HomeScreen({ customerId, nav }: Props) {
         <div className="eyebrow">Your money</div>
         <h2 className="h-display">{month} at a glance</h2>
         {!data && !snapshot ? (
-          <div className="skeleton" />
+          <div className="card skeleton-money" aria-busy="true">
+            <div className="skeleton sk-line sk-wide" /><div className="skeleton sk-big" />
+            <div className="skeleton sk-line" /><div className="skeleton sk-line sk-wide" /><div className="skeleton sk-line" />
+          </div>
         ) : (
           <div className="card">
             {data && (
               <div className="glance-balance">
                 <div>
                   <div className="card-sub">Balance on {shortDate(data.asOf ?? data.nextPayday.date)}</div>
-                  <div className="card-big">{eur(data.balance)}</div>
+                  <div className="card-big"><Count value={data.balance} /></div>
                 </div>
                 <div className="glance-pay">
                   <div className="card-sub">Next pay{data.nextPayday.estimated ? " (guess)" : ""}</div>
@@ -75,9 +85,9 @@ export function HomeScreen({ customerId, nav }: Props) {
             {snapshot && (
               <>
                 <div className="snap-tiles">
-                  <div><div className="card-sub">Spent</div><div className="snap-num">{eur0(snapshot.spent)}</div></div>
-                  <div><div className="card-sub">Usual</div><div className="snap-num">{eur0(snapshot.usualSpent)}</div></div>
-                  <div><div className="card-sub">Came in</div><div className="snap-num">{eur0(snapshot.income)}</div></div>
+                  <div><div className="card-sub">Spent</div><div className="snap-num"><Count whole value={snapshot.spent} /></div></div>
+                  <div><div className="card-sub">Usual</div><div className="snap-num"><Count whole value={snapshot.usualSpent} /></div></div>
+                  <div><div className="card-sub">Came in</div><div className="snap-num"><Count whole value={snapshot.income} /></div></div>
                 </div>
                 {snapshot.vsUsualPct !== null && (
                   <div className={`snap-line ${snapshot.vsUsualPct >= 0 ? "up" : "down"}`}>
@@ -87,14 +97,18 @@ export function HomeScreen({ customerId, nav }: Props) {
                 <div className="card-sub">{snapshot.net >= 0 ? `${eur0(snapshot.net)} left after spending.` : `You spent ${eur0(-snapshot.net)} more than came in.`}</div>
                 <div className="cat-hint">Tap a category to see why</div>
                 <div className="cat-list">
-                  {snapshot.categories.filter((c) => c.now > 0).slice(0, 6).map((c) => (
-                    <button key={c.category} className="cat-row" onClick={() => nav.open({ name: "category", category: c.category })}>
+                  {(() => {
+                    const rows = snapshot.categories.filter((c) => c.now > 0).slice(0, 6);
+                    const top = Math.max(...rows.map((c) => c.now), 1);
+                    return rows.map((c, i) => (
+                    <button key={c.category} className="cat-row" style={{ "--w": `${Math.max(4, (c.now / top) * 100)}%`, "--d": `${300 + i * 70}ms` } as CSSProperties} onClick={() => nav.open({ name: "category", category: c.category })}>
                       <span className={`dot c${c.basket - 1}`} aria-hidden="true" />
-                      <span className="cat-name">{c.category}</span>
+                      <span className="cat-name">{c.category}<span className="cat-bar" aria-hidden="true" /></span>
                       <span className="cat-amt">{eur0(c.now)}</span>
                       <span className={`cat-diff ${c.diffPct !== null && c.diffPct > 25 ? "up" : c.diffPct !== null && c.diffPct < -25 ? "down" : ""}`}>{diffLabel(c.diffPct)}</span>
                     </button>
-                  ))}
+                    ));
+                  })()}
                 </div>
               </>
             )}

@@ -106,7 +106,7 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
       <div className="carousel-count" aria-live="polite">{index + 1} / {items.length}</div>
       <div className="carousel-track" ref={track}>
         {items.map((r, i) => (
-          <article key={r.id} className={`rec rec-${r.tone}`} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`}>
+          <article key={r.id} className={`rec rec-${r.tone}${i === index ? " is-active" : ""}`} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`}>
             <div className="rec-eyebrow"><IconBars />{r.eyebrow}</div>
             <h3 className="rec-headline">{r.headline}</h3>
             <p className="rec-body">{r.body}</p>
