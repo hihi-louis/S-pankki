@@ -33,7 +33,45 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     };
   }, [items.length]);
 
+  // Auto-play: move right one card at a time, then back left (ping-pong).
+  // Pauses while the person touches or hovers, and for a while after they pick a card themselves.
+  const dir = useRef(1);
+  const paused = useRef(false);
+  const idx = useRef(0);
+  const resumeAt = useRef(0);
+  idx.current = index;
+
+  useEffect(() => {
+    if (items.length < 2 || reduced()) return;
+    const el = track.current;
+    if (!el) return;
+    const timer = window.setInterval(() => {
+      if (paused.current || document.hidden || Date.now() < resumeAt.current) return;
+      let next = idx.current + dir.current;
+      if (next >= items.length - 1) dir.current = -1;
+      if (next <= 0) dir.current = 1;
+      next = Math.max(0, Math.min(items.length - 1, next));
+      el.scrollTo({ left: next * step(el), behavior: "smooth" });
+    }, 4500);
+    const hold = () => { paused.current = true; };
+    const release = () => { paused.current = false; resumeAt.current = Date.now() + 6000; };
+    el.addEventListener("pointerdown", hold);
+    el.addEventListener("pointerup", release);
+    el.addEventListener("pointercancel", release);
+    el.addEventListener("mouseenter", hold);
+    el.addEventListener("mouseleave", release);
+    return () => {
+      window.clearInterval(timer);
+      el.removeEventListener("pointerdown", hold);
+      el.removeEventListener("pointerup", release);
+      el.removeEventListener("pointercancel", release);
+      el.removeEventListener("mouseenter", hold);
+      el.removeEventListener("mouseleave", release);
+    };
+  }, [items.length]);
+
   function goTo(i: number) {
+    resumeAt.current = Date.now() + 6000;
     const el = track.current;
     if (!el) return;
     const next = Math.max(0, Math.min(items.length - 1, i));
