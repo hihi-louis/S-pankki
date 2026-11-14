@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { SummaryResponse } from "@sbank/shared";
-import { getSummary } from "../api";
+import type { Insight, SummaryResponse } from "@sbank/shared";
+import { getInsights, getSummary } from "../api";
 import { BASKET_EMOJI, BASKET_HINT, eur, eur0, monthName, shortDate } from "../lib/format";
 
 interface Props {
@@ -10,12 +10,17 @@ interface Props {
 
 export function HomeScreen({ customerId, onAsk }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
+  const [insights, setInsights] = useState<Insight[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSummary(customerId)
       .then(setData)
       .catch((e: Error) => setError(e.message));
+    // Insights are a bonus: if they fail the Overview still works
+    getInsights(customerId)
+      .then((r) => setInsights(r.insights))
+      .catch(() => setInsights([]));
   }, [customerId]);
 
   if (error) return <main className="home"><p className="empty">Couldn't load: {error}</p></main>;
@@ -37,6 +42,19 @@ export function HomeScreen({ customerId, onAsk }: Props) {
           What can I safely spend? →
         </button>
       </section>
+
+      {insights.length > 0 && (
+        <>
+          <h2 className="section-title">For you</h2>
+          {insights.map((i) => (
+            <button key={i.id} className={`insight ${i.tone}`} onClick={() => onAsk(i.ask)}>
+              <span className="insight-title">{i.title}</span>
+              <span className="insight-body">{i.body}</span>
+              <span className="insight-ask">Ask about it →</span>
+            </button>
+          ))}
+        </>
+      )}
 
       <h2 className="section-title">Where your money went in {month}</h2>
 

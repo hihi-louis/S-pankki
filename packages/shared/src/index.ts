@@ -105,6 +105,22 @@ export interface SummaryResponse {
   baskets: Basket[];
 }
 
+/** A proactive observation the app shows on the Overview, before the customer asks anything. */
+export interface Insight {
+  id: string;
+  /** alert = needs attention, tip = something to consider, good = positive, info = neutral. */
+  tone: "alert" | "tip" | "good" | "info";
+  title: string;
+  body: string;
+  /** Question sent to the chat when the customer taps the insight. */
+  ask: string;
+}
+
+export interface InsightsResponse {
+  asOf: string;
+  insights: Insight[];
+}
+
 export interface Persona {
   customerId: string;
   name: string;

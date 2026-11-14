@@ -1,4 +1,4 @@
-import type { ChatRequest, ChatResponse, Persona, SummaryResponse } from "@sbank/shared";
+import type { ChatRequest, ChatResponse, InsightsResponse, Persona, SummaryResponse } from "@sbank/shared";
 
 const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 
@@ -43,3 +43,6 @@ export const chat = (req: ChatRequest) =>
 
 export const getSummary = (customerId: string) =>
   request<SummaryResponse>(`/summary?customerId=${encodeURIComponent(customerId)}`);
+
+export const getInsights = (customerId: string) =>
+  request<InsightsResponse>(`/insights?customerId=${encodeURIComponent(customerId)}`);

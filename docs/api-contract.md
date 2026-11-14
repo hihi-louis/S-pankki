@@ -68,3 +68,20 @@ Response:
 `[{ customerId, name, age, description }]`. Demo customers: `CUST05020` (21), `CUST05014` (23), `CUST04121` (18).
 
 Note: CUST05020 has no taxi rides. For the taxi demo question, pick a customer with MCC 4121 transactions in Aug 2026.
+
+## `GET /insights?customerId=`
+
+Proactive observations for the Overview (computed from the data, no LLM): a spike or drop vs. the 6-month average,
+safe-to-spend or a shortfall warning, fixed costs, income stability, savings habit, and a peer comparison.
+Up to 4, most important first. Tapping one sends `ask` to `/chat`.
+
+```json
+{
+  "asOf": "2026-09-30",
+  "insights": [
+    { "id": "spike-restaurants", "tone": "alert", "title": "Restaurants is 738 € above usual",
+      "body": "You spent 750 € on restaurants this month. A typical month is 12 €.",
+      "ask": "What did I spend on restaurants this month?" }
+  ]
+}
+```

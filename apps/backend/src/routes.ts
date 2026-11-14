@@ -5,6 +5,7 @@ import { chatRouter } from "./modules/chat/chat.routes.js";
 import { coachRouter } from "./modules/coach/coach.routes.js";
 import { customersRouter, personasRouter } from "./modules/customers/customers.routes.js";
 import { exploreRouter } from "./modules/explore/explore.routes.js";
+import { insightsRouter } from "./modules/insights/insights.routes.js";
 import { spendingRouter } from "./modules/spending/spending.routes.js";
 
 export const router = Router();
@@ -20,4 +21,5 @@ router.use("/summary", basketsRouter);
 router.use("/coach", coachRouter);
 router.use("/explore", exploreRouter);
 router.use("/benchmark", benchmarkRouter);
+router.use("/insights", insightsRouter);
 router.use("/chat", chatRouter);

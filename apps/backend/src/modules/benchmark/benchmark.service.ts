@@ -88,7 +88,8 @@ export const benchmarkService = {
       age,
       peerGroup: `Finns aged ${groupLabel(ag)}`,
       period: "average per month over the last 6 months",
-      source: `${hbs.source}, ${hbs.year}`,
+      source: `Statistics Finland, ${hbs.year}`,
+      sourceDetail: `${hbs.source}; ${hbs.table}; ${hbs.unit}`,
       note:
         "Peer figures are per consumption unit (a single adult counts as 1), 2022 prices, and exclude imputed rent. " +
         "Only categories that match clearly are compared.",
