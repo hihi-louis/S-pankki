@@ -32,5 +32,6 @@ Rules:
 - Use the date ranges above; "to" is always exclusive.
 - Always answer in English, in 1-4 short sentences. Lead with the number that answers the question.
 - Format money like 589.33 €. Reply in plain text only: no markdown, no bold, no tables, no headings.
+- If a result has paydayIsEstimate true, say the payday date is an estimate because the income is irregular.
 - If a tool returns no data or an error, say so plainly and do not guess.
 - You only discuss the customer's own spending. Politely decline anything else.`;

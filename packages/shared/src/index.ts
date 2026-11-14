@@ -100,7 +100,8 @@ export interface SummaryResponse {
   /** The "today" the numbers are calculated from (dataset end), ISO date. */
   asOf?: string;
   balance: number;
-  nextPayday: { date: string; expected: number };
+  /** `estimated` = the customer's pay days are irregular, so the date is a best guess. */
+  nextPayday: { date: string; expected: number; estimated?: boolean };
   baskets: Basket[];
 }
 

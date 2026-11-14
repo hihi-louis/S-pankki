@@ -27,7 +27,9 @@ export interface CustomerStats {
   current_balance: Numeric | null;
   customer_id: string;
   last_tx_date: string | null;
+  payday_days: Generated<number[]>;
   payday_dom: number | null;
+  payday_estimated: Generated<boolean>;
 }
 
 export interface MonthlySpend {

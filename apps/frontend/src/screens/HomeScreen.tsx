@@ -31,6 +31,7 @@ export function HomeScreen({ customerId, onAsk }: Props) {
         <div className="hero-big">{eur(data.balance)}</div>
         <div className="hero-sub">
           Next salary ~{shortDate(data.nextPayday.date)} · about {eur0(data.nextPayday.expected)}
+          {data.nextPayday.estimated && " (estimate: your pay days vary)"}
         </div>
         <button className="cta" onClick={() => onAsk("What can I safely spend this week?")}>
           What can I safely spend? →

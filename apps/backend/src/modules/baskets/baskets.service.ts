@@ -1,6 +1,6 @@
 import type { Basket, SummaryResponse } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
-import { lastNMonths, monthStart, nextPayday, TODAY } from "../../lib/dates.js";
+import { lastNMonths, monthStart, nextPaydayOf, TODAY } from "../../lib/dates.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { basketsRepository } from "./baskets.repository.js";
 
@@ -44,8 +44,9 @@ export const basketsService = {
       asOf: TODAY,
       balance: customer.balance ?? 0,
       nextPayday: {
-        date: nextPayday(customer.paydayDom ?? 1),
+        date: nextPaydayOf(customer.paydayDays ?? []),
         expected: customer.avgSalary ?? 0,
+        estimated: customer.paydayEstimated ?? false,
       },
       baskets,
     };

@@ -55,7 +55,7 @@ Response:
   "month": "2026-09",
   "asOf": "2026-09-30",
   "balance": 3757.43,
-  "nextPayday": { "date": "2026-10-20", "expected": 2143.39 },
+  "nextPayday": { "date": "2026-10-20", "expected": 2143.39, "estimated": false },
   "baskets": [
     { "id": 1, "name": "Regular essentials", "spent": 1874.38, "avg6m": 1793.61,
       "top": [{ "category": "Housing", "spent": 1252.97 }] }

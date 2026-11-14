@@ -44,6 +44,12 @@ export function periodLabel(from: string, to: string): string {
   return `${shortDate(from)} – ${shortDate(last.toISOString().slice(0, 10))}`;
 }
 
+/** Ngày lương kế tiếp khi lương có thể về vào nhiều ngày trong tháng: lấy ngày gần nhất (thận trọng cho safe-to-spend). */
+export function nextPaydayOf(days: number[]): string {
+  const candidates = (days.length ? days : [1]).map(nextPayday);
+  return candidates.sort()[0];
+}
+
 /** Số ngày từ `a` đến `b` (cả hai dạng YYYY-MM-DD). */
 export function daysBetween(a: string, b: string): number {
   return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);

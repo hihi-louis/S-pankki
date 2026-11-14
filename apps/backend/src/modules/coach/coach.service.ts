@@ -32,6 +32,7 @@ export const coachService = {
     return {
       balance: s.balance,
       nextPayday: s.nextPayday,
+      paydayIsEstimate: s.nextPayday.estimated ?? false,
       daysLeft,
       reservedEssentials,
       safeToSpend: round2(Math.max(0, raw)),

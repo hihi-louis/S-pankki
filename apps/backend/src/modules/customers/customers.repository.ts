@@ -12,6 +12,8 @@ export const customersRepository = {
         "s.current_balance as balance",
         "s.last_tx_date as lastTxDate",
         "s.payday_dom as paydayDom",
+        "s.payday_days as paydayDays",
+        "s.payday_estimated as paydayEstimated",
         "s.avg_salary as avgSalary",
         "s.basket3_share as basket3Share",
       ])
