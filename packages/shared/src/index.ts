@@ -310,14 +310,20 @@ export interface Persona {
   description: string;
 }
 
-/** The purchases behind one slice of the pie (this month, newest first). */
+/** The purchases behind one slice of the pie (this month): grouped by category, biggest category first. */
 export interface BasketTransactions {
   basket: 1 | 2 | 3;
   basketName: string;
   month: string;
   total: number;
   count: number;
-  /** true when `items` is shorter than `count` */
+  /** true when some purchases are not listed */
   truncated: boolean;
-  items: { date: string; amount: number; category: string; label: string }[];
+  categories: {
+    category: string;
+    total: number;
+    count: number;
+    /** newest first */
+    items: { date: string; amount: number; label: string }[];
+  }[];
 }

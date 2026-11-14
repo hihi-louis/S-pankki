@@ -145,5 +145,7 @@ then up to three things that stand out. `target` says what the button opens: the
 
 ## `GET /basket-transactions?customerId=&basket=1|2|3`
 
-The purchases behind one slice of the Overview pie: this month, newest first, up to 100 (`truncated` is true when there are more).
-`items[]` = `{ date, amount (positive), category, label }`. Merchant names are not in the data, so `label` is "Pharmacy #13" style.
+The purchases behind one slice of the Overview pie, this month, grouped by category (biggest total first).
+`categories[]` = `{ category, total, count, items[{ date, amount (positive), label }] }`, items newest first.
+Merchant names are not in the data, so `label` is "Pharmacy #13" style (shop type from the MCC code plus the shop number).
+`truncated` is true when more than 500 purchases exist (not expected for one month).

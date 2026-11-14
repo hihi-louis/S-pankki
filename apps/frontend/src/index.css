@@ -500,3 +500,9 @@ html { scroll-behavior: smooth; }
 .tx-amt { font-weight: 700; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .tx-more { padding: 8px 0; }
 .detail { padding-bottom: 96px; }
+.tx-card .card-label { padding: 10px 0 4px; }
+.tx-group { scroll-margin-top: 72px; }
+.tx-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0 8px; }
+.tx-head-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+.tx-head-total { font-family: var(--font-display); font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+.tx-group .tx-head + .tx-row { border-top: 1px solid var(--line); }

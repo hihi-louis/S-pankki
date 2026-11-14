@@ -108,12 +108,21 @@ export const storyService = {
     };
   },
 
-  /** The purchases behind one basket this month, newest first (up to 100). */
+  /** The purchases behind one basket this month, grouped by category (biggest first). */
   async basketTransactions(customerId: string, basket: 1 | 2 | 3): Promise<BasketTransactions> {
     await ensureCustomer(customerId);
     const f = { customerId, from: monthStart(0), to: monthStart(1), basket, category: undefined, mcc: undefined };
-    const LIMIT = 100;
+    const LIMIT = 500;
     const [sum, rows] = await Promise.all([spendingRepository.total(f), spendingRepository.sources(f, LIMIT)]);
+    const by = new Map<string, { category: string; total: number; count: number; items: { date: string; amount: number; label: string }[] }>();
+    for (const r of rows) {
+      const g = by.get(r.category) ?? { category: r.category, total: 0, count: 0, items: [] };
+      const amount = Math.abs(Number(r.amount));
+      g.total += amount;
+      g.count += 1;
+      g.items.push({ date: String(r.date).slice(0, 10), amount, label: shopLabel(r.mcc ? Number(r.mcc) : null, r.merchantId, r.category) });
+      by.set(r.category, g);
+    }
     return {
       basket,
       basketName: BASKET_NAMES[basket],
@@ -121,12 +130,9 @@ export const storyService = {
       total: Math.round(sum.total * 100) / 100,
       count: sum.count,
       truncated: sum.count > rows.length,
-      items: rows.map((r) => ({
-        date: String(r.date).slice(0, 10),
-        amount: Math.abs(Number(r.amount)),
-        category: r.category,
-        label: shopLabel(r.mcc ? Number(r.mcc) : null, r.merchantId, r.category),
-      })),
+      categories: [...by.values()]
+        .map((g) => ({ ...g, total: Math.round(g.total * 100) / 100 }))
+        .sort((a, b) => b.total - a.total),
     };
   },
 
