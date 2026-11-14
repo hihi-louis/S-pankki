@@ -34,3 +34,36 @@ export function clearCustomerId() {
     // ignore
   }
 }
+
+/** What the person was doing, kept per customer so a reload puts them back where they were. Cleared when they sign out. */
+export interface SavedState {
+  tab: "home" | "chat";
+  screen: unknown;
+  messages: unknown[];
+}
+const stateKey = (id: string) => `sbank.state.${id}`;
+
+export function loadState(id: string): SavedState | null {
+  try {
+    const raw = localStorage.getItem(stateKey(id));
+    return raw ? (JSON.parse(raw) as SavedState) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveState(id: string, state: SavedState) {
+  try {
+    localStorage.setItem(stateKey(id), JSON.stringify(state));
+  } catch {
+    // storage full or blocked: the app still works, it just forgets on reload
+  }
+}
+
+export function clearState(id: string) {
+  try {
+    localStorage.removeItem(stateKey(id));
+  } catch {
+    // ignore
+  }
+}
