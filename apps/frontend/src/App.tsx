@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { CustomerProfile } from "@sbank/shared";
 import { chatStream, getCustomer } from "./api";
 import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
+import { AvatarMenu } from "./components/AvatarMenu";
+import { IconArrowLeft, IconChat } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { CategoryScreen } from "./screens/CategoryScreen";
@@ -115,31 +117,18 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
   return (
     <div className="app">
       <header className="header">
-        <span className="brand">S-Pankki</span>
-        <nav className="tabs" role="tablist">
-          <button
-            role="tab"
-            aria-selected={tab === "home"}
-            onClick={() => {
-              setTab("home");
-              setScreen({ name: "home" });
-            }}
-          >
-            Overview
-          </button>
-          <button role="tab" aria-selected={tab === "chat"} onClick={() => setTab("chat")}>
-            Ask
-          </button>
-        </nav>
+        {tab === "chat" ? (
+          <>
+            <button className="back-btn" aria-label="Back to overview" onClick={() => setTab("home")}>
+              <IconArrowLeft />
+            </button>
+            <span className="header-title">Ask your coach</span>
+          </>
+        ) : (
+          <span className="brand">S-Pankki</span>
+        )}
+        <AvatarMenu customerId={customerId} onLogout={onLogout} />
       </header>
-      <div className="who">
-        <span>
-          Signed in as <strong>{customerId}</strong>
-        </span>
-        <button className="link" onClick={onLogout}>
-          Switch
-        </button>
-      </div>
       {tab === "home" ? (
         screen.name === "insight" ? (
           <InsightStoryScreen customerId={customerId} id={screen.id} nav={nav} />
@@ -158,6 +147,12 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
           busy={busy}
           onAsk={ask}
         />
+      )}
+      {tab === "home" && (
+        <button className="fab" onClick={() => setTab("chat")}>
+          <IconChat />
+          Ask the coach
+        </button>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import type { Insight, InsightsResponse } from "@sbank/shared";
+import type { Insight, InsightsResponse, Recommendation, RecommendationsResponse } from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
 import { lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
 import { benchmarkRepository } from "../benchmark/benchmark.repository.js";
@@ -19,7 +19,54 @@ interface Candidate extends Insight {
   priority: number;
 }
 
+const EYEBROW: Record<string, string> = {
+  spike: "Stands out",
+  drop: "Good news",
+  "income-variable": "Worth knowing",
+  "saving-habit": "Nice work",
+  peer: "Compared with others",
+  "fixed-costs": "Your bills",
+};
+
 export const insightsService = {
+  /**
+   * Thẻ trong carousel "Recommendations" của màn Overview: thẻ đầu là "tuần này tôi tiêu được bao nhiêu",
+   * sau đó tối đa 3 nhận xét nổi bật nhất. Chữ viết bằng tiếng Anh đơn giản; con số đều từ code.
+   */
+  async recommendations(customerId: string): Promise<RecommendationsResponse> {
+    const [safe, all] = await Promise.all([coachService.safeToSpend(customerId), this.forCustomer(customerId)]);
+    const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
+    const week = Math.min(safe.safeToSpend, safe.perDay * 7);
+    const first: Recommendation =
+      safe.shortfall > 0
+        ? {
+            id: "this-week",
+            eyebrow: "Heads up",
+            tone: "alert",
+            headline: "You may run short before payday",
+            body: `Your bills and basics until ${shortDate(safe.nextPayday.date)} come to about ${eur(safe.reservedEssentials)}, so you could be ${eur(safe.shortfall)} short. Hold off on extras if you can.${guess}`,
+            cta: "See how I worked this out",
+            target: { kind: "forecast" },
+          }
+        : {
+            id: "this-week",
+            eyebrow: "This week",
+            tone: "info",
+            headline: `You can safely spend ${eur(week)}`,
+            body: `That is about ${eur(safe.perDay)} a day after your bills and basics, until payday on ${shortDate(safe.nextPayday.date)}.${guess}`,
+            cta: "See how I worked this out",
+            target: { kind: "forecast" },
+          };
+    const rest: Recommendation[] = all.insights
+      .filter((i) => !i.id.startsWith("runway"))
+      .slice(0, 3)
+      .map((i) => {
+        const kind = i.id.startsWith("spike") ? "spike" : i.id.startsWith("drop") ? "drop" : i.id.startsWith("peer") ? "peer" : i.id;
+        return { id: i.id, eyebrow: EYEBROW[kind] ?? "For you", tone: i.tone, headline: i.title, body: i.body, cta: "Show me why", target: { kind: "insight" as const, id: i.id } };
+      });
+    return { asOf: TODAY, items: [first, ...rest] };
+  },
+
   /** Vài nhận xét chủ động, tính hoàn toàn từ dữ liệu (không dùng LLM): nhanh và không thể bịa số. */
   async forCustomer(customerId: string): Promise<InsightsResponse> {
     const customer = await customersRepository.findWithStats(customerId);
@@ -51,11 +98,11 @@ export const insightsService = {
         out.push({
           id: `spike-${d.category}`,
           tone: "alert",
-          title: `${d.category} is ${eur(diff)} above usual`,
+          title: `You spent ${eur(diff)} more than usual on ${human(d.category)}`,
           body:
             d.usual < 10
-              ? `You spent ${eur(d.now)} on ${human(d.category)} this month, and almost nothing in a typical month.`
-              : `You spent ${eur(d.now)} on ${human(d.category)} this month. A typical month is ${eur(d.usual)}.`,
+              ? `You spent ${eur(d.now)} on ${human(d.category)} this month. In a normal month you spend almost nothing on it.`
+              : `You spent ${eur(d.now)} on ${human(d.category)} this month. In a normal month it is about ${eur(d.usual)}.`,
           ask: `What did I spend on ${human(d.category)} this month?`,
           priority: 80 + Math.min(diff / 100, 15),
         });
@@ -68,21 +115,21 @@ export const insightsService = {
       out.push({
         id: `drop-${drop.category}`,
         tone: "good",
-        title: `${eur(drop.usual - drop.now)} less on ${human(drop.category)} than usual`,
-        body: `${eur(drop.now)} this month against a typical ${eur(drop.usual)}. A lighter month than usual.`,
+        title: `You spent ${eur(drop.usual - drop.now)} less than usual on ${human(drop.category)}`,
+        body: `${eur(drop.now)} this month, compared with about ${eur(drop.usual)} in a normal month. A lighter month.`,
         ask: `How has my ${human(drop.category)} spending changed over the last months?`,
         priority: 50,
       });
     }
 
     // 2. Chạy được đến kỳ lương không
-    const guess = safe.paydayIsEstimate ? " The payday date is an estimate because your pay days vary." : "";
+    const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
     if (safe.shortfall > 0) {
       out.push({
         id: "runway-short",
         tone: "alert",
-        title: "Money may run short before payday",
-        body: `After about ${eur(safe.reservedEssentials)} for essentials, you may be ${eur(safe.shortfall)} short before ${shortDate(safe.nextPayday.date)}.${guess}`,
+        title: "You may run short before payday",
+        body: `Your bills and basics until ${shortDate(safe.nextPayday.date)} come to about ${eur(safe.reservedEssentials)}, so you could be ${eur(safe.shortfall)} short.${guess}`,
         ask: "What can I safely spend this week?",
         priority: 100,
       });
@@ -90,8 +137,8 @@ export const insightsService = {
       out.push({
         id: "runway-ok",
         tone: "info",
-        title: `${eur(safe.perDay)} a day is safe to spend`,
-        body: `Until payday on ${shortDate(safe.nextPayday.date)} (${safe.daysLeft} days), after keeping ${eur(safe.reservedEssentials)} for essentials.${guess}`,
+        title: `You can spend about ${eur(safe.perDay)} a day`,
+        body: `Until payday on ${shortDate(safe.nextPayday.date)} (${safe.daysLeft} days), after setting aside ${eur(safe.reservedEssentials)} for your bills and basics.${guess}`,
         ask: "What can I safely spend this week?",
         priority: 60,
       });
@@ -102,8 +149,8 @@ export const insightsService = {
       out.push({
         id: "income-variable",
         tone: "tip",
-        title: "Your income changes a lot",
-        body: `Over six months it ranged from ${eur(income.minMonthlyIncome)} to ${eur(income.maxMonthlyIncome)}. In a high month, set some aside for the lean ones.`,
+        title: "Your pay changes a lot from month to month",
+        body: `Some months you get as little as ${eur(income.minMonthlyIncome)}, others as much as ${eur(income.maxMonthlyIncome)}. Put a little aside in the good months.`,
         ask: "How steady is my income?",
         priority: 55,
       });
@@ -115,7 +162,7 @@ export const insightsService = {
         id: "saving-habit",
         tone: "good",
         title: `You put aside about ${eur(income.avgInvestedPerMonth)} a month`,
-        body: "Saving regularly matters more than saving a lot. Keep it going.",
+        body: "Saving a little every month works better than saving a lot once in a while. Keep it up.",
         ask: "How much can I safely save right now?",
         priority: 52,
       });
@@ -129,12 +176,12 @@ export const insightsService = {
     if (peer) {
       const above = peer.you > peer.peers;
       const times = peer.you / peer.peers;
-      const gap = !above ? `${Math.abs(peer.diffPct!)}% below` : times >= 3 ? `${Math.round(times)} times` : `${peer.diffPct}% above`;
+      const how = !above ? "less" : times >= 3 ? `about ${Math.round(times)} times as much` : "more";
       out.push({
         id: `peer-${peer.key}`,
         tone: "info",
-        title: `${peer.label}: ${gap}${above && times >= 3 ? " more than" : ""} people your age`,
-        body: `About ${eur(peer.you)} a month, against ${eur(peer.peers)} for ${peers.peerGroup} (${peers.source}).`,
+        title: how.includes("times") ? `You spend ${how} on ${peer.label.toLowerCase()} as most people your age` : `You spend ${how} on ${peer.label.toLowerCase()} than most people your age`,
+        body: `About ${eur(peer.you)} a month. ${peers.peerGroup} spend about ${eur(peer.peers)} (${peers.source}).`,
         ask: "How do I compare with other people my age?",
         priority: 45,
       });
@@ -145,8 +192,8 @@ export const insightsService = {
       out.push({
         id: "fixed-costs",
         tone: "info",
-        title: `${Math.round(recurring.shareOfSpendingPct)}% of your spending is fixed`,
-        body: `${list(recurring.items.slice(0, 3).map((i) => i.name))} come to about ${eur(recurring.monthlyTotal)} a month. Knowing this helps you plan the rest.`,
+        title: `About ${Math.round(recurring.shareOfSpendingPct)}% of your spending is fixed bills`,
+        body: `${list(recurring.items.slice(0, 3).map((i) => i.name.toLowerCase()))} add up to about ${eur(recurring.monthlyTotal)} a month. Plan the rest of your money around that.`,
         ask: "What are my regular monthly payments?",
         priority: 40,
       });

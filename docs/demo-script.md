@@ -2,6 +2,12 @@
 
 Open http://localhost:5173/ (or the tunnel URL). Log in with a customer ID; the chips under "Or try a demo customer" are the demo customers.
 
+## 0. The first screen (any customer)
+- **Recommendations** carousel: one card at a time (swipe, arrows or dots). The first card is "This week: you can safely spend ...", then what stands out. Press the button on a card to see how it was worked out.
+- **What would you like to know?**: four tap-to-ask questions (answered instantly, no AI tokens).
+- **Ask the coach** button (bottom right) opens the chat; the avatar (top right) switches customer.
+- All text is plain English: "bills and basics", "a normal month", "if rates rise to 6%".
+
 ## 1. The month as a story (CUST04488)
 The Overview follows one narrative: **what happened, why, what it means, what to do next**.
 - **September at a glance:** spent 4,819 € against a usual 3,151 €; the category list shows groceries x6 and restaurants x61 vs usual.

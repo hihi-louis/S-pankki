@@ -73,7 +73,7 @@ export const storyService = {
     const message =
       vs === null
         ? `You spent ${eur0(spent)} in ${month}.`
-        : `You spent ${eur0(spent)} in ${month}, ${Math.abs(vs)}% ${vs >= 0 ? "above" : "below"} your usual ${eur0(usual)}.`;
+        : `You spent ${eur0(spent)} in ${month}. That is ${Math.abs(vs)}% ${vs >= 0 ? "more" : "less"} than a normal month (about ${eur0(usual)}).`;
     return { month: summary.month, asOf: TODAY, income: Math.round(income), spent: Math.round(spent), net: Math.round(income - spent), usualSpent: Math.round(usual), vsUsualPct: vs, message, categories };
   },
 
@@ -127,20 +127,20 @@ export const storyService = {
     const share = income.avgMonthlyIncome > 0 ? Math.round((dive.now / income.avgMonthlyIncome) * 100) : null;
     const trim = (p: number): StoryAction => {
       const cut = Math.round(dive.usual * (p / 100));
-      return { id: `trim-${p}`, label: `Trim ${p}% below your usual`, detail: `Lowers your ${BASKET_NAMES[dive.basket].toLowerCase()} limit by ${eur0(cut)} a month and adds it to your saving.`, savingPerMonth: cut, apply: { basket: dive.basket, reduceBy: cut } };
+      return { id: `trim-${p}`, label: `Spend ${p}% less than usual`, detail: `Lowers your monthly limit for ${BASKET_NAMES[dive.basket].toLowerCase()} by ${eur0(cut)} and adds it to what you save.`, savingPerMonth: cut, apply: { basket: dive.basket, reduceBy: cut } };
     };
-    const actions: StoryAction[] = [{ id: "back-to-usual", label: "Back to your usual", detail: `A usual month is ${eur0(dive.usual)}, so this month cost ${eur0(diff)} more. This is a one-off difference, not a monthly saving.` }];
+    const actions: StoryAction[] = [{ id: "back-to-usual", label: "Go back to your normal", detail: `A normal month is ${eur0(dive.usual)}, so this month cost ${eur0(diff)} more. That is a one-off difference, not a monthly saving.` }];
     if (dive.usual >= 40) actions.push(trim(10), trim(20));
     return {
       id: `spike-${dive.category}`,
       tone: "alert",
-      title: `${dive.category} is ${eur0(diff)} above usual`,
+      title: `You spent ${eur0(diff)} more than usual on ${name}`,
       happened: {
         title: "What happened",
-        text: `You spent ${eur0(dive.now)} on ${name} in ${monthName(monthStart(0).slice(0, 7))}. A typical month is ${eur0(dive.usual)}.`,
+        text: `You spent ${eur0(dive.now)} on ${name} in ${monthName(monthStart(0).slice(0, 7))}. In a normal month it is about ${eur0(dive.usual)}.`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
-          { label: "Typical month (6-month average)", value: eur0(dive.usual) },
+          { label: "A normal month (average of the last 6)", value: eur0(dive.usual) },
           { label: "Difference", value: `${signed(diff)}${dive.diffPct !== null ? ` (${dive.diffPct >= 0 ? "+" : ""}${dive.diffPct}%)` : ""}`, tone: "warn" },
         ],
         chart: { type: "bar", title: `${dive.category} by month (€)`, data: dive.trend },
@@ -148,8 +148,8 @@ export const storyService = {
       why: {
         title: "Why it happened",
         text: topShop
-          ? `The main drivers are below: most went to ${topShop.label} (${eur0(topShop.spent)}). These are the biggest items, not the reason behind them.`
-          : "The biggest purchases are below. These are the biggest items, not the reason behind them.",
+          ? `Most of it went to ${topShop.label} (${eur0(topShop.spent)}). These are the biggest items. They show where the money went, not why.`
+          : "Here are the biggest purchases. They show where the money went, not why.",
         rows: [
           ...dive.merchants.slice(0, 3).map((m) => ({ label: m.label, value: `${eur0(m.spent)} (${m.sharePct}%)` })),
           ...dive.biggest.slice(0, 3).map((b) => ({ label: `Largest purchase, ${shortDate(b.date)}`, value: eur0(b.amount) })),
@@ -157,10 +157,10 @@ export const storyService = {
       },
       means: {
         title: "What it means",
-        text: `If every month looked like this, it would add about ${eur0(diff * 12)} a year. One month like this is more likely a one-off than a new pattern, so check whether it repeats next month.`,
+        text: `If every month looked like this, you would spend about ${eur0(diff * 12)} more a year. One month like this is often a one-off, so see if it happens again next month.`,
         rows: [
-          ...(share !== null ? [{ label: "Share of your average monthly income", value: `${share}%` }] : []),
-          { label: "It belongs to", value: BASKET_NAMES[dive.basket] },
+          ...(share !== null ? [{ label: "How much of your monthly pay this is", value: `${share}%` }] : []),
+          { label: "Group", value: BASKET_NAMES[dive.basket] },
           ...(dive.peers ? [{ label: `${dive.peers.peerGroup} spend about`, value: `${eur0(dive.peers.peers)} a month` }] : []),
           { label: "You could set aside right now", value: eur0(plan.safeToSave) },
         ],
@@ -180,13 +180,13 @@ export const storyService = {
     return {
       id: `drop-${dive.category}`,
       tone: "good",
-      title: `${eur0(saved)} less on ${name} than usual`,
+      title: `You spent ${eur0(saved)} less than usual on ${name}`,
       happened: {
         title: "What happened",
-        text: `You spent ${eur0(dive.now)} on ${name} this month against a usual ${eur0(dive.usual)}.`,
+        text: `You spent ${eur0(dive.now)} on ${name} this month. In a normal month it is about ${eur0(dive.usual)}.`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
-          { label: "Typical month", value: eur0(dive.usual) },
+          { label: "A normal month", value: eur0(dive.usual) },
           { label: "Difference", value: signed(dive.now - dive.usual), tone: "good" },
         ],
         chart: { type: "bar", title: `${dive.category} by month (€)`, data: dive.trend },
@@ -206,11 +206,11 @@ export const storyService = {
     const [safe, rec, summary] = await Promise.all([coachService.safeToSpend(customerId), exploreService.recurring(customerId), basketsService.getSummary(customerId)]);
     const short = safe.shortfall > 0;
     const usualPerDay = ((summary.baskets.find((b) => b.id === 2)?.avg6m ?? 0) + (summary.baskets.find((b) => b.id === 3)?.avg6m ?? 0)) / 30;
-    const guess = safe.paydayIsEstimate ? " The payday date is an estimate because your pay days vary." : "";
+    const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
     return {
       id,
       tone: short ? "alert" : "info",
-      title: short ? "Money may run short before payday" : `${eur0(safe.perDay)} a day is safe to spend`,
+      title: short ? "You may run short before payday" : `You can spend about ${eur0(safe.perDay)} a day`,
       happened: {
         title: "What happened",
         text: `You have ${eur0(safe.balance)} and payday is ${shortDate(safe.nextPayday.date)}, ${safe.daysLeft} days away.${guess}`,
@@ -222,24 +222,24 @@ export const storyService = {
       },
       why: {
         title: "Why it happened",
-        text: `About ${eur0(safe.reservedEssentials)} of your balance is kept for essentials you usually pay before payday.`,
+        text: `About ${eur0(safe.reservedEssentials)} of your balance is already spoken for: bills and basics you usually pay before payday.`,
         rows: rec.items.slice(0, 4).map((i) => ({ label: `${i.name} (usually around day ${i.typicalDay})`, value: eur0(i.avgMonthly) })),
       },
       means: {
         title: "What it means",
         text: short
-          ? `After essentials you may be ${eur0(safe.shortfall)} short, so everyday spending needs to wait for payday.`
-          : `You can spend about ${eur0(safe.perDay)} a day. You normally spend about ${eur0(usualPerDay)} a day on unexpected and everyday things.`,
+          ? `After your bills and basics you could be ${eur0(safe.shortfall)} short, so extras should wait until payday.`
+          : `You can spend about ${eur0(safe.perDay)} a day. Most days you spend about ${eur0(usualPerDay)} on extras and surprises.`,
         rows: [
           { label: "Safe to spend until payday", value: eur0(safe.safeToSpend), tone: short ? "warn" : "good" },
-          { label: "Usual non-essential spending per day", value: eur0(usualPerDay), tone: usualPerDay > safe.perDay ? "warn" : undefined },
+          { label: "What you usually spend a day on extras", value: eur0(usualPerDay), tone: usualPerDay > safe.perDay ? "warn" : undefined },
         ],
       },
       next: {
         text: "See how your balance moves day by day, or set limits so you stay inside the safe amount.",
         actions: [
           { id: "forecast", label: "See the forecast", detail: "Your balance day by day until payday.", link: "forecast" },
-          { id: "plan", label: "Make a spending plan", detail: "Limits for each basket that keep you above your essentials.", link: "plan" },
+          { id: "plan", label: "Make a spending plan", detail: "Limits that keep you above your bills and basics.", link: "plan" },
         ],
       },
       askAI: "What can I safely spend this week?",
@@ -252,7 +252,7 @@ export const storyService = {
     return {
       id: "income-variable",
       tone: "tip",
-      title: "Your income changes a lot",
+      title: "Your pay changes a lot from month to month",
       happened: {
         title: "What happened",
         text: `Over six months your income ranged from ${eur0(inc.minMonthlyIncome)} to ${eur0(inc.maxMonthlyIncome)} a month.`,
@@ -291,8 +291,8 @@ export const storyService = {
       why: { title: "Why it matters", text: "Saving the same amount regularly works better than saving a lot once in a while." },
       means: {
         title: "What it means",
-        text: save.monthsOfEssentialsCovered !== null ? `Your balance covers ${save.monthsOfEssentialsCovered} months of essentials.` : "Your balance is your cushion.",
-        rows: [{ label: "Emergency fund target (3 months)", value: eur0(save.emergencyFundTarget) }, { label: "Gap to the target", value: eur0(save.emergencyFundGap), tone: save.emergencyFundGap > 0 ? "warn" : "good" }],
+        text: save.monthsOfEssentialsCovered !== null ? `Your balance would cover your bills and basics for about ${save.monthsOfEssentialsCovered} months.` : "Your balance is your cushion.",
+        rows: [{ label: "Safety cushion target (3 months of bills and basics)", value: eur0(save.emergencyFundTarget) }, { label: "Gap to the target", value: eur0(save.emergencyFundGap), tone: save.emergencyFundGap > 0 ? "warn" : "good" }],
       },
       next: { text: `You could safely move ${eur0(save.safeToSave)} right now.`, actions: [{ id: "plan", label: "Turn it into a plan", detail: "Pick a goal and see how long it takes.", link: "plan" }] },
       askAI: "How much can I safely save right now?",
@@ -309,7 +309,7 @@ export const storyService = {
     return {
       id: `peer-${key}`,
       tone: "info",
-      title: `${row.label}: ${above ? "above" : "below"} people your age`,
+      title: `You spend ${above ? "more" : "less"} on ${row.label.toLowerCase()} than most people your age`,
       happened: {
         title: "What happened",
         text: `You spend about ${eur0(row.you)} a month on ${row.label.toLowerCase()}. ${r.peerGroup} spend about ${eur0(row.peers)} (${r.source}).`,
@@ -328,13 +328,13 @@ export const storyService = {
     return {
       id: "fixed-costs",
       tone: "info",
-      title: `${Math.round(rec.shareOfSpendingPct)}% of your spending is fixed`,
+      title: `About ${Math.round(rec.shareOfSpendingPct)}% of your spending is fixed bills`,
       happened: {
         title: "What happened",
         text: `Payments that repeat every month come to about ${eur0(rec.monthlyTotal)}.`,
         rows: rec.items.slice(0, 5).map((i) => ({ label: `${i.name} (around day ${i.typicalDay})`, value: eur0(i.avgMonthly) })),
       },
-      why: { title: "Why it happened", text: "These are bills and regular payees that appeared in at least 4 of the last 6 months with a steady amount." },
+      why: { title: "Why it happened", text: "These are payments that showed up in at least 4 of the last 6 months with a steady amount." },
       means: { title: "What it means", text: `After fixed costs you have about ${eur0(left)} a month of your average income to plan the rest.` },
       next: { text: "Knowing your fixed costs makes the rest of the month easier to plan.", actions: [{ id: "forecast", label: "See the forecast", detail: "When these bills leave your account.", link: "forecast" }] },
       askAI: "What are my regular monthly payments?",

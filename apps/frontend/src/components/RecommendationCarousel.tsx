@@ -1,0 +1,69 @@
+import { useEffect, useRef, useState } from "react";
+import type { Recommendation } from "@sbank/shared";
+import { IconArrowLeft, IconArrowRight, IconBars } from "./Icons";
+
+const GAP = 12;
+const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+interface Props {
+  items: Recommendation[];
+  onOpen: (item: Recommendation) => void;
+}
+
+/** One big card at a time, swipe or use the arrows. Native scroll-snap keeps it smooth on phones. */
+export function RecommendationCarousel({ items, onOpen }: Props) {
+  const track = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+
+  // Keep the dots in step with the swipe
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setIndex(Math.max(0, Math.min(items.length - 1, Math.round(el.scrollLeft / (el.clientWidth + GAP))))));
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [items.length]);
+
+  function goTo(i: number) {
+    const el = track.current;
+    if (!el) return;
+    const next = Math.max(0, Math.min(items.length - 1, i));
+    el.scrollTo({ left: next * (el.clientWidth + GAP), behavior: reduced() ? "auto" : "smooth" });
+  }
+
+  return (
+    <div className="carousel" role="region" aria-roledescription="carousel" aria-label="Recommendations">
+      <div className="carousel-count" aria-live="polite">{index + 1} / {items.length}</div>
+      <div className="carousel-track" ref={track}>
+        {items.map((r, i) => (
+          <article key={r.id} className={`rec rec-${r.tone}`} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`}>
+            <div className="rec-eyebrow"><IconBars />{r.eyebrow}</div>
+            <h3 className="rec-headline">{r.headline}</h3>
+            <p className="rec-body">{r.body}</p>
+            <button className="rec-cta" onClick={() => onOpen(r)}>
+              {r.cta} <IconArrowRight />
+            </button>
+          </article>
+        ))}
+      </div>
+      <div className="carousel-controls">
+        <div className="dots" role="tablist" aria-label="Choose a recommendation">
+          {items.map((r, i) => (
+            <button key={r.id} role="tab" aria-selected={i === index} aria-label={`Recommendation ${i + 1}`} className={`dot-nav${i === index ? " active" : ""}`} onClick={() => goTo(i)} />
+          ))}
+        </div>
+        <div className="arrows">
+          <button className="arrow" aria-label="Previous recommendation" disabled={index === 0} onClick={() => goTo(index - 1)}><IconArrowLeft /></button>
+          <button className="arrow" aria-label="Next recommendation" disabled={index === items.length - 1} onClick={() => goTo(index + 1)}><IconArrowRight /></button>
+        </div>
+      </div>
+    </div>
+  );
+}

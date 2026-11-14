@@ -1,4 +1,4 @@
-import type { CategoryDive, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
+import type { CategoryDive, RecommendationsResponse, ChatRequest, ChatResponse, CustomerProfile, ForecastResponse, InsightStory, InsightsResponse, Persona, PlanDraft, PlanProgressResponse, SavedPlan, Snapshot, SummaryResponse } from "@sbank/shared";
 
 // "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
 // localhost, on a teammate's device and through a tunnel with a single port.
@@ -144,3 +144,6 @@ export interface ApplyCapResult {
 /** The customer tapped "Apply to my plan" on a suggestion: lower a basket limit and raise the monthly saving. */
 export const applyPlanCap = (customerId: string, basket: 1 | 2 | 3, reduceBy: number) =>
   request<ApplyCapResult>("/plan/apply", { method: "POST", body: JSON.stringify({ customerId, basket, reduceBy }) });
+
+export const getRecommendations = (customerId: string) =>
+  request<RecommendationsResponse>(`/recommendations?customerId=${encodeURIComponent(customerId)}`);

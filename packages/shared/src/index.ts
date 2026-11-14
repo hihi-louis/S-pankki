@@ -274,6 +274,23 @@ export interface ForecastResponse {
   note: string;
 }
 
+/** One card in the Overview carousel ("Recommendations"): a headline in plain English and a button that opens the full story. */
+export interface Recommendation {
+  id: string;
+  /** Small label above the headline, e.g. "This week". */
+  eyebrow: string;
+  tone: Insight["tone"];
+  headline: string;
+  body: string;
+  cta: string;
+  target: { kind: "forecast" } | { kind: "insight"; id: string };
+}
+
+export interface RecommendationsResponse {
+  asOf: string;
+  items: Recommendation[];
+}
+
 export interface InsightsResponse {
   asOf: string;
   insights: Insight[];

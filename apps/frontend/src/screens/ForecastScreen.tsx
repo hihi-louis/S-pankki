@@ -14,7 +14,7 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
   }, [customerId]);
 
   return (
-    <main className="home detail">
+    <main className="home detail screen-enter">
       <button className="back" onClick={nav.back}>← Overview</button>
       <h2 className="detail-title">Safe spending forecast</h2>
       {error && <p className="empty">Couldn't load: {error}</p>}

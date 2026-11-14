@@ -61,11 +61,11 @@ export const planService = {
     };
 
     const rows: FactsCard["rows"] = [
-      { label: "Income planned on (6-month average)", value: `${eur0(base)} / month` },
-      { label: "Essentials (your usual)", value: eur0(essentials) },
-      { label: "Unexpected buffer (your usual)", value: eur0(unexpected) },
+      { label: "Pay we plan with (6-month average)", value: `${eur0(base)} / month` },
+      { label: "Bills and basics (what you usually spend)", value: eur0(essentials) },
+      { label: "Buffer for surprises (what you usually spend)", value: eur0(unexpected) },
       {
-        label: "Everyday spending cap",
+        label: "Limit for everyday spending",
         value: `${eur0(everydayCap)} (usually ${eur0(everydayUsual)}${cutPct > 0 ? `, ${cutPct}% less` : ""})`,
         tone: cutPct > 0 ? "warn" : undefined,
       },
@@ -75,7 +75,7 @@ export const planService = {
     if (goalAmount !== null) {
       rows.push({ label: `Goal: ${label}`, value: eur0(goalAmount) }, { label: "You could set aside now", value: eur0(haveNow) });
       rows.push({
-        label: "Reaches the goal in",
+        label: "You reach the goal in",
         value: monthsToGoal === null ? "never at this saving" : monthsToGoal === 0 ? "now" : `${monthsToGoal} months${months && monthsToGoal > months ? ` (deadline ${months})` : ""}`,
         tone: !feasible || (months && monthsToGoal !== null && monthsToGoal > months) ? "warn" : "good",
       });
@@ -85,14 +85,14 @@ export const planService = {
           value: maxSaving > 0 ? `${eur0(maxSaving)} / month, goal in ${monthsAtMax} months` : "nothing is left to save",
         });
     }
-    rows.push({ label: "Plan works with your income", value: feasible ? "Yes" : "No", tone: feasible ? "good" : "warn" });
+    rows.push({ label: "Fits your income", value: feasible ? "Yes" : "No", tone: feasible ? "good" : "warn" });
 
-    const lean = variable ? ` Your income varies from ${eur0(income.minMonthlyIncome)} to ${eur0(income.maxMonthlyIncome)} a month, so keep a buffer from the good months.` : "";
+    const lean = variable ? ` Your income varies from ${eur0(income.minMonthlyIncome)} to ${eur0(income.maxMonthlyIncome)} a month, so keep a little aside in the good months.` : "";
     const note = feasible
-      ? `${goalAmount === null ? "Starting plan: keep your usual spending and save what is left. Give me a goal and a time for a stronger plan. " : "A plan from your last six months, not a promise. "}Press Save plan to keep it and follow it on the Overview.${lean}`
+      ? `${goalAmount === null ? "A starting plan: keep spending the way you do now and save what is left. Tell me a goal and a time for a stronger plan. " : "A plan from your last six months, not a promise. "}Press Save plan to keep it and follow it on the Overview.${lean}`
       : free - saving < 0
-        ? "Your usual essentials, necessities and this saving are more than your income, so a spending cap cannot be set."
-        : `The everyday cap would be ${round(cutNeeded * 100)}% below your usual, which is a big change. Try a longer time or a smaller goal.`;
+        ? "Your usual bills, surprises and this saving add up to more than your pay, so a spending limit cannot be set."
+        : `The everyday limit would be ${round(cutNeeded * 100)}% below what you usually spend, which is a big change. Try a longer time or a smaller goal.`;
 
     const card: FactsCard = {
       type: "facts",

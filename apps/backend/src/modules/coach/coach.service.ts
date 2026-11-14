@@ -14,10 +14,10 @@ const DAYS_PER_MONTH = 30;
 
 /** Nhãn theo vị trí của tỉ lệ giỏ 3 so với tất cả khách (percentile 0-100). */
 function profileLabel(percentile: number) {
-  if (percentile <= 25) return "Disciplined";
+  if (percentile <= 25) return "Careful";
   if (percentile <= 75) return "Balanced";
-  if (percentile <= 90) return "Impulsive";
-  return "Heavy leaker";
+  if (percentile <= 90) return "Spontaneous";
+  return "Big spender on extras";
 }
 
 const ESSENTIAL_CATEGORIES = new Set(["Housing", "Utilities", "Groceries", "Transportation"]);

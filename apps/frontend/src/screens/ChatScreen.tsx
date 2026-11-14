@@ -51,7 +51,7 @@ export function ChatScreen({ customerId, greeting, messages, busy, onAsk }: Prop
 
   return (
     <>
-      <main className="messages">
+      <main className="messages screen-enter">
         <div className="assistant-block">
           <div className="msg assistant greeting">{greeting}</div>
           {messages.length === 0 && (

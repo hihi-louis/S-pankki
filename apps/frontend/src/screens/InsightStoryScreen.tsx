@@ -75,7 +75,7 @@ export function InsightStoryScreen({ customerId, id, nav }: { customerId: string
   }, [customerId, id]);
 
   return (
-    <main className="home detail">
+    <main className="home detail screen-enter">
       <button className="back" onClick={nav.back}>← Overview</button>
       {error && <p className="empty">Couldn't load: {error}</p>}
       {!story && !error && <div className="skeleton" />}

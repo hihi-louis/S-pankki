@@ -61,10 +61,10 @@ export const mortgageService = {
     const stress = annuityPayment(maxLoan, STRESS_RATE, TERM);
 
     const rows: FactsCard["rows"] = [
-      { label: "Income used (average salary)", value: `${eur0(salary)} / month` },
-      { label: "Bank rule seen in the data", value: `income of ${(req.rate * 100).toFixed(2)}% of the loan per month` },
+      { label: "Pay used (your average salary)", value: `${eur0(salary)} / month` },
+      { label: "Pay the bank looks for", value: `${(req.rate * 100).toFixed(2)}% of the loan each month` },
       { label: `Payment at ${(AVG_RATE * 100).toFixed(2)}% (${TERM} years)`, value: `${eur0(payment)} / month` },
-      { label: `Payment at ${(STRESS_RATE * 100).toFixed(0)}% stress rate`, value: `${eur0(stress)} / month` },
+      { label: `Payment if rates rise to ${(STRESS_RATE * 100).toFixed(0)}%`, value: `${eur0(stress)} / month` },
     ];
     let home: Record<string, unknown> | undefined;
     if (q.price) {
@@ -78,7 +78,7 @@ export const mortgageService = {
         { label: "Home price checked", value: eur0(q.price) },
         { label: incomeAllows ? `Loan (up to ${pct1(LTV)} of price)` : "Loan your income supports", value: eur0(loan), tone: incomeAllows ? undefined : "warn" },
         { label: "Down payment", value: eur0(down) },
-        { label: "Typical purchase costs", value: eur0(costs.total) },
+        { label: "Typical buying costs (tax and fees)", value: eur0(costs.total) },
         { label: "Cash needed", value: eur0(down + costs.total) },
       );
     }
@@ -131,14 +131,14 @@ export const mortgageService = {
     const rows: FactsCard["rows"] = [
       { label: "Property price", value: eur0(price) },
       { label: "Loan requested", value: eur0(loan) },
-      { label: "Your own funds (equity)", value: `${eur0(equity)} (${pct1(equityShare)} of the price)` },
+      { label: "Your own money in the purchase", value: `${eur0(equity)} (${pct1(equityShare)} of the price)` },
       {
-        label: "Collateral value",
+        label: "Value of what backs the loan (collateral)",
         value: `${eur0(collateral)} (covers ${pct1(collateralCover)} of the loan)`,
         tone: collateralCover < 1 && app.rejection_reason === "insufficient_collateral" ? "warn" : undefined,
       },
       {
-        label: "Income needed vs your salary",
+        label: "Monthly pay the bank looks for vs your salary",
         value: `${eur0(required)} vs ${eur0(salary)} a month`,
         tone: app.rejection_reason === "insufficient_income" ? "warn" : undefined,
       },
@@ -198,11 +198,11 @@ export const mortgageService = {
     const rows: FactsCard["rows"] = [
       { label: "Home price", value: eur0(q.price) },
       { label: `Down payment (${pct1(1 - LTV)} of the price)`, value: eur0(down) },
-      { label: "Typical purchase costs", value: eur0(costs.total) },
+      { label: "Typical buying costs (tax and fees)", value: eur0(costs.total) },
       { label: "You could set aside now", value: eur0(haveNow) },
       { label: "Still to save", value: eur0(gap), tone: gap > 0 ? "warn" : "good" },
-      { label: "Your monthly saving capacity", value: `${eur0(capacity)} / month` },
-      { label: "Time at today's pace", value: when(monthsBase) },
+      { label: "What you can save each month", value: `${eur0(capacity)} / month` },
+      { label: "Time at your pace today", value: when(monthsBase) },
     ];
     if (q.cutPct > 0 && cutSaving > 0)
       rows.push({
@@ -212,8 +212,8 @@ export const mortgageService = {
       });
     rows.push(
       { label: `Payment on ${eur0(loan)} at ${(AVG_RATE * 100).toFixed(2)}%`, value: `${eur0(payment)} / month` },
-      { label: `Payment at ${(STRESS_RATE * 100).toFixed(0)}% stress rate`, value: `${eur0(stress)} / month` },
-      { label: "Income supports this loan", value: incomeAllows ? "Yes" : "No", tone: incomeAllows ? "good" : "warn" },
+      { label: `Payment if rates rise to ${(STRESS_RATE * 100).toFixed(0)}%`, value: `${eur0(stress)} / month` },
+      { label: "Your pay is enough for this loan", value: incomeAllows ? "Yes" : "No", tone: incomeAllows ? "good" : "warn" },
     );
     const card: FactsCard = {
       type: "facts",
@@ -251,9 +251,9 @@ export const mortgageService = {
       headline: { label: "Typical time to a decision", value: `${s.p50} days` },
       rows: [
         { label: "Fastest 10% / slowest 10%", value: `${s.p10} / ${s.p90} days` },
-        { label: "Customer contacts per application", value: `${s.contacts}` },
+        { label: "Contacts with the bank per application", value: `${s.contacts}` },
         { label: "Documents received per application", value: `${s.docs}` },
-        { label: "Asked for additional collateral", value: `${s.extraCollateralPct}% of applications` },
+        { label: "Bank asked for extra collateral", value: `${s.extraCollateralPct}% of applications` },
         { label: "Approved", value: `${s.approved} of ${s.apps}` },
         ...s.reasons.map((r) => ({ label: `Rejected: ${REASONS[r.reason] ?? r.reason}`, value: `${r.n} of ${rejected}` })),
       ],
