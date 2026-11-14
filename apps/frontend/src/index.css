@@ -466,3 +466,19 @@ body { font-size: 14px; line-height: 1.4; }
 .sk-wide { width: 80%; }
 .sk-big { height: 34px; width: 45%; border-radius: 10px; }
 html { scroll-behavior: smooth; }
+
+/* Your money: balance + three-basket pie */
+.glance-balance { margin-bottom: 12px; padding-bottom: 12px; }
+.pie-title { margin-bottom: 8px; }
+.pie { display: flex; align-items: center; gap: 14px; }
+.pie-svg { width: 132px; height: 132px; flex: 0 0 auto; }
+.pie-seg { animation: pie-in .6s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes pie-in { from { stroke-dasharray: 0 400; opacity: .2; } }
+.pie-total { font-family: var(--font-display); font-size: 17px; font-weight: 700; fill: var(--ink); }
+.pie-label { font-size: 10px; fill: var(--muted); }
+.pie-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 0; }
+.pie-legend li { display: grid; grid-template-columns: 10px 1fr; column-gap: 8px; align-items: center; font-size: 13px; }
+.pie-name { font-weight: 600; line-height: 1.2; }
+.pie-amt { grid-column: 2; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+.pie-amt small { font-weight: 500; color: var(--muted); font-size: 12px; }
+.pie-title { margin-top: 2px; } .money-block .eyebrow { margin-bottom: 10px; }
