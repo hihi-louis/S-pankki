@@ -14,6 +14,15 @@ personasRouter.get("/", async (_req, res, next) => {
 
 /** Gắn tại /customers: GET /customers/:id/stats */
 export const customersRouter = Router();
+customersRouter.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = customerParamsSchema.parse(req.params);
+    res.json(await customersService.getProfile(id));
+  } catch (e) {
+    next(e);
+  }
+});
+
 customersRouter.get("/:id/stats", async (req, res, next) => {
   try {
     const { id } = customerParamsSchema.parse(req.params);

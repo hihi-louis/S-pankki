@@ -121,6 +121,14 @@ export interface InsightsResponse {
   insights: Insight[];
 }
 
+/** Who is signed in. The dataset has no real names: `name` is set only for demo personas. */
+export interface CustomerProfile {
+  customerId: string;
+  name: string | null;
+  age: number | null;
+  postalCode: string | null;
+}
+
 export interface Persona {
   customerId: string;
   name: string;

@@ -1,17 +1,77 @@
-import { useState } from "react";
-import { chatStream } from "./api";
+import { useEffect, useState } from "react";
+import type { CustomerProfile } from "@sbank/shared";
+import { chatStream, getCustomer } from "./api";
+import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { HomeScreen } from "./screens/HomeScreen";
+import { LoginScreen } from "./screens/LoginScreen";
 
 type Tab = "home" | "chat";
 
-// The host app (S-mobiili) passes the user in the URL: ?customer=CUST05020&tab=chat
+// The host app (S-mobiili) can pass the user in the URL: ?customer=CUST05020&tab=chat. That skips the login screen.
 const params = new URLSearchParams(window.location.search);
-const CUSTOMER_ID = params.get("customer") ?? "CUST05020";
+const URL_CUSTOMER = params.get("customer");
 const START_TAB: Tab = params.get("tab") === "chat" ? "chat" : "home";
+// URL first, then the last customer on this device
+const START_ID = URL_CUSTOMER ?? loadCustomerId();
 
 export default function App() {
+  const [customer, setCustomer] = useState<CustomerProfile | null>(null);
+  const [booting, setBooting] = useState(START_ID !== null);
+  const [bootError, setBootError] = useState<string | null>(null);
+
+  // Restore the session and check the customer still exists.
+  useEffect(() => {
+    if (!START_ID) return;
+    getCustomer(START_ID)
+      .then(setCustomer)
+      .catch((e: Error) => {
+        clearCustomerId();
+        setBootError(e.message);
+      })
+      .finally(() => setBooting(false));
+  }, []);
+
+  async function login(customerId: string) {
+    const profile = await getCustomer(customerId);
+    saveCustomerId(profile.customerId);
+    setCustomer(profile);
+  }
+
+  function logout() {
+    clearCustomerId();
+    // Otherwise a ?customer= in the address bar would sign the same customer straight back in
+    const url = new URL(window.location.href);
+    url.searchParams.delete("customer");
+    window.history.replaceState(null, "", url);
+    setBootError(null);
+    setCustomer(null);
+  }
+
+  if (booting) {
+    return (
+      <div className="app">
+        <main className="login">
+          <div className="skeleton" />
+        </main>
+      </div>
+    );
+  }
+  if (!customer) {
+    return (
+      <div className="app">
+        <LoginScreen onLogin={login} initialError={bootError} />
+      </div>
+    );
+  }
+  // key = customer: switching customer starts with a clean chat and fresh data
+  return <Session key={customer.customerId} customer={customer} onLogout={logout} />;
+}
+
+function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: () => void }) {
+  const customerId = customer.customerId;
+  const displayName = customer.name ?? customer.customerId;
   const [tab, setTab] = useState<Tab>(START_TAB);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [busy, setBusy] = useState(false);
@@ -27,7 +87,7 @@ export default function App() {
     setBusy(true);
     try {
       const res = await chatStream(
-        { customerId: CUSTOMER_ID, message: text, history },
+        { customerId, message: text, history },
         {
           onStatus: (status) => patch((l) => ({ ...l, status })),
           onDelta: (d) => patch((l) => ({ ...l, content: l.content + d })),
@@ -59,10 +119,24 @@ export default function App() {
           </button>
         </nav>
       </header>
+      <div className="who">
+        <span>
+          Signed in as <strong>{displayName}</strong>
+          {customer.name && <span className="who-id"> · {customerId}</span>}
+        </span>
+        <button className="link" onClick={onLogout}>
+          Switch
+        </button>
+      </div>
       {tab === "home" ? (
-        <HomeScreen customerId={CUSTOMER_ID} onAsk={ask} />
+        <HomeScreen customerId={customerId} onAsk={ask} />
       ) : (
-        <ChatScreen messages={messages} busy={busy} onAsk={ask} />
+        <ChatScreen
+          greeting={`Hello, welcome ${displayName} to Personal Economic Trainer`}
+          messages={messages}
+          busy={busy}
+          onAsk={ask}
+        />
       )}
     </div>
   );

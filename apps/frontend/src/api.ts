@@ -1,4 +1,4 @@
-import type { ChatRequest, ChatResponse, InsightsResponse, Persona, SummaryResponse } from "@sbank/shared";
+import type { ChatRequest, ChatResponse, CustomerProfile, InsightsResponse, Persona, SummaryResponse } from "@sbank/shared";
 
 const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 
@@ -107,3 +107,7 @@ export async function chatStream(req: ChatRequest, handlers: ChatStreamHandlers 
     clearTimeout(timer);
   }
 }
+
+/** The "login": checks that the customer ID exists. Rejects with a readable message if not. */
+export const getCustomer = (customerId: string) =>
+  request<CustomerProfile>(`/customers/${encodeURIComponent(customerId)}`);

@@ -22,12 +22,14 @@ export const STARTERS = [
 ];
 
 interface Props {
+  /** First assistant message, e.g. "Hello, welcome Aino to Personal Economic Trainer". */
+  greeting: string;
   messages: ChatMsg[];
   busy: boolean;
   onAsk: (text: string) => void;
 }
 
-export function ChatScreen({ messages, busy, onAsk }: Props) {
+export function ChatScreen({ greeting, messages, busy, onAsk }: Props) {
   const [input, setInput] = useState("");
   const [sheet, setSheet] = useState<{ sources: SourceTx[]; total?: number } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -49,20 +51,21 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
   return (
     <>
       <main className="messages">
-        {messages.length === 0 && (
-          <div className="empty">
-            <div className="empty-emoji">💬</div>
-            <h2>Ask your money</h2>
-            <p>Plain answers from your own transactions.</p>
-            <div className="chips chips-col">
-              {STARTERS.map((q) => (
-                <button key={q} className="chip" onClick={() => onAsk(q)}>
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        <div className="assistant-block">
+          <div className="msg assistant greeting">{greeting}</div>
+          {messages.length === 0 && (
+            <>
+              <p className="greeting-sub">Ask anything about your money. Try one of these:</p>
+              <div className="chips chips-col">
+                {STARTERS.map((q) => (
+                  <button key={q} className="chip" onClick={() => onAsk(q)}>
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         {messages.map((m, i) =>
           m.role === "user" ? (
