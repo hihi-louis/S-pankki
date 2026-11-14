@@ -33,58 +33,60 @@ export function RecommendationCarousel({ items, onOpen }: Props) {
     };
   }, [items.length]);
 
-  // Auto-play: drift slowly to the right, then back to the left, without stopping.
-  // Pauses while the person touches or hovers, and for a moment after they pick a card themselves.
+  // Auto-play: each card rests for 5 seconds, then slides quickly (eased) to the next one,
+  // going right and then back left. Pauses while the person touches or hovers.
   const paused = useRef(false);
   const resumeAt = useRef(0);
+  const idx = useRef(0);
+  idx.current = index;
 
   useEffect(() => {
     if (items.length < 2 || reduced()) return;
     const el = track.current;
     if (!el) return;
-    const SPEED = 180; // pixels per second: about 2 seconds per card
+    const DWELL = 5000;
+    const SLIDE = 650;
     let dir = 1;
-    let pos = el.scrollLeft;
-    let last = performance.now();
     let frame = 0;
-    let free = false; // true while snapping is switched off for the drift
+    let timer = 0;
 
-    const setFree = (on: boolean) => {
-      if (free === on) return;
-      free = on;
-      el.style.scrollSnapType = on ? "none" : "";
-    };
-
-    const tick = (now: number) => {
-      const dt = Math.min(now - last, 100) / 1000;
-      last = now;
-      const hold = paused.current || document.hidden || Date.now() < resumeAt.current;
-      if (hold) {
-        // Stay where we are: no snapping, so hovering never makes the card jump
-        pos = el.scrollLeft;
-      } else {
-        setFree(true);
-        const max = el.scrollWidth - el.clientWidth;
-        pos += dir * SPEED * dt;
-        if (pos >= max) { pos = max; dir = -1; }
-        if (pos <= 0) { pos = 0; dir = 1; }
-        el.scrollLeft = pos;
-      }
+    const slideTo = (to: number) => {
+      const from = el.scrollLeft;
+      const start = performance.now();
+      el.style.scrollSnapType = "none";
+      const tick = (now: number) => {
+        if (paused.current) { el.style.scrollSnapType = ""; return; }
+        const t = Math.min(1, (now - start) / SLIDE);
+        const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease in-out
+        el.scrollLeft = from + (to - from) * e;
+        if (t < 1) frame = requestAnimationFrame(tick);
+        else el.style.scrollSnapType = "";
+      };
       frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
 
-    const hold = () => { paused.current = true; };
-    const release = () => { paused.current = false; resumeAt.current = Date.now() + 2500; };
+    const next = () => {
+      timer = window.setTimeout(next, DWELL);
+      if (paused.current || document.hidden || Date.now() < resumeAt.current) return;
+      let n = idx.current + dir;
+      if (n >= items.length - 1) dir = -1;
+      if (n <= 0) dir = 1;
+      n = Math.max(0, Math.min(items.length - 1, n));
+      slideTo(n * step(el));
+    };
+    timer = window.setTimeout(next, DWELL);
+
+    const hold = () => { paused.current = true; cancelAnimationFrame(frame); el.style.scrollSnapType = ""; };
+    const release = () => { paused.current = false; resumeAt.current = Date.now() + 2000; };
     el.addEventListener("pointerdown", hold);
     el.addEventListener("pointerup", release);
     el.addEventListener("pointercancel", release);
     el.addEventListener("mouseenter", hold);
     el.addEventListener("mouseleave", release);
     return () => {
+      window.clearTimeout(timer);
       cancelAnimationFrame(frame);
-      free = true;
-      setFree(false);
+      el.style.scrollSnapType = "";
       el.removeEventListener("pointerdown", hold);
       el.removeEventListener("pointerup", release);
       el.removeEventListener("pointercancel", release);
