@@ -14,8 +14,8 @@ import type { ChatRequestBody } from "./chat.schema.js";
 const MAX_TURNS = 5;
 const MAX_CARDS = 3;
 
-const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Show my spending by basket"];
-const SUGGESTIONS: Record<string, string[]> = {
+export const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Show my spending by basket"];
+export const SUGGESTIONS: Record<string, string[]> = {
   propose_plan: ["How am I doing against my plan?", "What if I cut everyday spending by 20%?"],
   plan_progress: ["Make me a plan to save 5000 euros in 12 months", "Where did my money go this month?"],
   mortgage_affordability: ["How much would I need to save for a 250,000 € home?", "How long does a mortgage application take?"],
@@ -43,10 +43,10 @@ function getClient() {
 }
 
 const BASKET_LABELS: Record<number, string> = { 1: "Regular essentials", 2: "Unexpected necessities", 3: "Everyday spending" };
-const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 /** Gom thẻ, biểu đồ và nguồn từ kết quả tool vào response (đúng hợp đồng docs/api-contract.md); LLM chỉ viết câu trả lời. */
-class Collector {
+export class Collector {
   cards: Card[] = [];
   chart: Chart | null = null;
   sources: SourceTx[] = [];

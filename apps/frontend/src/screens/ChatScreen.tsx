@@ -87,6 +87,31 @@ export function ChatScreen({ customerId, greeting, messages, busy, onAsk }: Prop
               )}
               {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} customerId={customerId} />)}
               {m.res?.chart && <MiniChart chart={m.res.chart} />}
+              {m.res?.verified === true && <div className="verified">✓ Numbers checked against your data</div>}
+              {m.res?.provenance && m.res.provenance.length > 0 && (
+                <details className="how">
+                  <summary>How I calculated this</summary>
+                  <ul>
+                    {m.res.provenance.map((p) => (
+                      <li key={`${p.title}-${p.data ?? ""}`}>
+                        <strong>{p.title}</strong>
+                        <span>{p.how}</span>
+                        {p.data && <span className="how-data">Data: {p.data}</span>}
+                        <span className="how-source">
+                          Source:{" "}
+                          {p.sourceUrl ? (
+                            <a href={p.sourceUrl} target="_blank" rel="noreferrer">
+                              {p.source}
+                            </a>
+                          ) : (
+                            p.source
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               {m.res && m.res.sources.length > 0 && (
                 <button
                   className="link sources-btn"

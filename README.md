@@ -41,6 +41,18 @@ The browser only talks to the Vite server (port 5173): `/api/*` is forwarded to 
 - A tunnel makes the app public and the login has no password, and every chat uses LLM credits: share the link only
   with your team and stop the tunnel afterwards.
 
+## Trust and cost
+
+- **Numbers come from code.** The model only writes sentences around tool results. Before an answer is shown, every amount and
+  percentage is checked against the data the tools returned (`chat/verifier.ts`); a wrong answer is rewritten once, then replaced by a
+  safe sentence. Each answer carries `verified` and `provenance[]` ("How I calculated this").
+- **Suggested questions cost nothing.** Chips and insight buttons are answered by `chat/fast.ts` straight from the services
+  (0 LLM tokens, about 10-50 ms). Free-form questions use the LLM, with a per-minute rate limit and an optional daily token cap
+  (`LLM_DAILY_TOKEN_CAP`); when the budget is used up the suggested questions still work.
+- **Measure it.** Every question writes a row to `llm_usage` (tokens, cache hits, latency, verified); `GET /admin/usage` (localhost only) summarises it.
+- `npm test --workspace=backend` runs the unit tests (verifier, agent paths with a fake LLM, fast paths, budget).
+  `npm run eval --workspace=backend` asks 30 questions and checks each number against SQL or the REST API (backend must be running).
+
 ## What the backend offers
 
 REST endpoints (all take `customerId`): `/summary`, `/insights`, `/spending`, `/explore/{breakdown,compare,recurring,income}`,

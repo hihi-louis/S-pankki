@@ -10,6 +10,8 @@ const envSchema = z.object({
   LLM_API_KEY: z.string().optional(), // chỉ cần khi dùng module chat
   LLM_BASE_URL: z.string().default("https://inference.verda.com/v1"), // endpoint kiểu OpenAI
   LLM_MODEL: z.string().default("kimi-k3-1-pro"),
+  // Ngân sách token mỗi ngày cho câu hỏi tự do (0 = không giới hạn). Hết thì chỉ còn đường nhanh và cache.
+  LLM_DAILY_TOKEN_CAP: z.coerce.number().int().min(0).default(0),
   // Chỉ bật khi nhà cung cấp KHÔNG cache tiền tố prompt (hoặc token cache đắt hơn ~35% giá thường): lọc tool làm đổi tiền tố nên mất cache.
   LLM_TOOL_GATING: z.enum(["true", "false"]).default("false").transform((v) => v === "true"),
 });
@@ -29,5 +31,6 @@ export const config = {
   llmApiKey: parsed.data.LLM_API_KEY,
   llmBaseUrl: parsed.data.LLM_BASE_URL,
   llmModel: parsed.data.LLM_MODEL,
+  llmDailyTokenCap: parsed.data.LLM_DAILY_TOKEN_CAP,
   llmToolGating: parsed.data.LLM_TOOL_GATING,
 };

@@ -248,3 +248,13 @@ h1, h2 { margin: 0; font-family: var(--font-display); letter-spacing: -0.01em; }
 .plan .card-sub { margin-top: 10px; }
 .facts-error { color: var(--error); margin-top: 6px; }
 .card .cta { margin-top: 12px; }
+
+/* ---------- Trust: verified line and provenance ---------- */
+.verified { font-size: 12px; font-weight: 600; color: var(--green-700); }
+.how { font-size: 13px; color: var(--muted); }
+.how summary { cursor: pointer; font-weight: 600; color: var(--green-700); min-height: 32px; display: flex; align-items: center; }
+.how ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.how li { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.how li strong { color: var(--ink); }
+.how-data, .how-source { font-size: 12px; }
+.how a { color: var(--green-700); }
