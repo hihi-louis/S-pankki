@@ -160,6 +160,16 @@ const TOOL_STATUS: Record<string, string> = {
   get_baskets: "Checking your three baskets…",
 };
 
+/** Số liệu đo được của một lần chạy agent (cộng dồn qua các lượt gọi LLM). */
+export interface RunStats {
+  promptTokens: number;
+  completionTokens: number;
+  cachedTokens: number;
+  turns: number;
+  tools: string[];
+}
+export const newStats = (): RunStats => ({ promptTokens: 0, completionTokens: 0, cachedTokens: 0, turns: 0, tools: [] });
+
 interface PendingCall {
   id: string;
   name: string;
@@ -174,6 +184,7 @@ export async function runAgent(
   req: ChatRequestBody,
   emit: (e: ChatEvent) => void = () => {},
   signal?: AbortSignal,
+  stats: RunStats = newStats(),
 ): Promise<ChatResponse> {
   const llm = getClient();
   const collector = new Collector();
@@ -203,11 +214,18 @@ export async function runAgent(
           max_tokens: 4096,
           reasoning_effort: "low",
           stream: true,
+          stream_options: { include_usage: true },
         },
         { signal },
       );
       forceTool = false;
+      stats.turns++;
       for await (const chunk of stream) {
+        if (chunk.usage) {
+          stats.promptTokens += chunk.usage.prompt_tokens ?? 0;
+          stats.completionTokens += chunk.usage.completion_tokens ?? 0;
+          stats.cachedTokens += chunk.usage.prompt_tokens_details?.cached_tokens ?? 0;
+        }
         const delta = chunk.choices[0]?.delta;
         if (!delta) continue;
         if (delta.content) {
@@ -245,6 +263,7 @@ export async function runAgent(
 
     if (streamed) emit({ type: "reset" });
     usedTool = true;
+    stats.tools.push(...[...calls.values()].map((c) => c.name));
     const list = [...calls.entries()].sort((a, b) => a[0] - b[0]).map(([i, c]) => ({ ...c, id: c.id || `call_${i}` }));
     messages.push({
       role: "assistant",

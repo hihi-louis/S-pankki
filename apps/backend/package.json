@@ -14,7 +14,8 @@
     "db:import": "tsx scripts/import-csv.ts",
     "db:codegen": "kysely-codegen --dialect postgres --out-file src/db/types.ts --exclude-pattern \"(knex_*|raw_*)\" --date-parser string --numeric-parser number",
     "db:setup": "npm run migrate && npm run db:import && npm run db:codegen",
-    "data:statfin": "tsx scripts/fetch-statfin.ts"
+    "data:statfin": "tsx scripts/fetch-statfin.ts",
+    "eval": "tsx scripts/eval.ts"
   },
   "dependencies": {
     "@sbank/shared": "*",

@@ -32,6 +32,22 @@ export interface CustomerStats {
   payday_estimated: Generated<boolean>;
 }
 
+export interface LlmUsage {
+  cached_tokens: Generated<number>;
+  completion_tokens: Generated<number>;
+  created_at: Generated<Timestamp>;
+  customer_id: string;
+  error: string | null;
+  id: Generated<Int8>;
+  latency_ms: number;
+  model: string | null;
+  path: string;
+  prompt_tokens: Generated<number>;
+  tools: Generated<string[]>;
+  turns: Generated<number>;
+  verified: boolean | null;
+}
+
 export interface MonthlySpend {
   basket: number;
   category: string;
@@ -92,6 +108,7 @@ export interface Transactions {
 export interface DB {
   customer_stats: CustomerStats;
   customers: Customers;
+  llm_usage: LlmUsage;
   monthly_spend: MonthlySpend;
   mortgage_applications: MortgageApplications;
   mortgage_events: MortgageEvents;
