@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CustomerProfile } from "@sbank/shared";
 import { chatStream, getCustomer } from "./api";
-import { clearCustomerId, saveCustomerId } from "./lib/session";
+import { clearCustomerId, clearState, loadCustomerId, loadState, saveCustomerId, saveState } from "./lib/session";
 import { AvatarMenu } from "./components/AvatarMenu";
 import { IconArrowLeft, IconSparkle } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
@@ -21,8 +21,8 @@ type Tab = "home" | "chat";
 const params = new URLSearchParams(window.location.search);
 const URL_CUSTOMER = params.get("customer");
 const START_TAB: Tab = params.get("tab") === "chat" ? "chat" : "home";
-// Only a ?customer= in the URL skips the login screen; a plain link always opens on the login screen.
-const START_ID = URL_CUSTOMER;
+// A ?customer= in the URL wins; otherwise the customer who is still signed in on this device (until they sign out).
+const START_ID = URL_CUSTOMER ?? loadCustomerId();
 
 export default function App() {
   const [customer, setCustomer] = useState<CustomerProfile | null>(null);
@@ -48,6 +48,7 @@ export default function App() {
   }
 
   function logout() {
+    if (customer) clearState(customer.customerId);
     clearCustomerId();
     // Otherwise a ?customer= in the address bar would sign the same customer straight back in
     const url = new URL(window.location.href);
@@ -77,12 +78,28 @@ export default function App() {
   return <Session key={customer.customerId} customer={customer} onLogout={logout} />;
 }
 
+/** Saved messages come back as they were; a question whose answer never arrived gets a short note instead of a spinner. */
+function restoreMessages(raw: unknown[] | undefined): ChatMsg[] {
+  if (!Array.isArray(raw)) return [];
+  const msgs = raw as ChatMsg[];
+  const last = msgs[msgs.length - 1];
+  return last && last.role === "user" ? [...msgs, { role: "assistant", content: "That answer did not arrive before the page reloaded. Ask again whenever you like.", error: true }] : msgs;
+}
+
 function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: () => void }) {
   const customerId = customer.customerId;
-  const [tab, setTab] = useState<Tab>(START_TAB);
-  const [screen, setScreen] = useState<Screen>({ name: "home" });
-  const [messages, setMessages] = useState<ChatMsg[]>([]);
+  // After a reload, put the person back where they were (tab, screen, conversation)
+  const saved = useMemo(() => loadState(customerId), [customerId]);
+  const [tab, setTab] = useState<Tab>(URL_CUSTOMER && params.has("tab") ? START_TAB : (saved?.tab ?? START_TAB));
+  const [screen, setScreen] = useState<Screen>((saved?.screen as Screen | undefined) ?? { name: "home" });
+  const [messages, setMessages] = useState<ChatMsg[]>(() => restoreMessages(saved?.messages));
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    // An answer that was still being written is not saved: it would stay "Thinking…" forever
+    const done = messages.filter((m) => !m.pending);
+    saveState(customerId, { tab, screen, messages: done.slice(-40) });
+  }, [customerId, tab, screen, messages]);
 
   async function ask(text: string) {
     if (busy) return;
