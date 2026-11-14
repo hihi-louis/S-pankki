@@ -19,6 +19,12 @@ const BASKET_NAMES: Record<1 | 2 | 3, string> = { 1: "Regular essentials", 2: "U
 /** Danh mục S-Pankki tương ứng với nhóm so sánh của Statistics Finland (những nhóm khớp rõ ràng). */
 const PEER_KEY: Record<string, string> = { Groceries: "groceries", Restaurants: "restaurants", Transportation: "transport", Entertainment: "recreation", Health: "health" };
 
+/** What "Apply to my plans" does for a basket: everyday spending lowers the weekly limit; the freed amount always goes to a goal. */
+const applyDetail = (basket: 1 | 2 | 3, perMonth: number) =>
+  basket === 3
+    ? `Lowers your weekly limit for everyday spending by about ${eur0(perMonth / 4.33)} and adds ${eur0(perMonth)} a month to your savings goal.`
+    : `Adds ${eur0(perMonth)} a month to your savings goal.`;
+
 const human = (category: string) => category.replace("&", "and").toLowerCase();
 const monthName = (yyyyMm: string) => MONTH_NAMES[Number(yyyyMm.slice(5, 7)) - 1];
 const pct = (diff: number, base: number) => (base > 0 ? Math.round((diff / base) * 100) : null);
@@ -158,7 +164,7 @@ export const storyService = {
     const share = income.avgMonthlyIncome > 0 ? Math.round((dive.now / income.avgMonthlyIncome) * 100) : null;
     const trim = (p: number): StoryAction => {
       const cut = Math.round(dive.usual * (p / 100));
-      return { id: `trim-${p}`, label: `Spend ${p}% less than usual`, detail: `Lowers your monthly limit for ${BASKET_NAMES[dive.basket].toLowerCase()} by ${eur0(cut)} and adds it to what you save.`, savingPerMonth: cut, apply: { basket: dive.basket, reduceBy: cut } };
+      return { id: `trim-${p}`, label: `Spend ${p}% less than usual`, detail: applyDetail(dive.basket, cut), savingPerMonth: cut, apply: { basket: dive.basket, reduceBy: cut } };
     };
     const actions: StoryAction[] = [{ id: "back-to-usual", label: "Go back to your normal", detail: `A normal month is ${eur0(dive.usual)}, so this month cost ${eur0(diff)} more. That is a one-off difference, not a monthly saving.` }];
     if (dive.usual >= 40) actions.push(trim(10), trim(20));
@@ -197,7 +203,7 @@ export const storyService = {
         ],
       },
       next: {
-        text: actions.length > 1 ? "Pick a limit and I will add it to your plan." : "A one-off like this is usually not worth a limit: watch whether it repeats next month.",
+        text: actions.length > 1 ? "Pick one and I will add it to your plans." : "A one-off like this is usually not worth a limit: watch whether it repeats next month.",
         actions,
       },
       askAI: `What did I spend on ${name} this month?`,
@@ -246,7 +252,7 @@ export const storyService = {
     const actions: StoryAction[] = [10, 20, 30].map((p) => ({
       id: `trim-${p}`,
       label: `Spend ${p}% less on ${name}`,
-      detail: `${eur0(cutOf(p))} a month, about ${eur0(cutOf(p) * 12)} a year. Lowers your monthly limit for ${BASKET_NAMES[dive.basket].toLowerCase()} and adds it to what you save.`,
+      detail: `${eur0(cutOf(p))} a month, about ${eur0(cutOf(p) * 12)} a year. ${applyDetail(dive.basket, cutOf(p))}`,
       savingPerMonth: cutOf(p),
       apply: { basket: dive.basket, reduceBy: cutOf(p) },
     }));
@@ -273,7 +279,7 @@ export const storyService = {
         text: `Spending 20% less is ${eur0(cutOf(20))} a month, or about ${eur0(cutOf(20) * 12)} a year. It is a small change, not a promise: your own months will vary.`,
         rows: [10, 20, 30].map((p) => ({ label: `${p}% less`, value: `${eur0(cutOf(p))} a month` })),
       },
-      next: { text: "Pick a limit and I will add it to your plan.", actions },
+      next: { text: "Pick one and I will add it to your plans.", actions },
       askAI: `What if I cut ${name} by 20%?`,
     };
   },
@@ -286,7 +292,7 @@ export const storyService = {
     const perMonth = row.spent / 3;
     const cut = Math.round(perMonth * 0.2);
     const each = row.count > 0 ? row.spent / row.count : 0;
-    const actions: StoryAction[] = cut >= 5 ? [{ id: "trim-weekday", label: `Spend 20% less on ${row.key}s`, detail: `About ${eur0(cut)} a month. Lowers your everyday spending limit and adds it to what you save.`, savingPerMonth: cut, apply: { basket: 3, reduceBy: cut } }] : [];
+    const actions: StoryAction[] = cut >= 5 ? [{ id: "trim-weekday", label: `Spend 20% less on ${row.key}s`, detail: `About ${eur0(cut)} a month. ${applyDetail(3, cut)}`, savingPerMonth: cut, apply: { basket: 3, reduceBy: cut } }] : [];
     return {
       id: `weekday-${row.key}`,
       tone: "tip",

@@ -13,6 +13,9 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
     getForecast(customerId).then(setData).catch((e: Error) => setError(e.message));
   }, [customerId]);
 
+  // Only draw the plan line when it really differs from the usual pace (otherwise it hides the usual line)
+  const planShown = data !== null && data.endPlan !== null && Math.abs(data.endPlan - data.endUsual) >= 25;
+
   return (
     <main className="home detail screen-enter">
       <button className="back" onClick={nav.back}>← Overview</button>
@@ -41,7 +44,7 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
           </div>
 
           <div className="card">
-            <ForecastChart points={data.points} />
+            <ForecastChart points={planShown ? data.points : data.points.map((p) => ({ ...p, plan: null }))} />
             <ul className="fc-legend">
               <li><span className="swatch fc-usual" />Usual pace, about {eur0(data.usualPerDay)} a day: ends at {eur0(data.endUsual)}</li>
               {data.shortfall > 0 ? (
@@ -49,9 +52,10 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
               ) : (
                 <li><span className="swatch fc-safe" />Safe pace, {eur0(data.safePerDay)} a day: ends near €0</li>
               )}
-              {data.planPerDay !== null && data.endPlan !== null && (
-                <li><span className="swatch fc-plan" />Your plan, {eur0(data.planPerDay)} a day: ends at {eur0(data.endPlan)}</li>
+              {planShown && data.planPerDay !== null && data.endPlan !== null && (
+                <li><span className="swatch fc-plan" />Your weekly limit, about {eur0(data.planPerDay)} a day: ends at {eur0(data.endPlan)}</li>
               )}
+              {!planShown && data.planPerDay !== null && <li className="fc-same">Your weekly limit is about the same as your usual pace.</li>}
             </ul>
           </div>
 
@@ -70,7 +74,7 @@ export function ForecastScreen({ customerId, nav }: { customerId: string; nav: N
           )}
 
           <p className="card-sub">{data.note}</p>
-          <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a spending plan →</button>
+          <button className="cta" onClick={() => nav.ask("Make me a spending plan")}>Make a plan with the coach →</button>
           <button className="chip" onClick={() => nav.ask("What can I safely spend this week?")}>Ask the coach about this</button>
         </>
       )}
