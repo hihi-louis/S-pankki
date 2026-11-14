@@ -3,7 +3,7 @@ import type { CustomerProfile } from "@sbank/shared";
 import { chatStream, getCustomer } from "./api";
 import { clearCustomerId, loadCustomerId, saveCustomerId } from "./lib/session";
 import { AvatarMenu } from "./components/AvatarMenu";
-import { IconArrowLeft, IconHome, IconSparkle } from "./components/Icons";
+import { IconArrowLeft, IconSparkle } from "./components/Icons";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { BasketScreen } from "./screens/BasketScreen";
@@ -128,7 +128,7 @@ function Session({ customer, onLogout }: { customer: CustomerProfile; onLogout: 
           </>
         ) : (
           <button className="brand" aria-label="Sipi, back to overview" onClick={() => { setScreen({ name: "home" }); setTab("home"); }}>
-            <IconHome />
+            <img className="brand-logo" src="/logo.png" alt="" />
             Sipi
           </button>
         )}

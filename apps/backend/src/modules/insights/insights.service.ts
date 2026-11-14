@@ -1,6 +1,17 @@
-import type { Insight, InsightsResponse, Recommendation, RecommendationsResponse } from "@sbank/shared";
+import type {
+  Insight,
+  InsightsResponse,
+  Recommendation,
+  RecommendationsResponse,
+} from "@sbank/shared";
 import { HttpError } from "../../lib/errors.js";
-import { daysBetween, lastNMonths, monthStart, shortDate, TODAY } from "../../lib/dates.js";
+import {
+  daysBetween,
+  lastNMonths,
+  monthStart,
+  shortDate,
+  TODAY,
+} from "../../lib/dates.js";
 import { benchmarkRepository } from "../benchmark/benchmark.repository.js";
 import { benchmarkService } from "../benchmark/benchmark.service.js";
 import { coachService } from "../coach/coach.service.js";
@@ -15,7 +26,8 @@ const MAX_INSIGHTS = 4;
 const FIXED = new Set(["Housing", "Utilities"]); // khoản cố định, không coi là "tăng bất thường"
 
 const eur = (n: number) => `€${Math.round(n).toLocaleString("en-IE")}`;
-const list = (xs: string[]) => new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(xs);
+const list = (xs: string[]) =>
+  new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(xs);
 const human = (category: string) => category.replace("&", "and").toLowerCase();
 
 interface Candidate extends Insight {
@@ -38,36 +50,71 @@ export const insightsService = {
    */
   async recommendations(customerId: string): Promise<RecommendationsResponse> {
     const lastFull = lastNMonths(1)[0];
-    const [safe, forecast, hist, baskets, income, all, prev, weekday] = await Promise.all([
-      moneyContext.safeToSpend(customerId),
-      coachService.forecast(customerId),
-      categoryHistory(customerId),
-      exploreExtras.basketByCategory(customerId, lastNMonths(6)[0], monthStart(1)),
-      exploreService.incomeSummary(customerId),
-      this.forCustomer(customerId),
-      benchmarkRepository.spentByCategory(customerId, lastFull, monthStart(0)),
-      exploreService.breakdown({ customerId, from: lastNMonths(3)[0], to: monthStart(0), groupBy: "weekday", basket: 3, category: undefined, mcc: undefined, limit: 7 }),
-    ]);
+    const [safe, forecast, hist, baskets, income, all, prev, weekday] =
+      await Promise.all([
+        moneyContext.safeToSpend(customerId),
+        coachService.forecast(customerId),
+        categoryHistory(customerId),
+        exploreExtras.basketByCategory(
+          customerId,
+          lastNMonths(6)[0],
+          monthStart(1)
+        ),
+        exploreService.incomeSummary(customerId),
+        this.forCustomer(customerId),
+        benchmarkRepository.spentByCategory(
+          customerId,
+          lastFull,
+          monthStart(0)
+        ),
+        exploreService.breakdown({
+          customerId,
+          from: lastNMonths(3)[0],
+          to: monthStart(0),
+          groupBy: "weekday",
+          basket: 3,
+          category: undefined,
+          mcc: undefined,
+          limit: 7,
+        }),
+      ]);
     const topDay = [...weekday.rows].sort((a, b) => b.spent - a.spent)[0];
     const prevTop = [...prev.entries()].sort((a, b) => b[1] - a[1])[0];
     const peer = all.insights.find((i) => i.id.startsWith("peer-"));
     const items = pickRecommendations({
       safe,
       runsOutOn: forecast.runsOutOn,
-      daysShort: forecast.runsOutOn ? daysBetween(forecast.runsOutOn, safe.nextPayday.date) : 0,
+      daysShort: forecast.runsOutOn
+        ? daysBetween(forecast.runsOutOn, safe.nextPayday.date)
+        : 0,
       shortDate,
-      categories: [...new Set([...hist.now.keys(), ...hist.usual.keys()])].map((category) => ({
-        category,
-        now: hist.now.get(category) ?? 0,
-        usual: hist.usual.get(category) ?? 0,
-        flexible: (baskets.get(category) ?? 3) === 3,
-      })),
+      categories: [...new Set([...hist.now.keys(), ...hist.usual.keys()])].map(
+        (category) => ({
+          category,
+          now: hist.now.get(category) ?? 0,
+          usual: hist.usual.get(category) ?? 0,
+          flexible: (baskets.get(category) ?? 3) === 3,
+        })
+      ),
       monthsWithData: hist.monthsWithData,
-      weekday: topDay ? { name: topDay.key, spent: topDay.spent, sharePct: topDay.sharePct, total: weekday.total } : null,
+      weekday: topDay
+        ? {
+            name: topDay.key,
+            spent: topDay.spent,
+            sharePct: topDay.sharePct,
+            total: weekday.total,
+          }
+        : null,
       invested: income.avgInvestedPerMonth,
       loan: safe.loanContext,
-      peer: peer ? { id: peer.id, headline: peer.title, body: peer.body } : null,
-      lastMonth: { total: [...prev.values()].reduce((a, v) => a + v, 0), topCategory: prevTop?.[0] ?? null, topAmount: prevTop?.[1] ?? 0 },
+      peer: peer
+        ? { id: peer.id, headline: peer.title, body: peer.body }
+        : null,
+      lastMonth: {
+        total: [...prev.values()].reduce((a, v) => a + v, 0),
+        topCategory: prevTop?.[0] ?? null,
+        topAmount: prevTop?.[1] ?? 0,
+      },
     });
     return { asOf: TODAY, items };
   },
@@ -77,7 +124,7 @@ export const insightsService = {
     const customer = await customersRepository.findWithStats(customerId);
     if (!customer) throw new HttpError(404, `Customer ${customerId} not found`);
 
-        const [hist, safe, recurring, income, peers] = await Promise.all([
+    const [hist, safe, recurring, income, peers] = await Promise.all([
       categoryHistory(customerId),
       coachService.safeToSpend(customerId),
       exploreService.recurring(customerId),
@@ -90,10 +137,19 @@ export const insightsService = {
     // 1. Danh mục tăng/giảm mạnh so với mức thường lệ của chính khách
     const diffs = [...new Set([...hist.now.keys(), ...hist.usual.keys()])]
       .filter((c) => !FIXED.has(c))
-      .map((c) => ({ category: c, now: hist.now.get(c) ?? 0, usual: hist.usual.get(c) ?? 0 }));
+      .map((c) => ({
+        category: c,
+        now: hist.now.get(c) ?? 0,
+        usual: hist.usual.get(c) ?? 0,
+      }));
 
     diffs
-      .filter((d) => d.now > d.usual && isStandout(d.now - d.usual, d.usual) && (d.usual >= 10 || d.now >= 50))
+      .filter(
+        (d) =>
+          d.now > d.usual &&
+          isStandout(d.now - d.usual, d.usual) &&
+          (d.usual >= 10 || d.now >= 50)
+      )
       .sort((a, b) => b.now - b.usual - (a.now - a.usual))
       .slice(0, 2)
       .forEach((d) => {
@@ -101,11 +157,17 @@ export const insightsService = {
         out.push({
           id: `spike-${d.category}`,
           tone: "alert",
-          title: `You spent ${eur(diff)} more than usual on ${human(d.category)}`,
+          title: `You spent ${eur(diff)} more than usual on ${human(
+            d.category
+          )}`,
           body:
             d.usual < 10
-              ? `You spent ${eur(d.now)} on ${human(d.category)} this month. In a normal month you spend almost nothing on it.`
-              : `You spent ${eur(d.now)} on ${human(d.category)} this month. In a normal month it is about ${eur(d.usual)}.`,
+              ? `You spent ${eur(d.now)} on ${human(
+                  d.category
+                )} this month. In an average month you spend almost nothing on it.`
+              : `You spent ${eur(d.now)} on ${human(
+                  d.category
+                )} this month. In a normal month it is about ${eur(d.usual)}.`,
           ask: `What did I spend on ${human(d.category)} this month?`,
           priority: 80 + Math.min(diff / 100, 15),
         });
@@ -118,21 +180,33 @@ export const insightsService = {
       out.push({
         id: `drop-${drop.category}`,
         tone: "good",
-        title: `You spent ${eur(drop.usual - drop.now)} less than usual on ${human(drop.category)}`,
-        body: `${eur(drop.now)} this month, compared with about ${eur(drop.usual)} in a normal month. A lighter month.`,
-        ask: `How has my ${human(drop.category)} spending changed over the last months?`,
+        title: `You spent ${eur(
+          drop.usual - drop.now
+        )} less than usual on ${human(drop.category)}`,
+        body: `${eur(drop.now)} this month, compared with about ${eur(
+          drop.usual
+        )} in a normal month. A lighter month.`,
+        ask: `How has my ${human(
+          drop.category
+        )} spending changed over the last months?`,
         priority: 50,
       });
     }
 
     // 2. Chạy được đến kỳ lương không
-    const guess = safe.paydayIsEstimate ? " Your payday date is a guess because your pay days change." : "";
+    const guess = safe.paydayIsEstimate
+      ? " Your payday date is a guess because your pay days change."
+      : "";
     if (safe.shortfall > 0) {
       out.push({
         id: "runway-short",
         tone: "alert",
         title: "You may run short before payday",
-        body: `Your bills and basics until ${shortDate(safe.nextPayday.date)} come to about ${eur(safe.reservedEssentials)}, so you could be ${eur(safe.shortfall)} short.${guess}`,
+        body: `Your bills and basics until ${shortDate(
+          safe.nextPayday.date
+        )} come to about ${eur(safe.reservedEssentials)}, so you could be ${eur(
+          safe.shortfall
+        )} short.${guess}`,
         ask: "What can I safely spend this week?",
         priority: 100,
       });
@@ -141,7 +215,11 @@ export const insightsService = {
         id: "runway-ok",
         tone: "info",
         title: `You can spend about ${eur(safe.perDay)} a day`,
-        body: `Until payday on ${shortDate(safe.nextPayday.date)} (${safe.daysLeft} days), after setting aside ${eur(safe.reservedEssentials)} for your bills and basics.${guess}`,
+        body: `Until payday on ${shortDate(safe.nextPayday.date)} (${
+          safe.daysLeft
+        } days), after setting aside ${eur(
+          safe.reservedEssentials
+        )} for your bills and basics.${guess}`,
         ask: "What can I safely spend this week?",
         priority: 60,
       });
@@ -153,7 +231,11 @@ export const insightsService = {
         id: "income-variable",
         tone: "tip",
         title: "Your pay changes a lot from month to month",
-        body: `Some months you get as little as ${eur(income.minMonthlyIncome)}, others as much as ${eur(income.maxMonthlyIncome)}. Put a little aside in the good months.`,
+        body: `Some months you get as little as ${eur(
+          income.minMonthlyIncome
+        )}, others as much as ${eur(
+          income.maxMonthlyIncome
+        )}. Put a little aside in the good months.`,
         ask: "How steady is my income?",
         priority: 55,
       });
@@ -173,18 +255,30 @@ export const insightsService = {
 
     // 5. Khác biệt lớn nhất so với người cùng tuổi (bỏ nhà ở vì chủ sở hữu và người thuê không so sánh được)
     const peer = peers.rows
-      .filter((r) => r.key !== "total" && r.key !== "housing" && r.diffPct !== null)
-      .filter((r) => Math.abs(r.you - r.peers) >= 60 && Math.abs(r.diffPct!) >= 60)
+      .filter(
+        (r) => r.key !== "total" && r.key !== "housing" && r.diffPct !== null
+      )
+      .filter(
+        (r) => Math.abs(r.you - r.peers) >= 60 && Math.abs(r.diffPct!) >= 60
+      )
       .sort((a, b) => Math.abs(b.you - b.peers) - Math.abs(a.you - a.peers))[0];
     if (peer) {
       const above = peer.you > peer.peers;
       const times = peer.you / peer.peers;
-      const how = !above ? "less" : times >= 3 ? `about ${Math.round(times)} times as much` : "more";
+      const how = !above
+        ? "less"
+        : times >= 3
+        ? `about ${Math.round(times)} times as much`
+        : "more";
       out.push({
         id: `peer-${peer.key}`,
         tone: "info",
-        title: how.includes("times") ? `You spend ${how} on ${peer.label.toLowerCase()} as most people your age` : `You spend ${how} on ${peer.label.toLowerCase()} than most people your age`,
-        body: `About ${eur(peer.you)} a month. ${peers.peerGroup} spend about ${eur(peer.peers)} (${peers.source}).`,
+        title: how.includes("times")
+          ? `You spend ${how} on ${peer.label.toLowerCase()} as most people your age`
+          : `You spend ${how} on ${peer.label.toLowerCase()} than most people your age`,
+        body: `About ${eur(peer.you)} a month. ${
+          peers.peerGroup
+        } spend about ${eur(peer.peers)} (${peers.source}).`,
         ask: "How do I compare with other people my age?",
         priority: 45,
       });
@@ -195,8 +289,14 @@ export const insightsService = {
       out.push({
         id: "fixed-costs",
         tone: "info",
-        title: `About ${Math.round(recurring.shareOfSpendingPct)}% of your spending is fixed bills`,
-        body: `${list(recurring.items.slice(0, 3).map((i) => i.name.toLowerCase()))} add up to about ${eur(recurring.monthlyTotal)} a month. Plan the rest of your money around that.`,
+        title: `About ${Math.round(
+          recurring.shareOfSpendingPct
+        )}% of your spending is fixed bills`,
+        body: `${list(
+          recurring.items.slice(0, 3).map((i) => i.name.toLowerCase())
+        )} add up to about ${eur(
+          recurring.monthlyTotal
+        )} a month. Plan the rest of your money around that.`,
         ask: "What are my regular monthly payments?",
         priority: 40,
       });

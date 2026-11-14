@@ -558,6 +558,7 @@ html { scroll-behavior: smooth; }
 .undo { padding: 10px 14px; border-radius: 12px; background: var(--green-100); font-size: 14px; }
 .link-btn { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--green-700); text-decoration: underline; }
 .block > .eyebrow + .card, .block > .eyebrow + .card-sub { margin-top: 8px; } .block .eyebrow { margin-bottom: 8px; }
+.block > .eyebrow:has(+ .h-display) { margin-bottom: 2px; } .block > .eyebrow + .h-display { margin-top: 0; }
 .block > .card + .card, .block > .card + .undo, .block > .undo + .card, .block > .card + .cta, .block > .undo + .cta { margin-top: 12px; } .detail > .card + .block, .detail > .block + .cta { margin-top: 4px; }
 .fc-same { list-style: none; font-size: 13px; color: var(--muted); }
 
@@ -567,5 +568,6 @@ html { scroll-behavior: smooth; }
 .brand:active { opacity: .7; }
 .fab { right: auto; left: 50%; translate: -50% 0; padding: 0 24px 0 20px; }
 .home { padding-bottom: 104px; }
-.login-mark { color: var(--green-900); } .login-mark svg { width: 56px; height: 56px; }
+img.login-mark { display: block; width: 72px; height: 72px; background: none; border-radius: 0; }
+.brand-logo { width: 28px; height: 28px; border-radius: 0; }
 .card-big.wrap { white-space: normal; font-size: 22px; line-height: 1.2; text-wrap: balance; overflow-wrap: anywhere; } .card, .card > * { min-width: 0; }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { IconSparkle } from "../components/Icons";
 import type { SyntheticEvent } from "react";
 import type { Persona } from "@sbank/shared";
 import { getPersonas } from "../api";
@@ -49,7 +48,7 @@ export function LoginScreen({ onLogin, initialError }: Props) {
   return (
     <main className="login">
       <div className="login-top">
-        <div className="login-mark" aria-hidden="true"><IconSparkle /></div>
+        <img className="login-mark" src="/logo.png" alt="" />
         <h1>Hi, I'm Sipi</h1>
         <p>Your personal economic trainer. Plain answers from your own transactions.</p>
       </div>
