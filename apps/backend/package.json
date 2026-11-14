@@ -15,6 +15,7 @@
     "db:codegen": "kysely-codegen --dialect postgres --out-file src/db/types.ts --exclude-pattern \"(knex_*|raw_*)\" --date-parser string --numeric-parser number",
     "db:setup": "npm run migrate && npm run db:import && npm run db:codegen",
     "data:statfin": "tsx scripts/fetch-statfin.ts",
+    "data:prices": "tsx scripts/fetch-housing-prices.ts",
     "eval": "tsx scripts/eval.ts",
     "test": "tsx --test \"src/**/*.test.ts\""
   },

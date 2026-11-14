@@ -9,7 +9,7 @@ import { breakdownQuerySchema, compareQuerySchema } from "../explore/explore.sch
 import { planService } from "../plan/plan.service.js";
 import { proposeQuerySchema } from "../plan/plan.schema.js";
 import { mortgageService } from "../mortgage/mortgage.service.js";
-import { affordabilityQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
+import { affordabilityQuerySchema, housingPriceQuerySchema, savingsPlanQuerySchema } from "../mortgage/mortgage.schema.js";
 import { spendingQuerySchema } from "../spending/spending.schema.js";
 import { spendingService } from "../spending/spending.service.js";
 
@@ -20,6 +20,7 @@ const breakdownInput = breakdownQuerySchema.omit({ customerId: true });
 const compareInput = compareQuerySchema.omit({ customerId: true });
 const benchmarkInput = benchmarkQuerySchema.omit({ customerId: true });
 const affordabilityInput = affordabilityQuerySchema.omit({ customerId: true });
+const housingPriceInput = housingPriceQuerySchema.omit({ customerId: true });
 const savingsPlanInput = savingsPlanQuerySchema.omit({ customerId: true });
 const proposeInput = proposeQuerySchema.omit({ customerId: true });
 const noInput = z.object({});
@@ -115,6 +116,15 @@ const defs: ToolDef[] = [
       const r = await planService.progress(customerId);
       return r.plan ? r : { hasPlan: false, message: r.message };
     },
+  },
+  {
+    name: "housing_price",
+    description:
+      "Typical price of a home of a given size in a Finnish city, district or postal code (Statistics Finland, old dwellings, price per m2 times size). " +
+      "Use for 'how much does a 100 m2 flat in Helsinki cost'. area = city, district or 5-digit postal code (omit for the customer's own). " +
+      "Then offer or call mortgage_savings_plan with estimatedPrice to show what the customer would need to save.",
+    schema: housingPriceInput,
+    run: (input, customerId) => mortgageService.housingPrice(housingPriceQuerySchema.parse({ ...(input as object), customerId })),
   },
   {
     name: "mortgage_affordability",

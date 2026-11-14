@@ -16,3 +16,13 @@ export const savingsPlanQuerySchema = z.object({
 export type SavingsPlanQuery = z.infer<typeof savingsPlanQuerySchema>;
 
 export const mortgageCustomerSchema = z.object({ customerId: customerIdSchema });
+
+export const housingPriceQuerySchema = z.object({
+  customerId: customerIdSchema,
+  /** City name, district name or 5-digit postal code. Leave out to use the customer's own postal code. */
+  area: z.string().trim().max(60).optional(),
+  /** Size of the home in square metres. */
+  sqm: z.coerce.number().min(10).max(500),
+  homeType: z.enum(["any", "flat", "terraced"]).default("any"),
+});
+export type HousingPriceQuery = z.infer<typeof housingPriceQuerySchema>;

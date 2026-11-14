@@ -8,7 +8,8 @@ import { coachService } from "../coach/coach.service.js";
 import { customersRepository } from "../customers/customers.repository.js";
 import { exploreService } from "../explore/explore.service.js";
 import { mortgageRepository } from "./mortgage.repository.js";
-import type { AffordabilityQuery, SavingsPlanQuery } from "./mortgage.schema.js";
+import { housingSource, lookupPrice } from "./housing-prices.js";
+import type { AffordabilityQuery, HousingPriceQuery, SavingsPlanQuery } from "./mortgage.schema.js";
 
 // Hằng số công khai có ghi nguồn và ngày (xem src/data/housing-rules.json)
 const rules = JSON.parse(
@@ -53,6 +54,49 @@ async function salaryOf(customerId: string) {
 }
 
 export const mortgageService = {
+  /** Typical price of a home of a given size in a given place, from Statistics Finland (price per m² times size). */
+  async housingPrice(q: HousingPriceQuery) {
+    let area = q.area;
+    let usedOwnArea = false;
+    if (!area) {
+      const c = await customersRepository.findWithStats(q.customerId);
+      if (!c) throw new HttpError(404, `Customer ${q.customerId} not found`);
+      area = c.postalCode ?? "";
+      usedOwnArea = true;
+    }
+    const r = lookupPrice(area, q.homeType, q.sqm);
+    if (!r.found || r.pricePerSqm === undefined) return { found: false, message: r.message ?? "No price found." };
+    const estimatedPrice = Math.round(r.pricePerSqm * q.sqm);
+    const card: FactsCard = {
+      type: "facts",
+      title: "Home price estimate",
+      headline: { label: `${q.sqm} m² in ${r.areaLabel}`, value: eur0(estimatedPrice) },
+      rows: [
+        { label: "Average price per m²", value: eur0(r.pricePerSqm) },
+        { label: "Type of home", value: r.homeKind ?? "" },
+        { label: "Year of the sales", value: housingSource.year },
+      ],
+      note: "Average of real sales of old homes (Statistics Finland). Not a valuation.",
+    };
+    return {
+      found: true,
+      card,
+      area: r.areaLabel,
+      usedCustomersOwnPostalCode: usedOwnArea,
+      priceLevel: r.level,
+      homeKind: r.homeKind,
+      pricePerSqm: r.pricePerSqm,
+      sqm: q.sqm,
+      estimatedPrice,
+      salesBehindPrice: r.salesCount,
+      year: housingSource.year,
+      caveat:
+        `Average price per m² of old dwellings sold in ${housingSource.year} (Statistics Finland). A real home can cost much more or less: size, condition, floor, view and new-build prices differ. ` +
+        "This is not a valuation or an offer. For what the customer could afford, call mortgage_affordability or mortgage_savings_plan with estimatedPrice.",
+      source: housingSource.source,
+    };
+  },
+
   /** Vay tối đa theo thu nhập: thu nhập tháng / 1,841% (công thức rút ra từ dữ liệu), kèm tiền trả hằng tháng và kiểm tra căng thẳng. */
   async affordability(q: AffordabilityQuery) {
     const [{ salary }, req] = await Promise.all([salaryOf(q.customerId), mortgageRepository.requiredIncomeRate()]);

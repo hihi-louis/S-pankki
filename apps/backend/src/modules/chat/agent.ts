@@ -18,6 +18,7 @@ export const DEFAULT_SUGGESTIONS = ["What can I safely spend until payday?", "Sh
 export const SUGGESTIONS: Record<string, string[]> = {
   propose_plan: ["How am I doing against my plan?", "What if I cut everyday spending by 20%?"],
   plan_progress: ["Make me a plan to save 5000 euros in 12 months", "Where did my money go this month?"],
+  housing_price: ["Could I afford it?", "How much would I need to save for it?"],
   mortgage_affordability: ["How much would I need to save for a €250,000 home?", "How long does a mortgage application take?"],
   mortgage_status: ["How long does a mortgage application usually take?", "How much could I borrow?"],
   mortgage_savings_plan: ["How much could I borrow?", "What if I cut everyday spending by 30%?"],

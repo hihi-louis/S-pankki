@@ -49,6 +49,14 @@ export function provenanceFor(name: string, args: any, r: any): Provenance | nul
       };
     case "mortgage_status":
       return { title: "Your application", how: "Your application record and its event log from the dataset. Similar applications have a loan within 20% and own funds within 3 points of the price. There is no single cut-off in the data.", data: r.hasApplication ? "1 application, event log" : undefined, source: "S-Pankki mortgage data" };
+    case "housing_price":
+      return {
+        title: "Home price estimate",
+        how: "Average price per m² of old dwellings sold in that area, times the size you gave. It is an average of real sales, not a valuation of one home.",
+        data: r.found ? `${r.area}, ${r.year}${r.salesBehindPrice ? `, ${r.salesBehindPrice} sales` : ""}` : undefined,
+        source: "Statistics Finland, prices of old dwellings in housing companies",
+        sourceUrl: "https://pxdata.stat.fi/PxWeb/api/v1/en/StatFin/ashi/",
+      };
     case "mortgage_savings_plan":
       return {
         title: "Saving for a home",
