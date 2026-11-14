@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import type { LoanStatusResponse, Recommendation, SummaryResponse } from "@sbank/shared";
-import { getLoanStatus, getRecommendations, getSummary } from "../api";
+import type { LoanStatusResponse, PlanProgressResponse, Recommendation, SummaryResponse } from "@sbank/shared";
+import { getLoanStatus, getPlanProgress, getRecommendations, getSummary } from "../api";
 import { BasketPie } from "../components/BasketPie";
+import { PlanStrip } from "../components/PlanStrip";
 import { LoanStrip } from "../components/LoanStrip";
 import { RecommendationCarousel } from "../components/RecommendationCarousel";
 import { eur } from "../lib/format";
@@ -30,10 +31,12 @@ export function HomeScreen({ customerId, nav }: Props) {
   const [data, setData] = useState<SummaryResponse | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
   const [loan, setLoan] = useState<LoanStatusResponse | null>(null);
+  const [plan, setPlan] = useState<PlanProgressResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSummary(customerId).then(setData).catch((e: Error) => setError(e.message));
+    getPlanProgress(customerId).then(setPlan).catch(() => setPlan(null));
     getLoanStatus(customerId).then(setLoan).catch(() => setLoan(null));
     getRecommendations(customerId).then((r) => setRecs(r.items)).catch(() => setRecs([]));
   }, [customerId]);
@@ -63,6 +66,12 @@ export function HomeScreen({ customerId, nav }: Props) {
       {loan?.context && (
         <section className="block rise" style={rise(1)}>
           <LoanStrip status={loan} onOpen={() => nav.ask("What is the status of my mortgage application?")} />
+        </section>
+      )}
+
+      {plan?.plan && (
+        <section className="block rise" style={rise(1)}>
+          <PlanStrip progress={plan} onOpen={() => nav.ask("How am I doing against my plan?")} />
         </section>
       )}
 

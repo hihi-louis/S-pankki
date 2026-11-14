@@ -517,3 +517,22 @@ html { scroll-behavior: smooth; }
 .loan-strip-title { font-weight: 700; font-size: 14px; }
 .loan-strip-sub { font-size: 12px; color: var(--muted); text-wrap: pretty; }
 .loan-demo { margin-left: 8px; padding: 1px 7px; border-radius: 99px; background: var(--warning-bg); color: var(--warning); font-style: normal; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+
+/* Saved plan at a glance */
+.plan-strip { display: flex; flex-direction: column; gap: 8px; width: 100%; padding: 14px; border: 1px solid var(--line); border-left: 4px solid var(--green-700); border-radius: 16px; background: var(--surface); text-align: left; font: inherit; color: inherit; transition: background .15s, transform .15s; }
+.plan-strip:active { transform: scale(.99); background: var(--green-100); }
+.plan-strip.watch { border-left-color: var(--warning); }
+.plan-strip.over { border-left-color: var(--error); }
+.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.plan-title { font-weight: 700; font-size: 14px; }
+.plan-chip { padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 700; white-space: nowrap; background: var(--green-100); color: var(--green-900); }
+.plan-chip.watch { background: var(--warning-bg); color: var(--warning); }
+.plan-chip.over { background: #fde8e8; color: var(--error); }
+.plan-goal { font-size: 12px; color: var(--muted); }
+.plan-row { display: grid; grid-template-columns: 1fr auto; gap: 3px 8px; font-size: 13px; }
+.plan-row-label { font-weight: 600; }
+.plan-row-amt { color: var(--muted); font-variant-numeric: tabular-nums; }
+.plan-bar { grid-column: 1 / -1; height: 6px; border-radius: 6px; background: var(--line); overflow: hidden; display: block; }
+.plan-fill { display: block; height: 100%; border-radius: 6px; background: var(--c); transform-origin: left; animation: grow .7s cubic-bezier(.2, .8, .2, 1) both; }
+.plan-fill.over { background: var(--error); }
+.plan-msg { font-size: 12px; color: var(--muted); text-wrap: pretty; }

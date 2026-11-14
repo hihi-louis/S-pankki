@@ -30,7 +30,7 @@ Cash flow can look fine while the customer is in the middle of a loan decision, 
 ## 3. Spending plan and a home goal (CUST05020)
 - Ask: "Make me a plan to buy a 250000 euro home in 5 years".
 - The coach works out the cash needed (down payment plus typical costs from real S-Pankki cases), then proposes a monthly plan.
-- Press **Save plan**. The assistant never saves anything itself; ask 'How am I doing against my plan?' any time to check it.
+- Press **Save plan**. The assistant never saves anything itself; the plan shows on the Overview as a strip with a bar per basket; tap it to ask 'How am I doing against my plan?'.
 - Ask "What if I cut everyday spending by 30%?" and "How much could I borrow for a home?" (income-based estimate, 3.17% rate and 6% stress test with sources).
 
 ## 4. Mortgage questions, honestly (CUST00382, then CUST00922)
