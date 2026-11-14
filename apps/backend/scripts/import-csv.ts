@@ -10,6 +10,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "data");
 const TX_CSV = path.join(DATA, "tx_junction_transactions.csv");
 const CUST_CSV = path.join(DATA, "tx_customers_junction.csv");
+const MTG_LINK_CSV = path.join(DATA, "mtg_tx_customer_link_and_final_mtg_infio.csv");
+const MTG_EVENTS_CSV = path.join(DATA, "mtg_negotiation_history.csv");
 const sql = (f: string) => fs.readFileSync(path.join(ROOT, "src/db/sql", f), "utf8");
 
 const INDEXES = [
@@ -31,7 +33,7 @@ async function step(name: string, fn: () => Promise<unknown>) {
 
 async function main() {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set (see apps/backend/.env.example).");
-  for (const f of [TX_CSV, CUST_CSV]) {
+  for (const f of [TX_CSV, CUST_CSV, MTG_LINK_CSV, MTG_EVENTS_CSV]) {
     if (!fs.existsSync(f)) throw new Error(`Missing ${f}. Download from the S-Pankki repo (Git LFS).`);
     // Pointer của Git LFS chỉ vài trăm byte
     if (fs.statSync(f).size < 1024 && fs.readFileSync(f, "utf8").startsWith("version https://git-lfs"))
@@ -41,7 +43,7 @@ async function main() {
   const client = await pool.connect();
   try {
     await step("truncate", () =>
-      client.query("TRUNCATE raw_transactions, transactions, customers, monthly_spend, customer_stats RESTART IDENTITY CASCADE"));
+      client.query("TRUNCATE raw_transactions, transactions, customers, monthly_spend, customer_stats,\n                raw_mortgage_link, raw_mortgage_events, mortgage_events, mortgage_applications RESTART IDENTITY CASCADE"));
     await step("copy customers", () => copyFile(client, "customers (customer_id, postal_code, age)", CUST_CSV));
     await step("copy raw transactions", () => copyFile(client, "raw_transactions", TX_CSV));
     // Insert không có index nhanh hơn nhiều; tạo lại index sau
@@ -51,6 +53,10 @@ async function main() {
     await step("create indexes", async () => { for (const i of INDEXES) await client.query(i); });
     await step("truncate raw", () => client.query("TRUNCATE raw_transactions"));
     await step("aggregates", () => client.query(sql("aggregates.sql")));
+    await step("copy mortgage link", () => copyFile(client, "raw_mortgage_link", MTG_LINK_CSV));
+    await step("copy mortgage events", () => copyFile(client, "raw_mortgage_events", MTG_EVENTS_CSV));
+    await step("mortgage transform", () => client.query(sql("mortgage.sql")));
+    await step("truncate raw mortgage", () => client.query("TRUNCATE raw_mortgage_link, raw_mortgage_events"));
   } finally {
     client.release();
     await pool.end();

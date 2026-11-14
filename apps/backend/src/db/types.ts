@@ -39,6 +39,39 @@ export interface MonthlySpend {
   tx_count: number;
 }
 
+export interface MortgageApplications {
+  collateral_value: Numeric | null;
+  customer_id: string;
+  equity_amount: Numeric | null;
+  final_decision: string;
+  loan_to_value: Numeric | null;
+  mortgage_id: string;
+  property_price: Numeric | null;
+  rejection_reason: string | null;
+  requested_loan: Numeric | null;
+  required_monthly_income: Numeric | null;
+}
+
+export interface MortgageEvents {
+  collateral_status: string | null;
+  collateral_type: string | null;
+  collateral_value: Numeric | null;
+  decision: string | null;
+  equity_amount: Numeric | null;
+  event_type: string;
+  expense_amount: Numeric | null;
+  expense_type: string | null;
+  id: Generated<Int8>;
+  loan_amount: Numeric | null;
+  mortgage_id: string;
+  note: string | null;
+  property_id: string | null;
+  property_price_estimate: Numeric | null;
+  property_type: string | null;
+  rejection_reason: string | null;
+  ts: Timestamp;
+}
+
 export interface Transactions {
   account_id: string;
   amount: Numeric;
@@ -58,5 +91,7 @@ export interface DB {
   customer_stats: CustomerStats;
   customers: Customers;
   monthly_spend: MonthlySpend;
+  mortgage_applications: MortgageApplications;
+  mortgage_events: MortgageEvents;
   transactions: Transactions;
 }
