@@ -30,6 +30,17 @@ npm run dev:frontend    # frontend only
 npm run typecheck  # all workspaces
 ```
 
+## Sharing the app with teammates
+
+The browser only talks to the Vite server (port 5173): `/api/*` is forwarded to the backend on 3001, so one port is enough.
+
+- **Same network** (home Wi-Fi, a phone hotspot): open `http://<your-ip>:5173` (`ipconfig getifaddr en0`).
+- **Campus Wi-Fi such as eduroam** blocks devices from reaching each other, so use a tunnel instead:
+  `cloudflared tunnel --url http://localhost:5173` (`brew install cloudflared`), or without installing anything:
+  `ssh -R 80:localhost:5173 nokey@localhost.run`. Share the https URL it prints.
+- A tunnel makes the app public and the login has no password, and every chat uses LLM credits: share the link only
+  with your team and stop the tunnel afterwards.
+
 ## What the backend offers
 
 REST endpoints (all take `customerId`): `/summary`, `/insights`, `/spending`, `/explore/{breakdown,compare,recurring,income}`,

@@ -1,8 +1,9 @@
 import type { ChatRequest, ChatResponse, CustomerProfile, InsightsResponse, Persona, SummaryResponse } from "@sbank/shared";
 
-// Same host as the page, port 3001: works on localhost and when a teammate opens http://<your-ip>:5173.
+// "/api" is forwarded to the backend by the Vite dev server (see vite.config.ts), so the page works on
+// localhost, on a teammate's device and through a tunnel with a single port.
 // Set VITE_API_URL only when the API lives somewhere else (e.g. a deployed backend).
-const BASE = import.meta.env.VITE_API_URL ?? `${window.location.protocol}//${window.location.hostname}:3001`;
+const BASE = import.meta.env.VITE_API_URL ?? "/api";
 
 // Chat calls an LLM (several tool rounds), so it gets a longer timeout than plain reads.
 const READ_TIMEOUT_MS = 10_000;
