@@ -192,7 +192,7 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
         type: "week",
         eyebrow: "This week",
         tone: "info",
-        headline: `You can comfortable spend ${eur(
+        headline: `You can comfortably spend ${eur(
           Math.min(x.safe.safeAfterLoan, x.safe.safeAfterLoanPerDay * 7)
         )}`,
         body:
@@ -290,7 +290,7 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
             ? `${eur(
                 spike.now
               )} this month. In an average month you spend almost nothing on it.`
-            : `${eur(spike.now)} this month. A normal month is about ${eur(
+            : `${eur(spike.now)} this month. A average month is about ${eur(
                 spike.usual
               )}.`,
         cta: "Show me why",
@@ -352,7 +352,7 @@ export function pickRecommendations(x: RecInputs): Recommendation[] {
         )} less than usual on ${human(drop.category)}`,
         body: `${eur(drop.now)} this month, compared with about ${eur(
           drop.usual
-        )} in a normal month.`,
+        )} in a average month.`,
         cta: "Show me why",
         target: { kind: "insight", id: `drop-${drop.category}` },
       }),

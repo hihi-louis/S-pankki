@@ -16,7 +16,7 @@ export interface ChatMsg {
 
 export const STARTERS = [
   "Where did my money go?",
-  "What can I comfortable spend this week?",
+  "What can I comfortably spend this week?",
   "How could I save more?",
 ];
 

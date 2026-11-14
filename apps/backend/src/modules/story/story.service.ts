@@ -153,7 +153,7 @@ export const storyService = {
         ? `You spent ${eur0(spent)} in ${month}.`
         : `You spent ${eur0(spent)} in ${month}, ${Math.abs(vs)}% ${
             vs >= 0 ? "more" : "less"
-          } than a normal month.`;
+          } than a average month.`;
     return {
       month: summary.month,
       asOf: TODAY,
@@ -349,7 +349,7 @@ export const storyService = {
       {
         id: "back-to-usual",
         label: "Go back to your normal",
-        detail: `A normal month is ${eur0(
+        detail: `A average month is ${eur0(
           dive.usual
         )}, so this month cost ${eur0(
           diff
@@ -368,12 +368,12 @@ export const storyService = {
         )}. ${
           dive.usual < 10
             ? "In an average month you spend almost nothing on it."
-            : `In a normal month it is about ${eur0(dive.usual)}.`
+            : `In a average month it is about ${eur0(dive.usual)}.`
         }`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
           {
-            label: "A normal month (typical of the last 3)",
+            label: "A average month (typical of the last 3)",
             value: eur0(dive.usual),
           },
           {
@@ -462,12 +462,12 @@ export const storyService = {
         title: "What happened",
         text: `You spent ${eur0(
           dive.now
-        )} on ${name} this month. In a normal month it is about ${eur0(
+        )} on ${name} this month. In a average month it is about ${eur0(
           dive.usual
         )}.`,
         rows: [
           { label: "This month", value: eur0(dive.now) },
-          { label: "A normal month", value: eur0(dive.usual) },
+          { label: "A average month", value: eur0(dive.usual) },
           {
             label: "Difference",
             value: signed(dive.now - dive.usual),
@@ -541,11 +541,11 @@ export const storyService = {
         title: "What happened",
         text: `${
           dive.category
-        } is your biggest flexible cost. In a normal month you spend about ${eur0(
+        } is your biggest flexible cost. In a average month you spend about ${eur0(
           dive.usual
         )} on it.`,
         rows: [
-          { label: "A normal month", value: eur0(dive.usual) },
+          { label: "A average month", value: eur0(dive.usual) },
           { label: "This month", value: eur0(dive.now) },
         ],
         chart: {

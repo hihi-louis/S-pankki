@@ -167,7 +167,7 @@ export const insightsService = {
                 )} this month. In an average month you spend almost nothing on it.`
               : `You spent ${eur(d.now)} on ${human(
                   d.category
-                )} this month. In a normal month it is about ${eur(d.usual)}.`,
+                )} this month. In a  it is about ${eur(d.usual)}.`,
           ask: `What did I spend on ${human(d.category)} this month?`,
           priority: 80 + Math.min(diff / 100, 15),
         });
@@ -185,7 +185,7 @@ export const insightsService = {
         )} less than usual on ${human(drop.category)}`,
         body: `${eur(drop.now)} this month, compared with about ${eur(
           drop.usual
-        )} in a normal month. A lighter month.`,
+        )} in a . A lighter month.`,
         ask: `How has my ${human(
           drop.category
         )} spending changed over the last months?`,
