@@ -165,3 +165,8 @@ h2 { margin: 0; }
 .insight-title { font-weight: 700; }
 .insight-body { font-size: 13px; color: var(--muted); line-height: 1.4; }
 .insight-ask { font-size: 13px; font-weight: 700; color: var(--tone); margin-top: 2px; }
+
+/* ---------- Streaming ---------- */
+.typing { align-items: center; }
+.typing-status { margin-left: 8px; font-size: 13px; font-style: normal; color: var(--muted); }
+.msg.writing::after { content: "▍"; margin-left: 2px; color: var(--brand); animation: blink 1s infinite; }

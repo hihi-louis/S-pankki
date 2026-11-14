@@ -139,7 +139,42 @@ const forLlm = (r: any) =>
     ? { ...r, sources: undefined, note: "The matching transactions are listed in the app. Tell the customer they can open the list; do not state how many are shown." }
     : r;
 
-export async function runAgent(req: ChatRequestBody): Promise<ChatResponse> {
+/** Sự kiện gửi dần về client khi chat ở chế độ streaming. */
+export type ChatEvent =
+  | { type: "status"; text: string }
+  | { type: "delta"; text: string }
+  | { type: "reset" } // bỏ phần chữ đã gửi: model vừa nói vừa gọi tool
+  | { type: "final"; response: ChatResponse };
+
+const TOOL_STATUS: Record<string, string> = {
+  query_spending: "Looking up your transactions…",
+  spending_breakdown: "Breaking down your spending…",
+  compare_periods: "Comparing the periods…",
+  recurring_payments: "Finding your regular payments…",
+  income_summary: "Checking your income…",
+  safe_to_spend: "Working out what is safe to spend…",
+  safe_to_save: "Working out what is safe to save…",
+  simulate_whatif: "Running the what-if…",
+  spender_profile: "Looking at your spending style…",
+  compare_with_peers: "Comparing with people your age…",
+  get_baskets: "Checking your three baskets…",
+};
+
+interface PendingCall {
+  id: string;
+  name: string;
+  args: string;
+}
+
+/**
+ * Vòng lặp agent. `emit` nhận trạng thái và chữ trả lời để hiển thị dần.
+ * Trước khi có tool nào chạy, câu trả lời được giữ lại cho đến khi chắc chắn không phải số tự bịa; sau đó mới phát từng chữ.
+ */
+export async function runAgent(
+  req: ChatRequestBody,
+  emit: (e: ChatEvent) => void = () => {},
+  signal?: AbortSignal,
+): Promise<ChatResponse> {
   const llm = getClient();
   const collector = new Collector();
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
@@ -151,43 +186,78 @@ export async function runAgent(req: ChatRequestBody): Promise<ChatResponse> {
   let answer = "";
   let usedTool = false;
   let forceTool = false;
-  for (let turn = 0; turn < MAX_TURNS; turn++) {
-    const resp = await llm.chat.completions
-      .create({
-      model: config.llmModel,
-      messages,
-      tools: toolDefinitions,
-      // Mặc định để model tự quyết; nếu nó định trả lời có số mà chưa gọi tool thì ép gọi (chống bịa số)
-      tool_choice: forceTool ? "required" : "auto",
-      max_tokens: 4096,
-      reasoning_effort: "low",
-    })
-      .catch((e: unknown) => {
-        console.error("[chat] LLM call failed:", e instanceof Error ? e.message : e);
-        throw new HttpError(503, "The assistant is busy right now. Please try again in a moment.");
-      });
-    forceTool = false;
-    const msg = resp.choices[0]?.message;
-    if (!msg) break;
+  emit({ type: "status", text: "Thinking…" });
 
-    const calls = (msg.tool_calls ?? []).filter((c) => c.type === "function");
-    if (calls.length === 0) {
-      answer = msg.content ?? "";
+  for (let turn = 0; turn < MAX_TURNS; turn++) {
+    let content = "";
+    let streamed = false;
+    const calls = new Map<number, PendingCall>();
+    try {
+      const stream = await llm.chat.completions.create(
+        {
+          model: config.llmModel,
+          messages,
+          tools: toolDefinitions,
+          // Mặc định để model tự quyết; nếu nó định trả lời có số mà chưa gọi tool thì ép gọi (chống bịa số)
+          tool_choice: forceTool ? "required" : "auto",
+          max_tokens: 4096,
+          reasoning_effort: "low",
+          stream: true,
+        },
+        { signal },
+      );
+      forceTool = false;
+      for await (const chunk of stream) {
+        const delta = chunk.choices[0]?.delta;
+        if (!delta) continue;
+        if (delta.content) {
+          content += delta.content;
+          if (usedTool && calls.size === 0) {
+            emit({ type: "delta", text: delta.content });
+            streamed = true;
+          }
+        }
+        for (const tc of delta.tool_calls ?? []) {
+          const cur = calls.get(tc.index) ?? { id: "", name: "", args: "" };
+          if (tc.id) cur.id = tc.id;
+          if (tc.function?.name) cur.name += tc.function.name;
+          if (tc.function?.arguments) cur.args += tc.function.arguments;
+          calls.set(tc.index, cur);
+        }
+      }
+    } catch (e) {
+      if (signal?.aborted) throw e; // client ngắt kết nối hoặc hết thời gian chung
+      console.error("[chat] LLM call failed:", e instanceof Error ? e.message : e);
+      throw new HttpError(503, "The assistant is busy right now. Please try again in a moment.");
+    }
+
+    if (calls.size === 0) {
+      answer = content;
       if (!usedTool && /\d/.test(answer)) {
         // Trả lời có số mà chưa dùng tool: bỏ câu này và ép model lấy số từ tool
         answer = "";
         forceTool = true;
         continue;
       }
+      if (!streamed && answer) emit({ type: "delta", text: answer }); // câu không cần tool: phát một lần
       break;
     }
+
+    if (streamed) emit({ type: "reset" });
     usedTool = true;
-    messages.push(msg);
-    const results = await Promise.all(calls.map((c) => runTool(c.function.name, c.function.arguments, req.customerId)));
-    calls.forEach((c, i) => {
-      collector.add(c.function.name, results[i], safeJson(c.function.arguments));
+    const list = [...calls.entries()].sort((a, b) => a[0] - b[0]).map(([i, c]) => ({ ...c, id: c.id || `call_${i}` }));
+    messages.push({
+      role: "assistant",
+      content: content || null,
+      tool_calls: list.map((c) => ({ id: c.id, type: "function" as const, function: { name: c.name, arguments: c.args } })),
+    });
+    for (const c of list) emit({ type: "status", text: TOOL_STATUS[c.name] ?? "Looking at your data…" });
+    const results = await Promise.all(list.map((c) => runTool(c.name, c.args, req.customerId)));
+    list.forEach((c, i) => {
+      collector.add(c.name, results[i], safeJson(c.args));
       messages.push({ role: "tool", tool_call_id: c.id, content: JSON.stringify(forLlm(results[i])) });
     });
+    emit({ type: "status", text: "Writing your answer…" });
   }
 
   return {

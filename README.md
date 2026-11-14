@@ -30,6 +30,14 @@ npm run dev:frontend    # frontend only
 npm run typecheck  # all workspaces
 ```
 
+## What the backend offers
+
+REST endpoints (all take `customerId`): `/summary`, `/insights`, `/spending`, `/explore/{breakdown,compare,recurring,income}`,
+`/coach/{safe-to-spend,safe-to-save,what-if,profile}`, `/benchmark`, `/personas`, `/customers/:id/stats`,
+and chat at `POST /chat` and `POST /chat/stream`. The chat model calls the same services as tools, so numbers
+always come from code. Peer benchmarks use a snapshot of Statistics Finland's household budget survey
+(`npm run data:statfin --workspace=backend` refreshes it). See `docs/api-contract.md`.
+
 ## Database (PostgreSQL)
 
 Start a Postgres and create a database, e.g.:

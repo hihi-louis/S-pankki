@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { chat } from "./api";
+import { chatStream } from "./api";
 import { ChatScreen } from "./screens/ChatScreen";
 import type { ChatMsg } from "./screens/ChatScreen";
 import { HomeScreen } from "./screens/HomeScreen";
@@ -20,16 +20,27 @@ export default function App() {
     if (busy) return;
     setTab("chat");
     const history = messages.map(({ role, content }) => ({ role, content }));
-    setMessages((m) => [...m, { role: "user", content: text }]);
+    // The assistant message exists from the start and fills in as the answer streams
+    setMessages((m) => [...m, { role: "user", content: text }, { role: "assistant", content: "", pending: true, status: "Thinking…" }]);
+    const patch = (fn: (last: ChatMsg) => ChatMsg) =>
+      setMessages((m) => m.map((msg, i) => (i === m.length - 1 ? fn(msg) : msg)));
     setBusy(true);
     try {
-      const res = await chat({ customerId: CUSTOMER_ID, message: text, history });
-      setMessages((m) => [...m, { role: "assistant", content: res.answer, res }]);
+      const res = await chatStream(
+        { customerId: CUSTOMER_ID, message: text, history },
+        {
+          onStatus: (status) => patch((l) => ({ ...l, status })),
+          onDelta: (d) => patch((l) => ({ ...l, content: l.content + d })),
+          onReset: () => patch((l) => ({ ...l, content: "" })),
+        },
+      );
+      patch(() => ({ role: "assistant", content: res.answer, res }));
     } catch (err) {
-      setMessages((m) => [
-        ...m,
-        { role: "assistant", content: `Sorry, something went wrong. (${(err as Error).message})`, error: true },
-      ]);
+      patch(() => ({
+        role: "assistant",
+        content: `Sorry, something went wrong. (${(err as Error).message})`,
+        error: true,
+      }));
     } finally {
       setBusy(false);
     }

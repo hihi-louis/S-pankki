@@ -36,6 +36,20 @@ Response:
 }
 ```
 
+### `POST /chat/stream`
+
+Same request as `/chat`, answered as Server-Sent Events (`data: {json}` lines separated by a blank line):
+
+| event | fields | meaning |
+|---|---|---|
+| `status` | `text` | what the assistant is doing, e.g. "Comparing the periods…" |
+| `delta` | `text` | a piece of the answer as it is written |
+| `reset` | | discard the text received so far |
+| `final` | `response` | the full `/chat` response (always sent last; replace the streamed text with `response.answer`) |
+| `error` | `message` | something failed; show `message` |
+
+Invalid input is a normal `400` JSON response before the stream opens.
+
 `cards[].type` (the frontend picks the widget by this):
 
 | type | fields | used for |

@@ -9,6 +9,9 @@ export interface ChatMsg {
   content: string;
   res?: ChatResponse;
   error?: boolean;
+  /** Still being written: show the status line and the text so far. */
+  pending?: boolean;
+  status?: string;
 }
 
 export const STARTERS = [
@@ -68,7 +71,16 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
             </div>
           ) : (
             <div key={i} className="assistant-block">
-              <div className={`msg assistant${m.error ? " error" : ""}`}>{m.content}</div>
+              {m.pending && !m.content ? (
+                <div className="msg assistant typing" aria-label={m.status ?? "Thinking"} role="status">
+                  <span />
+                  <span />
+                  <span />
+                  {m.status && <em className="typing-status">{m.status}</em>}
+                </div>
+              ) : (
+                <div className={`msg assistant${m.error ? " error" : ""}${m.pending ? " writing" : ""}`}>{m.content}</div>
+              )}
               {m.res?.cards.map((c, j) => <CardRenderer key={j} card={c} />)}
               {m.res?.chart && <MiniChart chart={m.res.chart} />}
               {m.res && m.res.sources.length > 0 && (
@@ -92,13 +104,6 @@ export function ChatScreen({ messages, busy, onAsk }: Props) {
           ),
         )}
 
-        {busy && (
-          <div className="msg assistant typing" aria-label="Thinking">
-            <span />
-            <span />
-            <span />
-          </div>
-        )}
         <div ref={endRef} />
       </main>
 
